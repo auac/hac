@@ -1,0 +1,189 @@
+remote.atv3:
+  platform: apple_tv
+  unique_id: afb0d729e3d6cd87cf9909904615f3b6a44a4b11a3730bae0ea0e6ff68a87a35
+sensor.iphone_battery_state:
+  platform: ios
+  unique_id: state_iphone_3
+sensor.iphone_battery_level:
+  platform: ios
+  unique_id: level_alfreds _iphone
+sensor.iphone_battery_level_2:
+  platform: ios
+  unique_id: level_iphone_3
+sensor.iphone_battery_state_2:
+  platform: ios
+  unique_id: state_aa_iphone
+sensor.ipadaa_battery_level:
+  platform: ios
+  unique_id: level_aa ipad
+sensor.iphone_battery_state_3:
+  platform: ios
+  unique_id: state_alfreds _iphone
+sensor.ipadaa_battery_state:
+  platform: ios
+  unique_id: state_aa ipad
+sensor.iphone_battery_level_3:
+  platform: ios
+  unique_id: level_aa_iphone
+media_player.atv3:
+  platform: apple_tv
+  unique_id: afb0d729e3d6cd87cf9909904615f3b6a44a4b11a3730bae0ea0e6ff68a87a35
+binary_sensor.multisensor1_sensor:
+  platform: zwave
+  unique_id: 4-72057594110017536
+sensor.multisensor1_temperature:
+  platform: zwave
+  unique_id: 4-72057594110033938
+sensor.multisensor1_general:
+  platform: zwave
+  unique_id: 4-72057594110033954
+sensor.multisensor1_luminance:
+  platform: zwave
+  unique_id: 4-72057594110033970
+sensor.multisensor1_power:
+  platform: zwave
+  unique_id: 4-72057594110033986
+sensor.multisensor1_relative_humidity:
+  platform: zwave
+  unique_id: 4-72057594110034002
+sensor.multisensor1_direction:
+  platform: zwave
+  unique_id: 4-72057594110034034
+sensor.multisensor1_barometric_pressure:
+  platform: zwave
+  unique_id: 4-72057594110034066
+sensor.multisensor1_dew_point:
+  platform: zwave
+  unique_id: 4-72057594110034098
+sensor.multisensor1_tide_level:
+  platform: zwave
+  unique_id: 4-72057594110034130
+sensor.multisensor1_co2_level:
+  platform: zwave
+  unique_id: 4-72057594110034194
+sensor.multisensor1_tank_capacity:
+  platform: zwave
+  unique_id: 4-72057594110034226
+sensor.multisensor1_angle_position:
+  platform: zwave
+  unique_id: 4-72057594110034258
+sensor.multisensor1_seismic_intensity:
+  platform: zwave
+  unique_id: 4-72057594110034322
+sensor.multisensor1_seismic_magnitude:
+  platform: zwave
+  unique_id: 4-72057594110034338
+sensor.multisensor1_ultraviolet:
+  platform: zwave
+  unique_id: 4-72057594110034354
+sensor.multisensor1_moisture:
+  platform: zwave
+  unique_id: 4-72057594110034418
+sensor.multisensor1_alarm_type:
+  platform: zwave
+  unique_id: 4-72057594111082497
+sensor.multisensor1_alarm_level:
+  platform: zwave
+  unique_id: 4-72057594111082513
+sensor.multisensor1_sourcenodeid:
+  platform: zwave
+  unique_id: 4-72057594111082529
+sensor.multisensor1_burglar:
+  platform: zwave
+  unique_id: 4-72057594111082657
+binary_sensor.multisensor2_sensor:
+  platform: zwave
+  unique_id: 5-72057594126794752
+sensor.multisensor2_temperature:
+  platform: zwave
+  unique_id: 5-72057594126811154
+sensor.multisensor2_luminance:
+  platform: zwave
+  unique_id: 5-72057594126811186
+sensor.multisensor2_power:
+  platform: zwave
+  unique_id: 5-72057594126811202
+sensor.multisensor2_relative_humidity:
+  platform: zwave
+  unique_id: 5-72057594126811218
+sensor.multisensor2_seismic_magnitude:
+  platform: zwave
+  unique_id: 5-72057594126811554
+sensor.multisensor2_ultraviolet:
+  platform: zwave
+  unique_id: 5-72057594126811570
+sensor.multisensor2_alarm_type:
+  platform: zwave
+  unique_id: 5-72057594127859713
+sensor.multisensor2_alarm_level:
+  platform: zwave
+  unique_id: 5-72057594127859729
+sensor.multisensor2_sourcenodeid:
+  platform: zwave
+  unique_id: 5-72057594127859745
+sensor.multisensor2_burglar:
+  platform: zwave
+  unique_id: 5-72057594127859873
+binary_sensor.main_door_sensor_sensor:
+  platform: zwave
+  unique_id: 6-72057594143571968
+sensor.main_door_sensor_alarm_type:
+  platform: zwave
+  unique_id: 6-72057594144636929
+sensor.main_door_sensor_alarm_level:
+  platform: zwave
+  unique_id: 6-72057594144636945
+sensor.main_door_sensor_sourcenodeid:
+  platform: zwave
+  unique_id: 6-72057594144636961
+sensor.main_door_sensor_access_control:
+  platform: zwave
+  unique_id: 6-72057594144637073
+sensor.main_door_sensor_burglar:
+  platform: zwave
+  unique_id: 6-72057594144637089
+switch.switch1_switch:
+  platform: zwave
+  unique_id: 9-72057594193723392
+sensor.switch1_energy:
+  platform: zwave
+  unique_id: 9-72057594193936386
+sensor.switch1_previous_reading:
+  platform: zwave
+  unique_id: 9-72057594193936402
+sensor.switch1_power:
+  platform: zwave
+  unique_id: 9-72057594193936514
+sensor.switch1_previous_reading_2:
+  platform: zwave
+  unique_id: 9-72057594193936530
+sensor.switch1_voltage:
+  platform: zwave
+  unique_id: 9-72057594193936642
+sensor.switch1_previous_reading_3:
+  platform: zwave
+  unique_id: 9-72057594193936658
+sensor.switch1_current:
+  platform: zwave
+  unique_id: 9-72057594193936706
+sensor.switch1_previous_reading_4:
+  platform: zwave
+  unique_id: 9-72057594193936722
+binary_sensor.door_sensor:
+  platform: zwave
+  unique_id: 10-72057594210680832
+sensor.door_alarm_type:
+  platform: zwave
+  unique_id: 10-72057594211745793
+sensor.door_alarm_level:
+  platform: zwave
+  unique_id: 10-72057594211745809
+sensor.door_sourcenodeid:
+  platform: zwave
+  unique_id: 10-72057594211745825
+sensor.door_access_control:
+  platform: zwave
+  unique_id: 10-72057594211745937
+sensor.door_burglar:
+  platform: zwave
+  unique_id: 10-72057594211745953

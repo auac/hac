@@ -1,0 +1,158 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret homeassistant_latitude
+  longitude: !secret homeassistant_longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret homeassistant_elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: !secret homeassistant_time_zone
+  
+  # Include the customizations.
+  customize: !include customize.yaml      
+
+# Show links to resources in log and frontend
+# introduction:
+#
+# Enables the frontend
+
+frontend:
+  javascript_version: auto
+  
+# Enables configuration
+# config:
+
+http:
+  api_password: !secret http_api_password
+  trusted_networks:
+    - !secret http_trusted_networks1
+    - !secret http_trusted_networks2
+    - !secret http_trusted_networks3
+    - !secret http_trusted_networks4
+    - !secret http_trusted_networks5
+    - !secret http_trusted_networks6
+  ip_ban_enabled: True
+  login_attempts_threshold: 3
+  base_url: !secret http_base_url
+  ssl_certificate: !secret http_ssl_certificate
+  ssl_key: !secret http_ssl_key
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+# discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+logger: !include logger.yaml
+recorder:
+  purge_interval: 10
+  purge_keep_days: 10
+
+
+# Track the sun
+sun:
+      
+weather:
+  - platform: darksky
+    api_key: !secret sensor_darksky_api_key 
+        
+    
+# Text to speech
+tts:
+  - platform: google
+
+xiaomi_aqara:
+    gateways:
+    - mac:
+      key: !secret xiaomi_aquara_key1
+
+telegram_bot:
+  - platform: broadcast
+    api_key: !secret telegram_bot_api_key
+    allowed_chat_ids:
+      - !secret telegram_bot_chat_ids1
+      
+notify:
+  - name: telegram
+    platform: telegram
+    chat_id: !secret telegram_bot_chat_ids1
+
+  - name: iosnotify
+    platform: group
+    services:
+        - service: ios_aa_iphone
+
+  - name: allnotify
+    platform: group
+    services:
+        - service: telegram 
+        - service: iosnotify
+
+apple_tv:
+  - host: !secret apple_tv_host
+    login_id: !secret apple_tv_login_id
+    name: atv3
+    start_off: true
+    
+ios: 
+
+climate:
+  - platform: !secret climate_platform
+    api_key: !secret climate_api_key1
+
+duckdns:
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_access_token
+
+media_player:
+  - platform: webostv
+    host: !secret media_player_webostv_host
+    mac: !secret media_player_mac_host
+    name: Living Room TV
+    timeout: 5
+
+  - platform: denonavr
+    name: Living Room Receiver
+    show_all_sources: True
+    
+  - platform: apple_tv
+    host: !secret apple_tv_host
+    login_id: !secret apple_tv_login_id
+    name: atv3
+    start_off: true
+
+zwave:
+  usb_path: !secret zwave_usb_path
+  network_key: !secret zwave_network_key
+
+zone: !include zones.yaml
+group: !include_dir_merge_named group
+#device_tracker: !include_dir_merge_list device_tracker
+sensor: !include_dir_merge_list sensor
+binary_sensor: !include_dir_merge_list binary_sensor
+automation: !include_dir_merge_list automation
+#scene: !include_dir_merge_list scene
+switch: !include_dir_merge_list switch
+script: !include_dir_merge_named script
+input_boolean: !include_dir_merge_named input_boolean
+input_text: !include_dir_merge_named input_text
+shell_command: !include_dir_merge_named shell_command

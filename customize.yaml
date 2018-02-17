@@ -1,0 +1,313 @@
+########################################  
+## Lights
+light.gateway_light_f0b429b3ddc0:
+  friendly_name: Desk light
+  icon: mdi:blur-radial
+sensor.illumination_f0b429b3ddc0:
+  friendly_name: Desk light sensor
+  homebridge_sensor_type: light
+  icon: mdi:brightness-6
+sensor.multisensor1_luminance:
+  icon: mdi:brightness-6
+  friendly_name: Living Room Luminance
+sensor.multisensor2_luminance:
+  icon: mdi:brightness-6
+  friendly_name: Main Bedroom Luminance
+########################################  
+## Burgular
+sensor.multisensor1_burglar:
+  icon: mdi:home-alert
+  friendly_name: Living Room Burglar alert
+sensor.multisensor2_burglar:
+  icon: mdi:home-alert
+  friendly_name: Main Bedroom Burglar alert
+sensor.main_door_sensor_burglar:
+  icon: mdi:home-alert
+  friendly_name: Front Door Burglar alert
+########################################  
+## Mediaplayer
+media_player.living_room_tv:
+  homebridge_hidden: true
+media_player.living_room_receiver:
+  homebridge_hidden: true
+media_player.atv3:
+  homebridge_hidden: true
+########################################  
+## hidden sensors etc  
+sensor.iphone_battery_level:
+  hidden: true
+sensor.iphone_battery_level_2:
+  hidden: true
+sensor.iphone_battery_state:
+  hidden: true
+sensor.iphone_battery_state_2:
+  hidden: true
+sensor.multisensor1_co2_level:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_angle_position:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_barometric_pressure:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_dew_point:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_direction:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_general:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_moisture:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_power:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_seismic_intensity:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_seismic_magnitude:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_tank_capacity:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor1_tide_level:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor2_power:
+  homebridge_hidden: true
+  hidden: true
+sensor.multisensor2_seismic_magnitude:
+  homebridge_hidden: true
+  hidden: true
+########################################
+## Network sensors 
+binary_sensor.camera_1:
+  homebridge_hidden: true
+  icon: mdi:cctv
+binary_sensor.camera_2:
+  homebridge_hidden: true
+  icon: mdi:cctv
+binary_sensor.camera_3:
+  homebridge_hidden: true
+  icon: mdi:cctv
+binary_sensor.camera_4:
+  homebridge_hidden: true
+  icon: mdi:cctv
+binary_sensor.camera_5:
+  homebridge_hidden: true
+  icon: mdi:cctv
+binary_sensor.internet_link:
+  homebridge_hidden: true
+  icon: mdi:wan
+binary_sensor.ftp_server:
+  homebridge_hidden: true
+binary_sensor.homebridge_server:  
+  homebridge_hidden: true
+sensor.frontend_login_fail:
+  icon: mdi:security-network
+sensor.SSH_login_failed:
+  icon: mdi:security-network
+sensor.SSH_login_accepted:
+  icon: mdi:security-network
+sensor.ha_uptime:
+  icon: mdi:timelapse
+  homebridge_hidden: true
+sensor.ha_uptime_sec:
+  icon: mdi:timelapse
+  homebridge_hidden: true
+  hidden: true
+sensor.ha_date_uptime:
+  icon: mdi:timelapse
+  homebridge_hidden: true
+########################################
+## Binary sensors
+# Motion
+binary_sensor.camera1_motion:
+  friendly_name: !secret binary_sensor_camera1_fn
+  device_class: motion
+  icon:  mdi:hotel
+binary_sensor.camera2_motion:
+  friendly_name: Dining Room camera
+  homebridge_hidden: true
+  device_class: motion
+  icon: mdi:silverware-variant
+binary_sensor.camera3_motion:
+  friendly_name: !secret binary_sensor_camera3_fn
+  device_class: motion
+  icon: mdi:hotel
+binary_sensor.camera4_motion:
+  friendly_name: Living Room camera
+  device_class: motion
+  icon: mdi:sofa
+binary_sensor.camera5_motion:
+  friendly_name: Main Bedroom camera
+  device_class: motion
+  icon: mdi:hotel
+binary_sensor.living_room_motion:
+  friendly_name: Living Room
+  device_class: occupancy
+  icon: mdi:sofa
+binary_sensor.multisensor1_sensor:
+  friendly_name: Living Room Multisensor
+  device_class: motion
+  homebridge_hidden: true
+binary_sensor.multisensor2_sensor:
+  friendly_name: Main Bedroom Multisensor
+  device_class: motion
+########################################
+########################################  
+# Door and window
+binary_sensor.door_window_sensor_158d000105d011:
+  friendly_name: Main Bathroom Window
+  device_class: opening
+  homebridge_opening_type: window
+  icon: mdi:window-closed
+binary_sensor.door_window_sensor_158d000105e2a2:
+  friendly_name: Main Bedroom Door
+  device_class: opening
+  homebridge_opening_type: door
+  icon: mdi:door
+binary_sensor.main_door_sensor_sensor:
+  device_class: opening
+  friendly_name: Front door
+  homebridge_opening_type: door
+  icon: mdi:door
+binary_sensor.door_sensor:
+  device_class: opening
+  friendly_name: Sensative Door
+  homebridge_opening_type: door
+  icon: mdi:door
+########################################  
+# Occupancy
+binary_sensor.occupancy_all:
+  device_class: occupancy
+  friendly_name: !secret binary_sensor_occupancy_all_fn
+binary_sensor.occupancy_mainbedroom:
+  device_class: occupancy
+  friendly_name: Main Bedroom
+  icon: mdi:hotel
+########################################  
+## Switches
+switch.tv_switch:
+  friendly_name: TV
+  icon: mdi:television-classic
+switch.marantz_switch:
+  friendly_name: Marantz
+  icon: mdi:speaker
+switch.switch1_switch:
+  friendly_name: Dehumidifier
+  icon: mdi:radiator
+switch.ac:
+  friendly_name: Main Bedroom AC
+  icon: mdi:air-conditioner
+########################################  
+## Sensors
+sensor.multisensor1_relative_humidity:
+  icon: mdi:water-percent
+  friendly_name: Living Room Relative Humidity
+sensor.multisensor2_relative_humidity:
+  icon: mdi:water-percent
+  friendly_name: Main Bedroom Relative Humidity
+sensor.multisensor1_temperature:
+  friendly_name: Living Room Temperature
+sensor.multisensor2_temperature:
+  friendly_name: Main Bedroom Temperature
+sensor.dark_sky_summary:
+  homebridge_hidden: true
+sensor.dark_sky_temperature: 
+  homebridge_hidden: false
+sensor.dark_sky_daily_high_temperature:
+  homebridge_hidden: true
+sensor.dark_sky_daily_low_temperature:
+  homebridge_hidden: true
+sensor.dark_sky_apparent_temperature:
+  homebridge_hidden: true
+sensor.dark_sky_cloud_cover:
+  homebridge_hidden: true
+sensor.dark_sky_humidity:
+  homebridge_hidden: true
+sensor.dark_sky_precip:
+  homebridge_hidden: true
+sensor.dark_sky_precip_probability:
+  homebridge_hidden: true
+sensor.dark_sky_precip_intensity:
+  homebridge_hidden: true
+sensor.dark_sky_nearest_storm_distance:
+  homebridge_hidden: true
+sensor.dark_sky_pressure:
+  homebridge_hidden: true
+sensor.dark_sky_visibility:
+  homebridge_hidden: true
+sensor.dark_sky_wind_bearing:
+  homebridge_hidden: true
+sensor.dark_sky_wind_speed:
+  homebridge_hidden: true
+sensor.dark_sky_uv_index: 
+  homebridge_hidden: true
+########################################  
+## input boolean
+input_boolean.presence_a:
+  icon: mdi:account
+  friendly_name: !secret presence_a_fn
+input_boolean.presence_p:
+  icon: mdi:account
+  friendly_name: !secret presence_p_fn
+input_boolean.presence_general:
+  icon: mdi:account-multiple
+input_boolean.presence_mainbedroom:
+  icon: mdi:account-multiple
+input_boolean.ha_start:
+  hidden: false
+  homebridge_hidden: true 
+########################################
+## Groups
+group.all_switches:
+  hidden: false
+  friendly_name: Switches
+group.all_lights:
+  hidden: false
+  friendly_name: Lights
+group.all_devices:
+  hidden: false
+  friendly_name: Devices
+group.all_scripts:
+  hidden: false
+  friendly_name: Scripts
+group.all_automations:
+  hidden: false
+  friendly_name: Automations
+group.all_input_boolean:
+  hidden: false
+  friendly_name: Input Boolean
+group.all_zwave:
+  hidden: false
+  friendly_name: Z-Wave
+group.all_remotes:
+  hidden: false
+  friendly_name: Remotes
+group.all_media_players:
+  hidden: false
+  friendly_name: Media Players
+group.all_climate:
+  hidden: false
+  friendly_name: Climate
+group.default_view:
+  friendly_name: Home
+group.main_bedroom:
+  friendly_name: Main Bedroom
+group.living_room:
+  friendly_name: Living Room
+group.at_room:
+  friendly_name: !secret group_at_room_fn
+group.al_room:
+  friendly_name: !secret group_al_room_fn
+group.Entry_points:
+  friendly_name: Entry points
+group.Network_summary:
+  friendly_name: Network summary 
+ 

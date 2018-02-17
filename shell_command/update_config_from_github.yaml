@@ -1,0 +1,1 @@
+update_config_from_github: bash {{path}}update_config_from_github.sh

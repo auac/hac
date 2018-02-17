@@ -1,0 +1,255 @@
+Default_view:
+  view: yes
+  entities:
+    - updater.updater
+    - sun.sun
+    - sensor.time
+    - sensor.date
+    - group.presence
+    - group.door_window_sensor
+    - group.weather
+    - group.network_summary
+    - group.all_lights
+    - group.all_switches
+    - group.all_input_boolean
+    - group.all_media_players
+    - group.all_climate
+    - group.entry_points
+    
+Rooms:
+  view: yes
+  entities:
+    - group.living_room
+    - group.main_bedroom
+    - group.at_room
+    - group.al_room
+
+
+Backend:
+  view: yes
+  entities:
+    - group.all_automations
+    - group.network
+    - group.main_bedroom_aeotec_sensor
+    - group.living_room_aeotec_sensor
+    - group.main_door_sensative_sensor
+    - group.new_door_sensative_sensor
+    - group.main_bedroom_aeotec_switch
+    - group.all_zwave
+    - group.all_remote
+    - group.all_devices
+    - group.camera
+    
+Development:
+  view: yes
+  entities:
+    - group.git_update
+    - group.travisci
+  
+GIT_Update:
+    - group.development
+    - input_text.text1
+    - sensor.new_commits
+    - script.update_git
+    - script.update_latest_commits
+    - script.new_commits
+    - script.update_new_config
+    - script.restart_ha
+    
+TravisCI: 
+    - sensor.auachac_state
+    - sensor.auachac_last_build_state
+    - sensor.auachac_last_build_started_at
+    - sensor.auachac_last_build_id
+    - sensor.auachac_last_build_finished_at
+    - sensor.auachac_last_build_duration
+
+
+Presence:
+    - binary_sensor.occupancy_all
+    - binary_sensor.living_room_motion
+    - binary_sensor.occupancy_mainbedroom
+    - binary_sensor.camera1_motion
+    - binary_sensor.camera3_motion
+    - binary_sensor.multisensor1_sensor
+    - binary_sensor.camera2_motion
+    - binary_sensor.camera4_motion
+    - binary_sensor.multisensor2_sensor
+    - binary_sensor.camera5_motion
+    - device_tracker.aa_iphone
+    - input_boolean.presence_a
+    - input_boolean.presence_p
+    - input_boolean.presence_general
+    - input_boolean.presence_mainbedroom
+
+    
+Main_bedroom:
+    - binary_sensor.occupancy_mainbedroom
+    - binary_sensor.door_window_sensor_158d000105d011
+    - binary_sensor.door_window_sensor_158d000105e2a2
+    - binary_sensor.door_sensor
+    - sensor.multisensor2_temperature
+    - climate.master_bedroom
+    - switch.ac_switch 
+    - sensor.multisensor2_relative_humidity
+    - switch.switch1_switch
+    - light.gateway_light_f0b429b3ddc0
+    - sensor.illumination_f0b429b3ddc0
+    - sensor.multisensor2_luminance 
+    - binary_sensor.multisensor2_sensor
+    - binary_sensor.camera5_motion
+    - input_boolean.presence_mainbedroom
+    - sensor.multisensor2_burglar 
+    
+Living_room:
+    - binary_sensor.living_room_motion
+    - binary_sensor.main_door_sensor_sensor
+    - sensor.multisensor1_temperature
+    - sensor.multisensor1_relative_humidity
+    - sensor.multisensor1_luminance  
+    - switch.tv_switch
+    - switch.marantz_switch
+    - binary_sensor.multisensor1_sensor
+    - binary_sensor.camera2_motion
+    - binary_sensor.camera4_motion
+    - sensor.main_door_sensor_burglar
+    - sensor.multisensor1_burglar   
+
+At_room:  
+    - binary_sensor.camera1_motion
+    
+Al_room:
+    - binary_sensor.camera3_motion
+    
+Entry_points:
+    - binary_sensor.main_door_sensor_sensor
+    - binary_sensor.door_sensor
+    - binary_sensor.door_window_sensor_158d000105d011
+    - binary_sensor.door_window_sensor_158d000105e2a2
+
+
+Network_summary:
+    - sensor.ha_uptime
+    - sensor.ha_date_uptime
+    - binary_sensor.internet_link
+    - binary_sensor.ftp_server
+    - binary_sensor.homebridge_server
+    - sensor.frontend_login_fail
+
+
+Network:
+    - sensor.ha_uptime
+    - sensor.ha_date_uptime
+    - binary_sensor.camera_1
+    - binary_sensor.camera_2
+    - binary_sensor.camera_3
+    - binary_sensor.camera_4
+    - binary_sensor.camera_5   
+    - binary_sensor.internet_link
+    - binary_sensor.ftp_server
+    - binary_sensor.homebridge_server
+    - sensor.SSH_login_failed
+    - sensor.SSH_login_accepted 
+    - sensor.frontend_login_fail  
+    
+Weather:
+    - sun.sun
+    - sensor.dark_sky_summary
+    - sensor.dark_sky_temperature 
+    - sensor.dark_sky_daily_high_temperature
+    - sensor.dark_sky_daily_low_temperature
+    - sensor.dark_sky_apparent_temperature
+    - sensor.dark_sky_cloud_cover
+    - sensor.dark_sky_humidity
+    - sensor.dark_sky_precip
+    - sensor.dark_sky_precip_probability
+    - sensor.dark_sky_precip_intensity
+    - sensor.dark_sky_nearest_storm_distance
+    - sensor.dark_sky_pressure
+    - sensor.dark_sky_visibility
+    - sensor.dark_sky_wind_bearing
+    - sensor.dark_sky_wind_speed  
+    - sensor.dark_sky_uv_index    
+    - sensor.waqi_hong_kong_hongkong
+    - weather.dark_sky
+    - sensor.multisensor1_temperature
+    - sensor.multisensor2_temperature
+    - sensor.multisensor1_relative_humidity
+    - sensor.multisensor2_relative_humidity
+
+Main_bedroom_Aeotec_Sensor:
+    - binary_sensor.multisensor2_sensor
+    - sensor.multisensor2_alarm_level
+    - sensor.multisensor2_alarm_type
+    - sensor.multisensor2_burglar
+    - sensor.multisensor2_luminance
+    - sensor.multisensor2_relative_humidity
+    - sensor.multisensor2_sourcenodeid
+    - sensor.multisensor2_temperature
+    - sensor.multisensor2_ultraviolet    
+
+
+Living_room_Aeotec_Sensor:
+    - binary_sensor.multisensor1_sensor
+    - sensor.multisensor1_alarm_level
+    - sensor.multisensor1_alarm_type
+    - sensor.multisensor1_burglar
+    - sensor.multisensor1_luminance
+    - sensor.multisensor1_relative_humidity
+    - sensor.multisensor1_sourcenodeid
+    - sensor.multisensor1_temperature
+    - sensor.multisensor1_ultraviolet
+    
+Main_door_Sensative_Sensor:
+    - binary_sensor.main_door_sensor_sensor
+    - sensor.main_door_sensor_access_control
+    - sensor.main_door_sensor_alarm_level
+    - sensor.main_door_sensor_alarm_type
+    - sensor.main_door_sensor_burglar
+    - sensor.main_door_sensor_sourcenodeid
+    
+New_door_Sensative_Sensor:
+    - binary_sensor.door_sensor
+    - sensor.door_access_control
+    - sensor.door_alarm_level
+    - sensor.door_alarm_type
+    - sensor.door_burglar
+    - sensor.door_sourcenodeid
+    
+Main_bedroom_Aeotec_Switch:
+    - switch.switch1_switch
+    - sensor.switch1_voltage
+    - sensor.switch1_previous_reading_3
+    - sensor.switch1_power
+    - sensor.switch1_previous_reading_2
+    - sensor.switch1_energy
+    - sensor.switch1_previous_reading
+    - sensor.switch1_current
+    - sensor.switch1_previous_reading_4
+    
+Media_players:
+    - media_player.living_room_tv
+    - media_player.marantz_sr6010
+    - media_player.atv3
+
+all_input_boolean:
+    - input_boolean.alarm_arming
+    - input_boolean.alarm_trigger
+    - input_boolean.ha_start
+    - input_boolean.presence_a
+    - input_boolean.presence_p
+    - input_boolean.presence_general
+    - input_boolean.presence_mainbedroom
+    
+all_zwave:
+    - zwave.aeotec_zw90_usb
+    - zwave.door
+    - zwave.main_door_sensor
+    - zwave.multisensor1
+    - zwave.multisensor2
+    - zwave.switch1
+
+all_climate:
+    - climate.master_bedroom
+
+    

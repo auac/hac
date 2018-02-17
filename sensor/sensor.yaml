@@ -1,0 +1,98 @@
+  - platform: template
+    sensors:
+      frontend_login_fail:
+        friendly_name: "Frontend login"
+        value_template: >
+         {% if states.persistent_notification.httplogin %}
+            {{ states.persistent_notification.httplogin.state }}
+          {% else %}
+            Off
+          {% endif %} 
+    
+      ha_uptime:
+        friendly_name: Home assistant uptime
+        value_template: >-
+          {%- set nowtime = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) %}
+          {%- set lastchg = as_timestamp(states.input_boolean.HA_start.last_changed) %}
+          {%- set total_sec = (nowtime - lastchg) | int %}
+          {%- set sec = ((total_sec%60) |int) %}
+          {%- set total_min = ((total_sec/60) |int) %}
+          {%- set min = ((total_min%60) |int) %}
+          {%- set total_hrs = ((total_min/60) |int) %}
+          {%- set hrs = ((total_hrs%24) |int) %} 
+          {%- set total_days = ((total_hrs/24) |int) %}
+          {%- set days = ((total_days%365) |int) %}
+          {%- set yrs = ((total_days/365) |int) %}
+          {%- if yrs > 0 %}{{yrs}} yrs {% endif %}{% if days > 0 %}{{days}} days {% endif %}{% if hrs > 0 %}{{hrs}} h {% endif %}{% if min > 0 %}{{min}} m {% endif %}{% if sec > 0 %}{{sec}} s {% endif %}
+
+      ha_date_uptime:
+        friendly_name: Home assistant last restart
+        value_template: >-
+          {{ ((as_timestamp(states.input_boolean.ha_start.last_changed)) | timestamp_custom('%d %b %Y')) }}
+        
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+        
+  - platform: command_line
+    name: SSH_login_failed
+    command: !secret sensor_SSH_login_failed
+    
+  - platform: command_line
+    name: SSH_login_accepted
+    command: !secret sensor_SSH_login_accepted
+    
+  - platform: command_line
+    name: camera1_http
+    command: !secret sensor_camera1_http
+    scan_interval: 30  
+
+  - platform: command_line
+    name: camera2_http
+    command: !secret sensor_camera2_http
+    scan_interval: 30  
+    
+  - platform: command_line
+    name: camera3_http
+    command: !secret sensor_camera3_http
+    scan_interval: 30  
+
+#    
+#  - platform: command_line
+#    name: camera4_http
+#    command: !secret sensor_camera4_http
+#    scan_interval: 10   
+#
+#  - platform: command_line
+#    name: camera5_http
+#    command: !secret sensor_camera5_http
+#    scan_interval: 10  
+    
+  - platform: waqi 
+    token: !secret sensor_waqi_token
+    locations:
+      - !secret sensor_waqi_location1
+      
+  - platform: darksky
+    api_key: !secret sensor_darksky_api_key
+    monitored_conditions:
+      - summary
+      - temperature 
+      - temperature_max
+      - temperature_min
+      - apparent_temperature
+      - cloud_cover
+      - humidity
+      - precip_type
+      - precip_probability
+      - precip_intensity
+      - nearest_storm_distance
+      - pressure
+      - visibility
+      - wind_bearing
+      - wind_speed  
+      - uv_index    
+    update_interval:
+      minutes: 3

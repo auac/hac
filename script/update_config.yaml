@@ -1,0 +1,27 @@
+update_latest_commits:
+  alias: "Update no. of new commits"
+  sequence:
+  - service: shell_command.update_new_commits_sensor
+    data_template:
+      var: !secret http_api_password
+      path: !secret shell_path
+  
+update_new_config:
+  alias: "Update to new config"
+  sequence:
+  - service: shell_command.update_config_from_github
+    data_template:
+      path: !secret shell_path
+      
+restart_ha:
+  alias: "Restart home assistant"
+  sequence:
+  - service: homeassistant.restart
+  
+update_git:
+  alias: "Update to GIT"
+  sequence:
+  - service: shell_command.update_git
+    data_template:
+      var: '{{ states.input_text.text1.state }}'
+      path: !secret shell_path

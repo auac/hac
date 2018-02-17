@@ -1,0 +1,22 @@
+    presence_general:
+        name: Presence General
+
+    presence_p:
+        name: Presence P
+
+    presence_a:
+        name: Presence A
+        
+    presence_mainbedroom:
+        name: Presence Main Bedroom
+    
+    ha_start:
+        initial: off
+        
+    alarm_arming:
+        name: Alarm arming
+        initial: off
+
+    alarm_trigger:
+        name: Alarm trigger
+        initial: off

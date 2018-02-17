@@ -1,0 +1,29 @@
+    
+    
+- action:
+  - data_template:
+      message: >
+        Entity_ID: {{ trigger.to_state.entity_id }}.
+        Friendly_name: {{trigger.to_state.attributes.friendly_name}}.
+        State to: {{trigger.to_state.state}}.
+        State from: {{trigger.from_state.state}}.
+        State last updated: {{trigger.to_state.last_updated}}.
+        State last changed: {{trigger.to_state.last_changed}}. 
+        State last updated1: {{trigger.from_state.last_updated}}.
+        State last changed1: {{trigger.from_state.last_changed}}. 
+        {%- set nowtime = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) %}
+        {%- set lastchg = as_timestamp(states.sensor.camera2_http.last_changed) %}           
+        {%- set lastchgHA = as_timestamp(states.input_boolean.HA_start.last_changed) %}
+        {%- set sec = (nowtime - lastchg) | int %}
+        {%- set secHA = (nowtime - lastchgHA) | int -%}
+        sec {{ sec }} = {{ nowtime }} - {{lastchg}}
+        secHA {{ secHA}} = {{ nowtime }} - {{lastchgHA}}
+    service: notify.allnotify
+  alias: Binary sensor testing camera 2
+  condition: []
+  id: '1517815434000'
+  trigger:
+  - entity_id:
+    - binary_sensor.camera2_motion
+    - sensor.camera2_http
+    platform: state

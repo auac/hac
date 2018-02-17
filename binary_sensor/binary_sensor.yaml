@@ -1,0 +1,133 @@
+  - platform: template
+    sensors:
+      occupancy_all:
+        value_template: >
+          {% if is_state("input_boolean.presence_a","on") or is_state("input_boolean.presence_p","on") or is_state("input_boolean.presence_general","on") or is_state("input_boolean.presence_mainbedroom","on")%}
+            True
+          {%elif is_state("input_boolean.presence_a","off") and is_state("input_boolean.presence_p","off") and is_state("input_boolean.presence_general","off") and is_state("input_boolean.presence_mainbedroom","off")%}
+            False
+          {% else %}
+            False
+          {% endif %}   
+      occupancy_mainbedroom:
+        value_template: >
+          {% if is_state("input_boolean.presence_mainbedroom","on") %}
+            True
+          {% else %}
+            False
+          {% endif %}
+      camera1_motion:
+        value_template: >
+          {% if states.sensor.camera1_http.state %}
+            {% if states.sensor.camera1_http.state != "0" or states.sensor.camera1_http.state != "" %}
+              TRUE
+            {% else %}
+              FALSE
+            {% endif %}
+          {% else %}
+            FALSE  
+          {% endif %}  
+
+      camera2_motion:
+        value_template: >
+          {% if states.sensor.camera2_http.state %}
+            {% if states.sensor.camera2_http.state != "0" or states.sensor.camera2_http.state != "" %}
+              TRUE
+            {% else %}
+              FALSE
+            {% endif %}
+          {% else %}
+            FALSE  
+          {% endif %}  
+
+      camera3_motion:
+        value_template: >
+          {% if states.sensor.camera3_http.state %}
+            {% if states.sensor.camera3_http.state != "0" or states.sensor.camera3_http.state != "" %}
+              TRUE
+            {% else %}
+              FALSE
+            {% endif %}
+          {% else %}
+            FALSE  
+          {% endif %} 
+
+
+      camera4_motion:
+        value_template: >
+          {% if states.sensor.camera4_http.state %}
+            {% if states.sensor.camera4_http.state != "0" or states.sensor.camera4_http.state != "" %}
+              TRUE
+            {% else %}
+              FALSE
+            {% endif %}
+          {% else %}
+            FALSE  
+          {% endif %} 
+
+      camera5_motion:
+        value_template: >
+          {% if states.sensor.camera5_http.state %}
+            {% if states.sensor.camera5_http.state != "0" or states.sensor.camera5_http.state != "" %}
+              TRUE
+            {% else %}
+              FALSE
+            {% endif %}
+          {% else %}
+            FALSE  
+          {% endif %} 
+
+      living_room_motion:
+        value_template: >
+          {% if is_state("binary_sensor.camera2_motion","on") or is_state("binary_sensor.multisensor1_sensor","on") %}
+            True
+          {% else %}
+            False
+          {% endif %}
+
+
+  - platform: ping
+    host: !secret binary_sensor_camera1
+    name: Camera 1
+    device_class: connectivity
+    count: 2
+    
+  - platform: ping
+    host: !secret binary_sensor_camera2
+    name: Camera 2
+    device_class: connectivity
+    count: 2
+    
+  - platform: ping
+    host: !secret binary_sensor_camera3
+    name: Camera 3
+    device_class: connectivity
+    count: 2
+  
+  - platform: ping
+    host: !secret binary_sensor_camera4
+    name: Camera 4
+    device_class: connectivity   
+    count: 2   
+  
+  - platform: ping
+    host: !secret binary_sensor_camera5
+    name: Camera 5
+    device_class: connectivity
+    count: 2
+     
+  - platform: ping
+    host: 8.8.8.8
+    name: Internet link
+    device_class: connectivity
+    count: 2
+    
+  - platform: command_line
+    command: !secret binary_sensor_FTP_server
+    name: FTP server
+    device_class: connectivity
+     
+  - platform: command_line
+    command: !secret binary_sensor_Homebridge_server
+    name: Homebridge server
+    device_class: connectivity
