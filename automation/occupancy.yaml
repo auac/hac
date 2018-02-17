@@ -1,0 +1,134 @@
+###################################################
+####
+#### Presence checking General (other than A / P)
+####
+###################################################
+###################################################
+####
+#### Activation of Boolean based on motion sensors in living room
+#### when Front door and main bedroom door(?) closed indicates 
+#### general Presence of others in the household
+- action:
+  - data:
+      entity_id: input_boolean.presence_general
+    service: input_boolean.turn_on
+  - data:
+      message: Presence general activation
+    service: notify.allnotify
+  alias: Presence general activation
+  condition:
+  - condition: state
+    entity_id: binary_sensor.main_door_sensor_sensor
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.door_window_sensor_158d000105e2a2
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.presence_general
+    state: 'off'
+  id: '1508252974818'
+  trigger:
+  - entity_id: binary_sensor.multisensor1_sensor
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.camera2_motion
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.camera4_motion
+    platform: state
+    to: 'on'
+###################################################
+####
+#### Deactivation of Boolean based on Front door opening 
+#### and main bedroom door still closed indicates 
+#### others in the household leaving or A / P leaving
+- action:
+  - wait_template: "{{is_state('binary_sensor.living_room_motion', 'off')}}"
+    timeout: 00:06:00
+  - data:
+      entity_id: input_boolean.presence_general
+    service: input_boolean.turn_off
+  - data:
+      message: Presence general deactivation
+    service: notify.allnotify
+  alias: Presence general deactivation
+  condition:
+  - condition: state
+    entity_id: input_boolean.presence_general
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.door_window_sensor_158d000105e2a2
+    state: 'off'
+  id: '1508253283544'
+  trigger:
+  - entity_id: binary_sensor.main_door_sensor_sensor
+    platform: state
+    to: 'on'
+###################################################
+####
+#### Presence checking of Main bedroom
+####
+###################################################
+###################################################
+####
+#### Activation of Boolean based on motion sensors 
+#### when Main bedroom door closed indicates Presence
+- action:
+  - data:
+      entity_id: input_boolean.presence_mainbedroom
+    service: input_boolean.turn_on
+  - data:
+      message: Presence main bedroom activation
+    service: notify.allnotify
+  alias: Presence main bedroom activation
+  condition:
+  - condition: state
+    entity_id: binary_sensor.door_window_sensor_158d000105e2a2
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.presence_mainbedroom
+    state: 'off'
+  id: '1508252974929'
+  trigger:
+  - entity_id: binary_sensor.multisensor2_sensor
+    platform: state
+    to: 'on'
+  - entity_id: binary_sensor.camera5_motion
+    platform: state
+    to: 'on'
+###################################################
+####
+#### Deactivate Boolean based on Door opening
+#### indicates room is empty except for when A is
+#### is sleeping (and at home) from midnight to 8am
+- action:
+  - wait_template: "{{is_state('binary_sensor.multisensor2_sensor', 'off')}}"
+    timeout: 00:05:00
+  - data:
+      entity_id: input_boolean.presence_mainbedroom
+    service: input_boolean.turn_off
+  - data:
+      message: Presence main bedroom deactivation
+    service: notify.allnotify
+  - condition: time
+    after: '00:00:01'
+    before: '08:00:00'
+  - condition: state
+    entity_id: input_boolean.presence_a
+    state: 'on'
+  - data:
+      entity_id: input_boolean.presence_mainbedroom
+    service: input_boolean.turn_on
+  - data:
+      message: Presence main bedroom deactivation override (keep activated)
+    service: notify.allnotify
+  alias: Presence main bedroom deactivation
+  condition:
+  - condition: state
+    entity_id: input_boolean.presence_mainbedroom
+    state: 'on'
+  id: '1508253284655'
+  trigger:
+  - entity_id: binary_sensor.door_window_sensor_158d000105e2a2
+    platform: state
+    to: 'on'

@@ -1,0 +1,102 @@
+###################################################
+####
+#### Aircondition automation Main Bedroom
+####
+###################################################
+###################################################
+####
+#### Aircondition on and turn to low after 5 minutes if temp between target range
+- action:
+  - data:
+      entity_id: climate.master_bedroom
+    service: climate.turn_on
+  - data:
+      entity_id: climate.master_bedroom
+      fan_mode: high
+    service: climate.set_fan_mode
+  - data_template:
+      message: 'Aircon turn on - main bedroom. Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}'
+    service: notify.allnotify
+  alias: Aircon Main bedroom on
+  condition:
+  - condition: template
+    value_template: '{% if states.input_boolean.presence_a.state == "on" or states.input_boolean.presence_p.state == "on" %}True{% endif %}'
+  - condition: template
+    value_template: '{% if states.binary_sensor.occupancy_mainbedroom.state == "on" %}True{% endif %}'
+  - condition: template
+    value_template: '{% if (states.sensor.multisensor2_temperature.state | float) > 27.0 %}True{% endif %}'
+  - condition: template
+    value_template: >-
+      {%- if states.automation.aircon_main_bedroom_on.attributes.last_triggered == None -%}
+        True
+        {%- elif as_timestamp(now()) - as_timestamp(states.automation.aircon_main_bedroom_on.attributes.last_triggered) |int > 900 -%}
+          True
+      {%- endif %} 
+  - condition: template
+    value_template: '{% if states.climate.master_bedroom.state == "off" %}True{% endif %}'
+  id: '1516033837858'
+  trigger:
+  - platform: template
+    value_template: '{% if states.binary_sensor.occupancy_mainbedroom.state == "on" and states.sensor.multisensor2_temperature.state | float > 27.0 %}True{% endif %}'
+  - minutes: /15
+    seconds: 0
+    platform: time
+###################################################
+####
+#### Aircondition turn to low if within target range
+- action:
+  - delay: 00:05:00
+  - data:
+      entity_id: climate.master_bedroom
+      fan_mode: low
+    service: climate.set_fan_mode
+  - data_template:
+      message: 'Aircon turn to low - main bedroom. Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}'
+    service: notify.allnotify
+  alias: Aircon Main bedroom low fan speed
+  condition:
+  - condition: numeric_state
+    above: '25.0'
+    below: '26.5'
+    entity_id: sensor.multisensor2_temperature
+    value_template: '{{ states.sensor.multisensor2_temperature.state | float }}'
+  - condition: template
+    value_template: '{% if is_state("climate.master_bedroom", "on") %}True{%endif%}'
+  id: '1627033837959'
+  trigger:
+  - below: '26.5'
+    entity_id: sensor.multisensor2_temperature
+    platform: numeric_state
+  - minutes: /15
+    seconds: 0
+    platform: time
+###################################################
+####
+#### Aircondition turn Off if temp below range or no presence in room
+- action:
+  - delay: 00:05:00
+  - data:
+      entity_id: climate.master_bedroom
+    service: climate.turn_off
+  - data:
+      message: 'Aircon turn off - main bedroom Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}'
+    service: notify.allnotify
+  alias: Aircon Main bedroom off
+  condition:
+  - condition: template
+    value_template: '{% if states.binary_sensor.occupancy_mainbedroom.state == "off" or states.sensor.multisensor2_temperature.state | float < 25.0 %}True{% endif %}'
+  - condition: template
+    value_template: '{% if is_state("climate.master_bedroom", "on") %}True{%endif%}'
+  id: '157022837050'
+  trigger:
+  - below: '25.0'
+    entity_id: sensor.multisensor2_temperature
+    platform: numeric_state
+  - entity_id: binary_sensor.occupancy_mainbedroom
+    to: 'off'
+    platform: state
+    for:
+      minutes: 1
+  - minutes: /15
+    seconds: 0
+    platform: time

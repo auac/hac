@@ -20,3 +20,7 @@
     alarm_trigger:
         name: Alarm trigger
         initial: off
+        
+    backend_view:
+        name: Backend view
+        initial: off

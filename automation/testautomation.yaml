@@ -23,7 +23,34 @@
   condition: []
   id: '1517815434000'
   trigger:
-  - entity_id:
+  - entity_id: 
     - binary_sensor.camera2_motion
     - sensor.camera2_http
     platform: state
+
+###################################################
+####
+#### TESTING light turn on / off based on light and sun
+####
+###################################################
+###################################################
+####
+#### Turn on light if (door open) and light is dark and sun is down
+- action:
+  - data:
+      message: testing all conditions met
+    service: notify.allnotify
+  alias: Turn on light if after sunset (testing)
+  condition:
+  - condition: numeric_state
+    below: '0.1'
+    entity_id: sensor.multisensor1_luminance
+  - condition: numeric_state
+    below: '-5'
+    entity_id: sun.sun
+    value_template: '{{states.sun.sun.attributes.elevation}}'
+  id: '1508324243362'
+  trigger:
+  - entity_id: light.gateway_light_f0b429b3ddc0
+    platform: state
+    to: 'on'

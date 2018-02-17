@@ -1,0 +1,114 @@
+###################################################
+####
+#### Alarm automation
+####
+###################################################
+###################################################
+####
+#### Play music when alarm has been triggered   
+- action:
+  - data:
+      message: Alarm triggered!
+    service: notify.allnotify
+  - data:
+      gw_mac: !secret xiaomi_gw_mac
+      ringtone_id: 2
+      ringtone_vol: 20
+    service: xiaomi_aqara.play_ringtone
+  - delay: 00:00:20
+  - data:
+      message: Alarm triggered!
+    service: notify.allnotify
+  - data:
+      gw_mac: !secret xiaomi_gw_mac
+    service: xiaomi_aqara.stop_ringtone
+  - data:
+      gw_mac: !secret xiaomi_gw_mac
+      ringtone_id: 2
+      ringtone_vol: 99
+    service: xiaomi_aqara.play_ringtone    
+  - data:
+      message: Alarm triggered!
+    service: notify.allnotify
+  alias: Alarm triggered
+  condition:
+  - condition: state
+    entity_id: input_boolean.alarm_arming
+    state: 'on'
+  id: '1517951590016'
+  trigger:
+  - entity_id: input_boolean.alarm_trigger
+    platform: state
+    to: 'on'
+###################################################
+####
+#### Arm the alarm   
+- action:
+  - delay: 00:03:00
+  - service: notify.allnotify
+    data:
+      message: Alarm is armed
+  alias: Alarm armed notification
+  condition: []
+  id: '1517952085649'
+  trigger:
+  - entity_id: input_boolean.alarm_arming
+    platform: state
+    to: 'on'
+###################################################
+####
+#### Disarm the Alarm notification 
+####
+- action:
+  - data:
+      gw_mac: !secret xiaomi_gw_mac
+    service: xiaomi_aqara.stop_ringtone
+  
+  - data:
+      entity_id: input_boolean.alarm_trigger
+    service: input_boolean.turn_off
+  - data:
+      message: Alarm has been disarmed
+    service: notify.allnotify
+  alias: Alarm disarmed notification
+  condition: []
+  id: '1517952085649'
+  trigger:
+  - entity_id: input_boolean.alarm_arming
+    platform: state
+    to: 'off'  
+###################################################
+####
+#### Trigger Alarm due to activity in the house after 3 minutes
+- action:
+  - data:
+      message: Alarm will be triggered in 3 minutes
+    service: notify.allnotify 
+  - delay: 00:03:00
+  - data:
+      entity_id: input_boolean.alarm_trigger
+    service: input_boolean.turn_off
+  - data:
+      entity_id: input_boolean.alarm_trigger
+    service: input_boolean.turn_on
+  alias: Alarm activation
+  condition:
+  - condition: state
+    entity_id: input_boolean.alarm_arming
+    state: 'on'
+  id: '1511115434292'
+  trigger:
+  - entity_id:
+    - binary_sensor.main_door_sensor_sensor
+    - binary_sensor.door_sensor
+    - binary_sensor.door_window_sensor_158d000105d011
+    - binary_sensor.door_window_sensor_158d000105e2a2
+    - binary_sensor.multisensor1_sensor
+    - binary_sensor.camera2_motion
+    - binary_sensor.camera4_motion
+    - binary_sensor.multisensor2_sensor
+    - binary_sensor.camera5_motion
+    - binary_sensor.camera1_motion
+    - binary_sensor.camera3_motion
+    platform: state
+    to: 'on'

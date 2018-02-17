@@ -1,0 +1,57 @@
+###################################################
+####
+#### Dehumidifier automation
+####
+###################################################
+###################################################
+####
+#### Turn on dehumidifier if humidity > 55%      
+- action:
+  - data:
+      entity_id: switch.switch1_switch
+    service: switch.turn_on
+  - data:
+      message: Dehumidifier switch on
+    service: notify.allnotify
+  alias: Dehumidifier on
+  condition:
+  - condition: state
+    entity_id: switch.switch1_switch
+    state: 'off'
+  - above: '55'
+    condition: numeric_state
+    entity_id: sensor.multisensor2_relative_humidity
+  id: '1516971664598'
+  trigger:
+  - above: '55'
+    entity_id: sensor.multisensor2_relative_humidity
+    platform: numeric_state
+  - minutes: /15
+    seconds: 0
+    platform: time
+###################################################
+####
+#### Turn on dehumidifier if humidity < 50%      
+- action:
+  - data:
+      entity_id: switch.switch1_switch
+    service: switch.turn_off
+  - data:
+      message: Dehumidifier switch off
+    service: notify.allnotify
+  alias: Dehumidifier off
+  condition:
+  - condition: state
+    entity_id: switch.switch1_switch
+    state: 'on'
+  - below: '50'
+    condition: numeric_state
+    entity_id: sensor.multisensor2_relative_humidity
+  id: '1516971775609'
+  trigger:
+  - below: '50'
+    entity_id: sensor.multisensor2_relative_humidity
+    platform: numeric_state
+  - minutes: /15
+    seconds: 0
+    platform: time

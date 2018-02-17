@@ -1,0 +1,46 @@
+###################################################
+####
+#### Show backend 
+####
+###################################################
+###################################################
+
+- alias: 'Backend/Development tab view show'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.backend_view
+    to: 'on'
+  condition: []
+  action:
+  - service: group.set_visibility
+    entity_id: group.development
+    data:
+      visible: True
+  - service: group.set_visibility
+    entity_id: group.backend
+    data:
+      visible: True
+
+###################################################
+####
+#### Hide backend hide
+####
+###################################################
+###################################################
+
+- alias: 'Backend/Development tab view'
+  trigger:
+  - platform: state
+    entity_id: input_boolean.backend_view
+    to: 'off'
+  condition: []
+  action:
+  - service: group.set_visibility
+    entity_id: group.development
+    data:
+      visible: False
+  - service: group.set_visibility
+    entity_id: group.backend
+    data:
+      visible: False
+

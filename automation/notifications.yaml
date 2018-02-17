@@ -1,0 +1,258 @@
+###################################################
+###################################################
+#### Automation for presence notification
+- action:
+  - data_template:
+      message: '{{trigger.to_state.attributes.friendly_name|replace("Presence ","")|capitalize()}}
+        {% if trigger.to_state.state == "on" %}arrived{% else %}left{% endif %} home.'
+    service: notify.allnotify
+  alias: Notify when occupants leave / arrive
+  condition: []
+  id: '1507005333954'
+  trigger:
+  - entity_id: input_boolean.presence_a, input_boolean.presence_p
+    platform: state
+    to: 'on'
+    for:
+      minutes: 1
+  - entity_id: input_boolean.presence_a, input_boolean.presence_p
+    platform: state
+    to: 'off'
+    for:
+      minutes: 1
+###################################################
+####
+#### Tamper checking on sensors
+####
+###################################################
+###################################################
+####
+#### Burgular alert on multisensors
+- action:
+  - data_template:
+      message: Burgular alert {{trigger.to_state.attributes.friendly_name}}.
+    service: notify.allnotify
+  alias: Burglar notification on sensors
+  condition: []
+  id: '1508345825260'
+  trigger:
+  - entity_id: sensor.main_door_sensor_burglar
+    from: '254'
+    platform: state
+  - entity_id: sensor.multisensor1_burglar,sensor.multisensor2_burglar
+    platform: state
+    to: '3'
+###################################################
+####
+#### Network related
+####
+###################################################
+###################################################
+####
+#### Internet down reactivate
+- action:
+  - data:
+      entity_id: switch.switch1_switch
+    service: switch.turn_off
+  - delay: 0:05
+  - data:
+      entity_id: switch.switch1_switch
+    service: switch.turn_on
+  - data:
+      message: Internet link was down. Reactivation attempted.
+    service: notify.allnotify
+  alias: Internet down detected
+  condition: []
+  id: '1512399730194'
+  trigger:
+  - entity_id: binary_sensor.internet_link
+    platform: state
+    to: 'off'
+    for:
+      minutes: 5
+###################################################
+####
+#### logon to HA notification
+- action:
+  - data_template:
+      message: '{{ trigger.to_state.state }}'
+    service: notify.allnotify
+  alias: Notify of Front-end logon attempt
+  condition: []
+  id: '1512401386010'
+  trigger:
+  - entity_id: sensor.frontend_login_fail
+    from: 'Off'
+    platform: state
+###################################################
+####
+#### logon to MAC checking ACCEPTED
+- action:
+  - data_template:
+      message: "Notify login ACCEPTED. Count is: {{trigger.to_state.state}}."
+    service: notify.allnotify
+  alias: Notify Login to Mac accepted
+  condition:
+  - condition: numeric_state
+    above: '0'
+    entity_id: sensor.ssh_login_accepted
+    value_template: '{{ states.sensor.ssh_login_accepted.state | int }}'    
+  id: '1512458467891'
+  trigger:
+  - entity_id: sensor.ssh_login_accepted
+    platform: state
+###################################################
+####
+#### logon to MAC checking FAILED
+- action:
+  - data_template:
+      message: 'Notify login FAILED. Count is: {{trigger.to_state.state}}.'
+    service: notify.allnotify
+  alias: Notify Login to Mac failed
+  condition:
+  - condition: numeric_state
+    above: '0'
+    entity_id: sensor.ssh_login_failed
+    value_template: '{{ states.sensor.sensor.ssh_login_failed.state | int }}'
+  id: '1512459160522'
+  trigger:
+  - entity_id: sensor.ssh_login_failed
+    platform: state
+###################################################
+####
+#### Automation of telegram notification of key sensors
+####
+###################################################
+###################################################
+####
+#### Notifications when trigger to ON
+- action:
+  - data_template:
+      message: >-
+        {%- if trigger.to_state.attributes.device_class == "motion" -%}
+          Motion detected by {{trigger.to_state.attributes.friendly_name}}.
+        {%- elif trigger.to_state.attributes.device_class == "connectivity" -%}
+          {{trigger.to_state.attributes.friendly_name}} is connected.
+        {%- elif trigger.to_state.attributes.device_class == "opening" -%}
+          {{trigger.to_state.attributes.friendly_name}} was opened.
+        {%- elif trigger.to_state.attributes.device_class == "door" -%}
+          {{trigger.to_state.attributes.friendly_name}} was opened.
+        {%- elif trigger.to_state.attributes.device_class == "window" -%}
+          {{trigger.to_state.attributes.friendly_name}} was opened.
+        {%- elif trigger.to_state.attributes.device_class == "occupancy" -%}
+          Occupany detected in {{trigger.to_state.attributes.friendly_name}}.
+        {%- elif trigger.to_state.attributes.device_class == "presence" -%}
+          {{trigger.to_state.attributes.friendly_name}} is home.
+        {%- else -%}
+          {{trigger.to_state.attributes.friendly_name}} is on.
+        {%- endif -%}
+    service: notify.allnotify
+  alias: Binary sensor notify on
+  condition: []
+  id: '1517815434292'
+  trigger:
+  - entity_id:
+    - binary_sensor.camera_1
+    - binary_sensor.camera_2
+    - binary_sensor.camera_3
+    - binary_sensor.camera_4
+    - binary_sensor.camera_5
+    - binary_sensor.internet_link
+    - binary_sensor.ftp_server
+    - binary_sensor.homebridge_server
+    - binary_sensor.main_door_sensor_sensor
+    - binary_sensor.door_sensor
+    - binary_sensor.door_window_sensor_158d000105d011
+    - binary_sensor.door_window_sensor_158d000105e2a2
+    - binary_sensor.occupancy_all
+    - binary_sensor.occupancy_mainbedroom
+    - binary_sensor.multisensor1_sensor
+    - binary_sensor.camera2_motion
+    - binary_sensor.camera4_motion
+    - binary_sensor.multisensor2_sensor
+    - binary_sensor.camera5_motion
+    - binary_sensor.camera1_motion
+    - binary_sensor.camera3_motion
+    - binary_sensor.living_room_motion
+    - light.gateway_light_f0b429b3ddc0
+    - switch.tv_switch
+    - switch.ac_switch
+    - switch.marantz_switch
+    - switch.switch1_switch
+    platform: state
+    from: 'off'
+    to: 'on'
+###################################################
+####
+#### Notifications when trigger to OFF
+- action:
+  - data_template:
+      message: >- 
+        {%- if trigger.to_state.attributes.device_class == "connectivity" -%}  
+          {{trigger.to_state.attributes.friendly_name}} has been disconnected.
+        {%- elif trigger.to_state.attributes.device_class == "opening" -%}
+          {{trigger.to_state.attributes.friendly_name}} was closed.
+        {%- elif trigger.to_state.attributes.device_class == "door" -%}
+          {{trigger.to_state.attributes.friendly_name}} was closed.
+        {%- elif trigger.to_state.attributes.device_class == "window" -%}
+          {{trigger.to_state.attributes.friendly_name}} was closed.
+        {%- elif trigger.to_state.attributes.device_class == "occupancy" -%}
+          {{trigger.to_state.attributes.friendly_name}} is not occupied.
+        {%- elif trigger.to_state.attributes.device_class == "presence" -%}
+          {{trigger.to_state.attributes.friendly_name}} is away.
+        {%- else -%}
+          {{trigger.to_state.attributes.friendly_name}} is off.
+        {%- endif -%}
+    service: notify.allnotify
+  alias: Binary sensor notify off
+  condition: []
+  id: '1517925434303'
+  trigger:
+  - entity_id:
+    - binary_sensor.camera_1
+    - binary_sensor.camera_2
+    - binary_sensor.camera_3
+    - binary_sensor.camera_4
+    - binary_sensor.camera_5
+    - binary_sensor.internet_link
+    - binary_sensor.ftp_server
+    - binary_sensor.homebridge_server
+    - binary_sensor.main_door_sensor_sensor
+    - binary_sensor.door_sensor
+    - binary_sensor.door_window_sensor_158d000105d011
+    - binary_sensor.door_window_sensor_158d000105e2a2
+    - binary_sensor.occupancy_all
+    - binary_sensor.occupancy_mainbedroom
+    - binary_sensor.living_room_motion
+    - light.gateway_light_f0b429b3ddc0
+    - switch.tv_switch
+    - switch.ac_switch
+    - switch.marantz_switch
+    - switch.switch1_switch
+    platform: state
+    from: 'on'
+    to: 'off'
+###################################################
+####
+#### Home assistant uptime input boolean calculation
+####
+###################################################
+###################################################
+####
+#### Turn on input boolean when HA starts
+- action:
+  - data:
+      entity_id: input_boolean.ha_start
+    service: input_boolean.turn_off
+  - data:
+      entity_id: input_boolean.ha_start
+    service: input_boolean.turn_on
+  - data:
+      message: HA boolean triggered
+    service: notify.allnotify
+  alias: HA uptime timer
+  condition: []
+  id: '1517933230137'
+  trigger:
+  - event: start
+    platform: homeassistant
