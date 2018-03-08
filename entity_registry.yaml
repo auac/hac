@@ -193,3 +193,9 @@ sensor.pollys_iphone_battery_state:
 sensor.pollys_iphone_battery_level:
   platform: ios
   unique_id: level_pt_iphone
+media_player.apple_tv:
+  platform: apple_tv
+  unique_id: 8cad54225e78f9a1991b3133cf13c3431c60dffc0856f4c4d810c60ee4a7dcf1
+remote.apple_tv:
+  platform: apple_tv
+  unique_id: 8cad54225e78f9a1991b3133cf13c3431c60dffc0856f4c4d810c60ee4a7dcf1
