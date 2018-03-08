@@ -20,6 +20,7 @@
         secHA {{ secHA}} = {{ nowtime }} - {{lastchgHA}}
     service: notify.allnotify
   alias: Binary sensor testing camera 2
+  initial_state: 'off'
   condition: []
   id: '1517815434000'
   trigger:
@@ -41,6 +42,7 @@
       message: testing all conditions met
     service: notify.allnotify
   alias: Turn on light if after sunset (testing)
+  initial_state: 'off'
   condition:
   - condition: numeric_state
     below: '0.1'

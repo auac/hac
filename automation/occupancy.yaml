@@ -14,14 +14,11 @@
     service: input_boolean.turn_on
   - data:
       message: Presence general activation
-    service: notify.allnotify
+    service: python_script.notification
   alias: Presence general activation
   condition:
   - condition: state
     entity_id: binary_sensor.main_door_sensor_sensor
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.door_window_sensor_158d000105e2a2
     state: 'off'
   - condition: state
     entity_id: input_boolean.presence_general
@@ -50,15 +47,12 @@
     service: input_boolean.turn_off
   - data:
       message: Presence general deactivation
-    service: notify.allnotify
+    service: python_script.notification
   alias: Presence general deactivation
   condition:
   - condition: state
     entity_id: input_boolean.presence_general
     state: 'on'
-  - condition: state
-    entity_id: binary_sensor.door_window_sensor_158d000105e2a2
-    state: 'off'
   id: '1508253283544'
   trigger:
   - entity_id: binary_sensor.main_door_sensor_sensor
@@ -79,7 +73,7 @@
     service: input_boolean.turn_on
   - data:
       message: Presence main bedroom activation
-    service: notify.allnotify
+    service: python_script.notification
   alias: Presence main bedroom activation
   condition:
   - condition: state
@@ -109,7 +103,7 @@
     service: input_boolean.turn_off
   - data:
       message: Presence main bedroom deactivation
-    service: notify.allnotify
+    service: python_script.notification
   - condition: time
     after: '00:00:01'
     before: '08:00:00'
@@ -121,7 +115,7 @@
     service: input_boolean.turn_on
   - data:
       message: Presence main bedroom deactivation override (keep activated)
-    service: notify.allnotify
+    service: python_script.notification
   alias: Presence main bedroom deactivation
   condition:
   - condition: state

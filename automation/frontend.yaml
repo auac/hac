@@ -28,7 +28,7 @@
 ###################################################
 ###################################################
 
-- alias: 'Backend/Development tab view'
+- alias: 'Backend/Development tab view hide'
   trigger:
   - platform: state
     entity_id: input_boolean.backend_view

@@ -19,7 +19,7 @@
       camera1_motion:
         value_template: >
           {% if states.sensor.camera1_http.state %}
-            {% if states.sensor.camera1_http.state != "0" or states.sensor.camera1_http.state != "" %}
+            {% if states.sensor.camera1_http.state == "True" %}
               TRUE
             {% else %}
               FALSE
@@ -31,7 +31,7 @@
       camera2_motion:
         value_template: >
           {% if states.sensor.camera2_http.state %}
-            {% if states.sensor.camera2_http.state != "0" or states.sensor.camera2_http.state != "" %}
+            {% if states.sensor.camera2_http.state == "True" %}
               TRUE
             {% else %}
               FALSE
@@ -43,7 +43,7 @@
       camera3_motion:
         value_template: >
           {% if states.sensor.camera3_http.state %}
-            {% if states.sensor.camera3_http.state != "0" or states.sensor.camera3_http.state != "" %}
+            {% if states.sensor.camera3_http.state == "True" %}
               TRUE
             {% else %}
               FALSE
@@ -52,11 +52,10 @@
             FALSE  
           {% endif %} 
 
-
       camera4_motion:
         value_template: >
           {% if states.sensor.camera4_http.state %}
-            {% if states.sensor.camera4_http.state != "0" or states.sensor.camera4_http.state != "" %}
+            {% if states.sensor.camera4_http.state == "True" %}
               TRUE
             {% else %}
               FALSE
@@ -68,7 +67,7 @@
       camera5_motion:
         value_template: >
           {% if states.sensor.camera5_http.state %}
-            {% if states.sensor.camera5_http.state != "0" or states.sensor.camera5_http.state != "" %}
+            {% if states.sensor.camera5_http.state == "True" %}
               TRUE
             {% else %}
               FALSE

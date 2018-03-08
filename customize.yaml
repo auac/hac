@@ -112,8 +112,13 @@ sensor.frontend_login_fail:
   icon: mdi:security-network
 sensor.SSH_login_failed:
   icon: mdi:security-network
+  friendly_name: Failed login SSH
 sensor.SSH_login_accepted:
   icon: mdi:security-network
+  friendly_name: Accepted logins SSH
+sensor.badlogin:
+  icon: mdi:home-assistant
+  friendly_name: Failed logins HA
 sensor.ha_uptime:
   icon: mdi:timelapse
   homebridge_hidden: true
@@ -123,6 +128,12 @@ sensor.ha_uptime_sec:
   hidden: true
 sensor.ha_date_uptime:
   icon: mdi:timelapse
+  homebridge_hidden: true
+sensor.connected_clients:
+  icon: mdi:desktop-classic
+  homebridge_hidden: true
+sensor.hass_db_size:
+  icon: mdi:database-plus
   homebridge_hidden: true
 ########################################
 ## Binary sensors
@@ -202,7 +213,7 @@ switch.marantz_switch:
 switch.switch1_switch:
   friendly_name: Dehumidifier
   icon: mdi:radiator
-switch.ac:
+switch.ac_switch:
   friendly_name: Main Bedroom AC
   icon: mdi:air-conditioner
 ########################################  

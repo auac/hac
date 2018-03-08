@@ -15,6 +15,10 @@ Default_view:
     - group.all_media_players
     - group.all_climate
     - group.entry_points
+    - group.all_devices
+    - camera.location_aa
+    - camera.location_pt
+    
     
 Rooms:
   view: yes
@@ -77,6 +81,7 @@ Presence:
     - binary_sensor.multisensor2_sensor
     - binary_sensor.camera5_motion
     - device_tracker.aa_iphone
+    - device_tracker.pt_iphone
     - input_boolean.presence_a
     - input_boolean.presence_p
     - input_boolean.presence_general
@@ -135,6 +140,7 @@ Network_summary:
     - binary_sensor.ftp_server
     - binary_sensor.homebridge_server
     - sensor.frontend_login_fail
+    - sensor.badlogin
 
 
 Network:
@@ -150,7 +156,10 @@ Network:
     - binary_sensor.homebridge_server
     - sensor.SSH_login_failed
     - sensor.SSH_login_accepted 
-    - sensor.frontend_login_fail  
+    - sensor.frontend_login_fail
+    - sensor.badlogin
+    - sensor.connected_clients
+    - sensor.hass_db_size
     
 Weather:
     - sun.sun
@@ -240,6 +249,7 @@ all_input_boolean:
     - input_boolean.presence_p
     - input_boolean.presence_general
     - input_boolean.presence_mainbedroom
+    - input_boolean.backend_view
     
 all_zwave:
     - zwave.aeotec_zw90_usb
@@ -252,4 +262,10 @@ all_zwave:
 all_climate:
     - climate.master_bedroom
 
+alfred:
+    - device_tracker.aa_iphone
+    
+
+polly:
+    - device_tracker.pt_iphone
     

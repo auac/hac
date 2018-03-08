@@ -45,19 +45,26 @@
     command: !secret sensor_SSH_login_accepted
     
   - platform: command_line
-    name: camera1_http
-    command: !secret sensor_camera1_http
-    scan_interval: 30  
+    command: !secret sensor_badlogin
+    name: badlogin    
 
-  - platform: command_line
+  - platform: rest
+    name: camera1_http
+    resource: !secret sensor_camera1_rest
+    scan_interval: 60 
+    value_template: '{{ value_json.motion }}'
+
+  - platform: rest
     name: camera2_http
-    command: !secret sensor_camera2_http
-    scan_interval: 30  
+    resource: !secret sensor_camera2_rest
+    scan_interval: 60
+    value_template: '{{ value_json.motion }}'
     
-  - platform: command_line
+  - platform: rest
     name: camera3_http
-    command: !secret sensor_camera3_http
-    scan_interval: 30  
+    resource: !secret sensor_camera3_rest
+    scan_interval: 60
+    value_template: '{{ value_json.motion }}'
 
 #    
 #  - platform: command_line
@@ -95,4 +102,4 @@
       - wind_speed  
       - uv_index    
     update_interval:
-      minutes: 3
+      minutes: 5

@@ -1,0 +1,49 @@
+notification_engine:
+  alias: Determine the notifications to send
+  sequence:
+  - service: script.notification_processing
+    data_template:
+      msg: '{{ message }}'
+      channel: 'notification'
+  - condition: template
+    value_template: >-
+      {% if notification_level | length != 0 %}
+        True
+      {% else %}
+        False
+      {% endif -%}          
+  - service: script.notification_processing
+    data_template:
+      msg: '{{ msg }}'
+      channel: >-
+        {% set level = (notification_level |int) %}
+        {% if level == 1 %}
+          network
+        {% elif level == 2 %}
+          warning
+        {% else %}
+          #general
+        {% endif -%}
+            
+notification_testing:
+  alias: Process further notifications to allnotify
+  sequence:
+  - service: notify.allnotify
+    data_template:
+      message: '{{ msg }} : {{ channel }}.'
+
+notification_processing:
+  alias: Process further notifications to other channels
+  sequence:
+  - service: notify.slack
+    data_template:
+      message: ""
+      target: '{{channel}}'
+      data:
+        attachments:
+        - color: >
+              #36a64f
+          title: '{{ msg }}.'
+          text: >
+            Time: {{now().strftime("%c")}}
+

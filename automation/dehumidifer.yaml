@@ -12,7 +12,7 @@
     service: switch.turn_on
   - data:
       message: Dehumidifier switch on
-    service: notify.allnotify
+    service: python_script.notification
   alias: Dehumidifier on
   condition:
   - condition: state
@@ -38,7 +38,7 @@
     service: switch.turn_off
   - data:
       message: Dehumidifier switch off
-    service: notify.allnotify
+    service: python_script.notification
   alias: Dehumidifier off
   condition:
   - condition: state

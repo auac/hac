@@ -63,9 +63,7 @@ history:
 logbook:
 
 logger: !include logger.yaml
-recorder:
-  purge_interval: 10
-  purge_keep_days: 10
+recorder: !include recorder.yaml  
 
 
 # Track the sun
@@ -100,12 +98,17 @@ notify:
     platform: group
     services:
         - service: ios_aa_iphone
+        
+  - name: slack
+    platform: slack
+    api_key: !secret slack_api_key
+    default_channel: '#notification'
 
   - name: allnotify
     platform: group
     services:
-        - service: telegram 
-        - service: iosnotify
+        - service: telegram
+    
 
 apple_tv:
   - host: !secret apple_tv_host
@@ -140,6 +143,8 @@ media_player:
     name: atv3
     start_off: true
 
+python_script:
+
 zwave:
   usb_path: !secret zwave_usb_path
   network_key: !secret zwave_network_key
@@ -156,3 +161,4 @@ script: !include_dir_merge_named script
 input_boolean: !include_dir_merge_named input_boolean
 input_text: !include_dir_merge_named input_text
 shell_command: !include_dir_merge_named shell_command
+camera: !include_dir_merge_list camera

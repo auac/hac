@@ -5,7 +5,7 @@
   - data_template:
       message: '{{trigger.to_state.attributes.friendly_name|replace("Presence ","")|capitalize()}}
         {% if trigger.to_state.state == "on" %}arrived{% else %}left{% endif %} home.'
-    service: notify.allnotify
+    service: python_script.notification
   alias: Notify when occupants leave / arrive
   condition: []
   id: '1507005333954'
@@ -31,7 +31,7 @@
 - action:
   - data_template:
       message: Burgular alert {{trigger.to_state.attributes.friendly_name}}.
-    service: notify.allnotify
+    service: python_script.notification
   alias: Burglar notification on sensors
   condition: []
   id: '1508345825260'
@@ -60,7 +60,7 @@
     service: switch.turn_on
   - data:
       message: Internet link was down. Reactivation attempted.
-    service: notify.allnotify
+    service: python_script.notification
   alias: Internet down detected
   condition: []
   id: '1512399730194'
@@ -75,8 +75,8 @@
 #### logon to HA notification
 - action:
   - data_template:
-      message: '{{ trigger.to_state.state }}'
-    service: notify.allnotify
+      message: '{{ trigger.to_state.attributes.message }}'
+    service: python_script.notification
   alias: Notify of Front-end logon attempt
   condition: []
   id: '1512401386010'
@@ -84,13 +84,27 @@
   - entity_id: sensor.frontend_login_fail
     from: 'Off'
     platform: state
+
+- action:
+  - data_template:
+      message: 'Notify login FAILED to HASS. Count is: {{ trigger.to_state.state }}.'
+    service: python_script.notification
+  alias: Notify of Bad logins to frontend
+  condition: 
+  - condition: numeric_state
+    above: '0'
+    entity_id: sensor.badlogin
+  id: '1512401386999'
+  trigger:
+  - entity_id: sensor.badlogin
+    platform: state
 ###################################################
 ####
 #### logon to MAC checking ACCEPTED
 - action:
   - data_template:
       message: "Notify login ACCEPTED. Count is: {{trigger.to_state.state}}."
-    service: notify.allnotify
+    service: python_script.notification
   alias: Notify Login to Mac accepted
   condition:
   - condition: numeric_state
@@ -107,7 +121,7 @@
 - action:
   - data_template:
       message: 'Notify login FAILED. Count is: {{trigger.to_state.state}}.'
-    service: notify.allnotify
+    service: python_script.notification
   alias: Notify Login to Mac failed
   condition:
   - condition: numeric_state
@@ -146,7 +160,7 @@
         {%- else -%}
           {{trigger.to_state.attributes.friendly_name}} is on.
         {%- endif -%}
-    service: notify.allnotify
+    service: python_script.notification
   alias: Binary sensor notify on
   condition: []
   id: '1517815434292'
@@ -203,7 +217,7 @@
         {%- else -%}
           {{trigger.to_state.attributes.friendly_name}} is off.
         {%- endif -%}
-    service: notify.allnotify
+    service: python_script.notification
   alias: Binary sensor notify off
   condition: []
   id: '1517925434303'
@@ -249,7 +263,7 @@
     service: input_boolean.turn_on
   - data:
       message: HA boolean triggered
-    service: notify.allnotify
+    service: python_script.notification
   alias: HA uptime timer
   condition: []
   id: '1517933230137'

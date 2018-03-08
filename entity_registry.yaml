@@ -187,3 +187,9 @@ sensor.door_access_control:
 sensor.door_burglar:
   platform: zwave
   unique_id: 10-72057594211745953
+sensor.pollys_iphone_battery_state:
+  platform: ios
+  unique_id: state_pt_iphone
+sensor.pollys_iphone_battery_level:
+  platform: ios
+  unique_id: level_pt_iphone
