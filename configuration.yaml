@@ -118,6 +118,10 @@ apple_tv:
     
 ios: 
 
+zeroconf:
+
+device_tracker:
+
 climate:
   - platform: !secret climate_platform
     api_key: !secret climate_api_key1
