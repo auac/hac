@@ -48,7 +48,7 @@ Development:
   view: yes
   entities:
     - group.git_update
-    - group.travisci
+#    - group.travisci
   
 GIT_Update:
     - group.development
@@ -59,14 +59,15 @@ GIT_Update:
     - script.new_commits
     - script.update_new_config
     - script.restart_ha
-    
-TravisCI: 
-    - sensor.auachac_state
-    - sensor.auachac_last_build_state
-    - sensor.auachac_last_build_started_at
-    - sensor.auachac_last_build_id
-    - sensor.auachac_last_build_finished_at
-    - sensor.auachac_last_build_duration
+
+#    
+#TravisCI: 
+#    - sensor.auachac_state
+#    - sensor.auachac_last_build_state
+#    - sensor.auachac_last_build_started_at
+#    - sensor.auachac_last_build_id
+#    - sensor.auachac_last_build_finished_at
+#    - sensor.auachac_last_build_duration
 
 
 Presence:
@@ -260,11 +261,4 @@ all_zwave:
 
 all_climate:
     - climate.master_bedroom
-
-alfred:
-    - device_tracker.aa_iphone
-    
-
-polly:
-    - device_tracker.pt_iphone
     

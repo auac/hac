@@ -1,4 +1,4 @@
-
-  - platform: travisci
-    api_key: !secret travisci
+#
+#  - platform: travisci
+#    api_key: !secret travisci
     
