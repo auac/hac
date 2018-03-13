@@ -61,7 +61,7 @@
     entity_id: sensor.multisensor2_temperature
     value_template: '{{ states.sensor.multisensor2_temperature.state | float }}'
   - condition: template
-    value_template: '{% if is_state("climate.master_bedroom", "on") %}True{%endif%}'
+    value_template: '{% if states.climate.master_bedroom.state != "off" %}True{% endif %}'
   id: '1627033837959'
   trigger:
   - below: '26.5'
@@ -86,7 +86,7 @@
   - condition: template
     value_template: '{% if states.binary_sensor.occupancy_mainbedroom.state == "off" or states.sensor.multisensor2_temperature.state | float < 25.0 %}True{% endif %}'
   - condition: template
-    value_template: '{% if is_state("climate.master_bedroom", "on") %}True{%endif%}'
+    value_template: '{% if states.climate.master_bedroom.state != "off" %}True{% endif %}'
   id: '157022837050'
   trigger:
   - below: '25.0'
