@@ -66,11 +66,13 @@
     scan_interval: 60
     value_template: '{{ value_json.motion }}'
 
-#    
-#  - platform: command_line
-#    name: camera4_http
-#    command: !secret sensor_camera4_http
-#    scan_interval: 10   
+    
+  - platform: rest
+    name: camera4_http
+    resource: !secret sensor_camera4_rest
+    scan_interval: 60
+    value_template: '{{ value_json.motion }}'
+
 #
 #  - platform: command_line
 #    name: camera5_http
