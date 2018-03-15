@@ -1,0 +1,15 @@
+- platform: ffmpeg
+  input: !secret camera_living_room
+  name: living_room_camera
+  
+- platform: ffmpeg
+  input: !secret camera_dining_room
+  name: dining_room_camera
+  
+- platform: ffmpeg
+  input: !secret camera_at_room
+  name: at_room_camera
+  
+- platform: ffmpeg
+  input: !secret camera_al_room
+  name: al_room_camera

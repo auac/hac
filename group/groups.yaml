@@ -27,6 +27,14 @@ Rooms:
     - group.main_bedroom
     - group.at_room
     - group.al_room
+    
+Camera:
+  view: yes
+  entities:
+    - camera.living_room_camera
+    - camera.dining_room_camera
+    - camera.at_room_camera
+    - camera.al_room_camera
 
 
 Backend:

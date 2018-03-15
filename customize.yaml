@@ -276,6 +276,16 @@ input_boolean.ha_start:
   hidden: false
   homebridge_hidden: true 
 ########################################
+## Cameras
+camera.living_room_camera:
+  friendly_name: Living room camera
+camera.dining_room_camera:
+  friendly_name: Dining room camera
+camera.at_room_camera:
+  friendly_name: !secret binary_sensor_camera1_fn
+camera.al_room_camera:
+  friendly_name: !secret binary_sensor_camera3_fn
+########################################
 ## Groups
 group.all_switches:
   hidden: false
@@ -321,4 +331,5 @@ group.Entry_points:
   friendly_name: Entry points
 group.Network_summary:
   friendly_name: Network summary 
+
  

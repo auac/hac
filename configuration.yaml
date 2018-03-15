@@ -147,6 +147,9 @@ zwave:
   usb_path: !secret zwave_usb_path
   network_key: !secret zwave_network_key
 
+ffmpeg:
+  ffmpeg_bin: /usr/local/Cellar/ffmpeg/3.4/bin/ffmpeg
+
 zone: !include zones.yaml
 group: !include_dir_merge_named group
 #device_tracker: !include_dir_merge_list device_tracker
