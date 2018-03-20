@@ -2,8 +2,12 @@ language: python
 python:
   - "3.5.3"
 install:
-  - pip3 install homeassistant
+  - pip3 install homeassistant==0.63.3
 script:
   - hass -c $TRAVIS_BUILD_DIR --script check_config
 before_install:
   - mv travis_secrets.yaml secrets.yaml
+  - mv dummysh addsecret.sh
+  - mkdir $TRAVIS_BUILD_DIR/images
+  - ls $TRAVIS_BUILD_DIR
+  - bash $TRAVIS_BUILD_DIR/addsecret.sh

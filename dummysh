@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "whitelist_external_dirs1: ${TRAVIS_BUILD_DIR}/images" >> $TRAVIS_BUILD_DIR/secrets.yaml
+tail $TRAVIS_BUILD_DIR/secrets.yaml
