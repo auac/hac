@@ -43,8 +43,9 @@ if send_image == 1 :
 #        while not os.path.exists(filename):
         time.sleep(5)
 
-# Call service and send to target channel if specified
-if target != '#info' or target != '#warn' :
+# Call service and send to target channel if specified (only if the target is not info / warn specified later)
+if target != '#info' and target != '#warn' :
+#    title = title + ' call 1. Target: ' + target 
     if send_image == 1 :
         data = { "target" : target , "message" : title , "title" : text , "data" : { "file" : { "path" : filename } } }
     else :
@@ -54,6 +55,7 @@ if target != '#info' or target != '#warn' :
 # Call service and send to notification all the time
 if sending == 'on' :
     target = '#info'
+#    title = title + ' call 2. Target: ' + target
     if send_image == 1 :
         data = { "target" : target , "message" : title , "title" : text , "data" : { "file" : { "path" : filename } } }
     else :
@@ -68,6 +70,7 @@ if (
     or entity_id == 'binary_sensor.multisensor1_sensor' \
     or target == '#warn' :
     
+#    title = title + ' call 3. Target: ' + target
     target = '#warn'
     if send_image == 1 :
         data = { "target" : target , "message" : title , "title" : text , "data" : { "file" : { "path" : filename } } }
