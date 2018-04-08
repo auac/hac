@@ -61,10 +61,12 @@ if sending == 'on' :
     hass.services.call('notify', 'slack', data)
 
 # Call service and send to warning channel (or if aa not home):
-if (device_class == 'connectivity' or device_class == 'door' or device_class == 'window' or device_class == 'opening' or device_class == 'occupancy') 
-   or aa == 'off' 
-   or entity_id == 'binary_sensor.multisensor1_sensor' 
-   or target == '#warn' :
+if (
+    device_class == 'connectivity' or device_class == 'door' or device_class == 'window' or 
+    device_class == 'opening' or device_class == 'occupancy') \
+    or aa == 'off' \
+    or entity_id == 'binary_sensor.multisensor1_sensor' \
+    or target == '#warn' :
     
     target = '#warn'
     if send_image == 1 :
