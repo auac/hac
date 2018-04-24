@@ -15,7 +15,7 @@
       fan_mode: medium
     service: climate.set_fan_mode
   - data_template:
-      message: 'Aircon turn on - main bedroom. Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}'
+      message: 'Aircon turn on - main bedroom. Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}. Trigger entity: {{trigger.entity_id}}'
     service: python_script.notification
   alias: Aircon Main bedroom on
   condition:
@@ -51,7 +51,7 @@
       fan_mode: low
     service: climate.set_fan_mode
   - data_template:
-      message: 'Aircon turn to low - main bedroom. Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}'
+      message: 'Aircon turn to low - main bedroom. Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}. Trigger entity: {{trigger.entity_id}}'
     service: python_script.notification
   alias: Aircon Main bedroom low fan speed
   condition:
@@ -80,7 +80,7 @@
       entity_id: climate.master_bedroom
     service: climate.turn_off
   - data_template:
-      message: 'Aircon turn off - main bedroom Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}'
+      message: 'Aircon turn off - main bedroom Temp: {{states.sensor.multisensor2_temperature.state}}{{states.sensor.multisensor2_temperature.attributes.unit_of_measurement}}. Trigger entity: {{trigger.entity_id}}'
     service: python_script.notification
   alias: Aircon Main bedroom off
   condition:
