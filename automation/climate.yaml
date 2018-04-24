@@ -29,7 +29,7 @@
     value_template: >-
       {%- if states.automation.aircon_main_bedroom_on.attributes.last_triggered == None -%}
         True
-        {%- elif as_timestamp(now()) - as_timestamp(states.automation.aircon_main_bedroom_on.attributes.last_triggered) |int > 900 -%}
+        {%- elif as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.automation.aircon_main_bedroom_on.attributes.last_triggered) |int > 900 -%}
           True
       {%- endif %} 
   - condition: template
@@ -88,7 +88,7 @@
     value_template: >-
       {%- if states.binary_sensor.occupancy_mainbedroom.state == "off" -%}
         True
-      {%- elif states.sensor.multisensor2_temperature.state | float < 25.0 and as_timestamp(now()) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 1200 -%}
+      {%- elif states.sensor.multisensor2_temperature.state | float < 25.0 and as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 1200 -%}
         True
       {%- endif -%}
   - condition: template

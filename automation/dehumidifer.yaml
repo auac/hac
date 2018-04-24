@@ -24,6 +24,8 @@
   - condition: state
     entity_id: climate.master_bedroom
     state: 'off'
+  - condition: template
+    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 3600 %}True{% endif %}'
   id: '1516971664598'
   trigger:
   - above: '55'
@@ -34,7 +36,7 @@
     platform: time
 ###################################################
 ####
-#### Turn on dehumidifier if humidity < 50%      
+#### Turn off dehumidifier if humidity < 50%      
 - action:
   - data:
       entity_id: switch.switch1_switch
@@ -47,9 +49,8 @@
   - condition: state
     entity_id: switch.switch1_switch
     state: 'on'
-  - below: '50'
-    condition: numeric_state
-    entity_id: sensor.multisensor2_relative_humidity
+  - condition: template
+    value_template: '{% if states.climate.master_bedroom.state != "off" or states.sensor.multisensor2_relative_humidity.state | float < 50.0 %}True{% endif %}'
   id: '1516971775609'
   trigger:
   - below: '50'
@@ -58,3 +59,6 @@
   - minutes: /15
     seconds: 0
     platform: time
+  - platform: state
+    entity_id: climate.master_bedroom
+    from: 'off'
