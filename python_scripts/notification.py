@@ -65,7 +65,7 @@ if sending == 'on' :
 # Call service and send to warning channel (or if aa not home):
 if (
     device_class == 'connectivity' or device_class == 'door' or device_class == 'window' or 
-    device_class == 'opening' or device_class == 'occupancy') \
+    device_class == 'opening' or device_class == 'occupancy' or device_class == 'smoke') \
     or aa == 'off' \
     or entity_id == 'binary_sensor.multisensor1_sensor' \
     or target == '#warn' :

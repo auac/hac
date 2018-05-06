@@ -38,12 +38,16 @@
   condition: []
   id: '1508345825260'
   trigger:
-  - entity_id: sensor.main_door_sensor_burglar
+  - platform: state
+    entity_id: sensor.main_door_sensor_burglar, sensor.door_burglar
     from: '254'
-    platform: state
-  - entity_id: sensor.multisensor1_burglar,sensor.multisensor2_burglar
-    platform: state
+  - platform: state
+    entity_id: 
+      - sensor.multisensor1_burglar
+      - sensor.multisensor2_burglar
+      - sensor.smoke_burglar
     to: '3'
+
 ###################################################
 ####
 #### Network related
@@ -140,7 +144,7 @@
     platform: state
 ###################################################
 ####
-#### Automation of telegram notification of key sensors
+#### Automation of notification of key sensors
 ####
 ###################################################
 ###################################################
@@ -163,6 +167,8 @@
           Occupany detected in {{trigger.to_state.attributes.friendly_name}}.
         {%- elif trigger.to_state.attributes.device_class == "presence" -%}
           {{trigger.to_state.attributes.friendly_name}} is home.
+        {%- elif trigger.to_state.attributes.device_class == "smoke" -%}
+          Smoke detected in the home!
         {%- else -%}
           {{trigger.to_state.attributes.friendly_name}} is on.
         {%- endif -%}
@@ -197,6 +203,7 @@
     - binary_sensor.camera1_motion
     - binary_sensor.camera3_motion
     - binary_sensor.living_room_motion
+    - binary_sensor.smoke_sensor
     - light.gateway_light_f0b429b3ddc0
     - switch.tv_switch
     - switch.ac_switch

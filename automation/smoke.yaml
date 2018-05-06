@@ -1,0 +1,34 @@
+###################################################
+####
+#### Automation of smoke sensor
+####
+###################################################
+###################################################
+####
+- alias: Smoke sensor notifications
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.smoke_sensor
+    - sensor.smoke_alarm_level
+    - sensor.smoke_alarm_type
+    - sensor.smoke_burglar
+    - sensor.smoke_general
+    - sensor.smoke_heat
+    - sensor.smoke_heat_2
+    - sensor.smoke_power_management
+    - sensor.smoke_smoke
+    - sensor.smoke_smoke_2
+    - sensor.smoke_sourcenodeid
+    - sensor.smoke_system
+    - sensor.smoke_temperature
+  action:
+  - data_template:
+      message: >-
+        Entity ID: {{trigger.entity_id }}.
+        From: {{trigger.from_state.state }}.
+        To: {{trigger.to_state.state }}.
+      device_class: '{{ trigger.to_state.attributes.device_class }}'
+      entity_id: '{{ trigger.entity_id }}'
+      target: '#smoke'
+    service: python_script.notification

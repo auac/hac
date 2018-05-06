@@ -1,33 +1,27 @@
 remote.atv3:
   platform: apple_tv
-  unique_id: afb0d729e3d6cd87cf9909904615f3b6a44a4b11a3730bae0ea0e6ff68a87a35
-sensor.iphone_battery_state:
-  platform: ios
-  unique_id: state_iphone_3
-sensor.iphone_battery_level:
-  platform: ios
-  unique_id: level_alfreds _iphone
-sensor.iphone_battery_level_2:
-  platform: ios
-  unique_id: level_iphone_3
-sensor.iphone_battery_state_2:
-  platform: ios
-  unique_id: state_aa_iphone
-sensor.ipadaa_battery_level:
-  platform: ios
-  unique_id: level_aa ipad
-sensor.iphone_battery_state_3:
-  platform: ios
-  unique_id: state_alfreds _iphone
+  unique_id: 8cad54225e78f9a1991b3133cf13c3431c60dffc0856f4c4d810c60ee4a7dcf1
 sensor.ipadaa_battery_state:
   platform: ios
   unique_id: state_aa ipad
-sensor.iphone_battery_level_3:
+sensor.iphone_battery_level:
   platform: ios
   unique_id: level_aa_iphone
+sensor.iphone_battery_state:
+  platform: ios
+  unique_id: state_aa_iphone
+sensor.pollys_iphone_battery_level:
+  platform: ios
+  unique_id: level_pt_iphone
+sensor.pollys_iphone_battery_state:
+  platform: ios
+  unique_id: state_pt_iphone
+sensor.ipadaa_battery_level:
+  platform: ios
+  unique_id: level_aa ipad
 media_player.atv3:
   platform: apple_tv
-  unique_id: afb0d729e3d6cd87cf9909904615f3b6a44a4b11a3730bae0ea0e6ff68a87a35
+  unique_id: 8cad54225e78f9a1991b3133cf13c3431c60dffc0856f4c4d810c60ee4a7dcf1
 binary_sensor.multisensor1_sensor:
   platform: zwave
   unique_id: 4-72057594110017536
@@ -97,6 +91,9 @@ binary_sensor.multisensor2_sensor:
 sensor.multisensor2_temperature:
   platform: zwave
   unique_id: 5-72057594126811154
+sensor.multisensor2_general:
+  platform: zwave
+  unique_id: 5-72057594126811170
 sensor.multisensor2_luminance:
   platform: zwave
   unique_id: 5-72057594126811186
@@ -187,18 +184,42 @@ sensor.door_access_control:
 sensor.door_burglar:
   platform: zwave
   unique_id: 10-72057594211745953
-sensor.pollys_iphone_battery_state:
-  platform: ios
-  unique_id: state_pt_iphone
-sensor.pollys_iphone_battery_level:
-  platform: ios
-  unique_id: level_pt_iphone
-media_player.apple_tv:
-  platform: apple_tv
-  unique_id: 8cad54225e78f9a1991b3133cf13c3431c60dffc0856f4c4d810c60ee4a7dcf1
-remote.apple_tv:
-  platform: apple_tv
-  unique_id: 8cad54225e78f9a1991b3133cf13c3431c60dffc0856f4c4d810c60ee4a7dcf1
-sensor.multisensor2_general:
+binary_sensor.smoke_sensor:
   platform: zwave
-  unique_id: 5-72057594126811170
+  unique_id: 12-72057594244235264
+sensor.smoke_temperature:
+  platform: zwave
+  unique_id: 12-72057594244251666
+sensor.smoke_alarm_type:
+  platform: zwave
+  unique_id: 12-72057594245300225
+sensor.smoke_alarm_level:
+  platform: zwave
+  unique_id: 12-72057594245300241
+sensor.smoke_sourcenodeid:
+  platform: zwave
+  unique_id: 12-72057594245300257
+sensor.smoke_smoke:
+  platform: zwave
+  unique_id: 12-72057594245300289
+sensor.smoke_heat:
+  platform: zwave
+  unique_id: 12-72057594245300337
+sensor.smoke_burglar:
+  platform: zwave
+  unique_id: 12-72057594245300385
+sensor.smoke_power_management:
+  platform: zwave
+  unique_id: 12-72057594245300401
+sensor.smoke_system:
+  platform: zwave
+  unique_id: 12-72057594245300417
+sensor.smoke_general:
+  platform: zwave
+  unique_id: 12-72057594246004737
+sensor.smoke_smoke_2:
+  platform: zwave
+  unique_id: 12-72057594246004753
+sensor.smoke_heat_2:
+  platform: zwave
+  unique_id: 12-72057594246004801

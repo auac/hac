@@ -5,8 +5,9 @@ Default_view:
     - sun.sun
     - sensor.time
     - sensor.date
+    - group.alarm
     - group.presence
-    - group.door_window_sensor
+    - group.entry_points
     - group.weather
     - group.network_summary
     - group.all_lights
@@ -14,7 +15,6 @@ Default_view:
     - group.all_input_boolean
     - group.all_media_players
     - group.all_climate
-    - group.entry_points
     - group.all_devices
     - camera.location_aa
     - camera.location_pt
@@ -25,6 +25,7 @@ Rooms:
   entities:
     - group.living_room
     - group.main_bedroom
+    - group.kitchen
     - group.at_room
     - group.al_room
     
@@ -47,6 +48,7 @@ Backend:
     - group.main_door_sensative_sensor
     - group.new_door_sensative_sensor
     - group.main_bedroom_aeotec_switch
+    - group.kitchen_fibaro_smoke_sensor
     - group.all_zwave
     - group.all_remote
     - group.all_devices
@@ -77,6 +79,8 @@ GIT_Update:
 #    - sensor.auachac_last_build_finished_at
 #    - sensor.auachac_last_build_duration
 
+Alarm:
+    - binary_sensor.smoke_sensor
 
 Presence:
     - binary_sensor.occupancy_all
@@ -129,6 +133,10 @@ Living_room:
     - sensor.main_door_sensor_burglar
     - sensor.multisensor1_burglar   
 
+Kitchen:
+    - binary_sensor.smoke_sensor
+    - sensor.smoke_temperature
+    
 At_room:  
     - binary_sensor.camera1_motion
     
@@ -192,6 +200,7 @@ Weather:
     - weather.dark_sky
     - sensor.multisensor1_temperature
     - sensor.multisensor2_temperature
+    - sensor.smoke_temperature
     - sensor.multisensor1_relative_humidity
     - sensor.multisensor2_relative_humidity
 
@@ -245,6 +254,21 @@ Main_bedroom_Aeotec_Switch:
     - sensor.switch1_current
     - sensor.switch1_previous_reading_4
     
+Kitchen_Fibaro_Smoke_Sensor:
+    - binary_sensor.smoke_sensor
+    - sensor.smoke_alarm_level
+    - sensor.smoke_alarm_type
+    - sensor.smoke_burglar
+    - sensor.smoke_general
+    - sensor.smoke_heat
+    - sensor.smoke_heat_2
+    - sensor.smoke_power_management
+    - sensor.smoke_smoke
+    - sensor.smoke_smoke_2
+    - sensor.smoke_sourcenodeid
+    - sensor.smoke_system
+    - sensor.smoke_temperature
+    
 Media_players:
     - media_player.living_room_tv
     - media_player.marantz_sr6010
@@ -265,7 +289,9 @@ all_zwave:
     - zwave.main_door_sensor
     - zwave.multisensor1
     - zwave.multisensor2
+    - zwave.smoke
     - zwave.switch1
+
 
 all_climate:
     - climate.master_bedroom
