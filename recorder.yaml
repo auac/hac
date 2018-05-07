@@ -12,6 +12,8 @@
       - sensor
       - sun
       - switch
+    entities:
+      - alarm_control_panel.home_alarm
   exclude:
     entities:
       - sensor.auachac_last_build_duration

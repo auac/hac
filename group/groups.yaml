@@ -80,7 +80,9 @@ GIT_Update:
 #    - sensor.auachac_last_build_duration
 
 Alarm:
+    - alarm_control_panel.home_alarm
     - binary_sensor.smoke_sensor
+
 
 Presence:
     - binary_sensor.occupancy_all

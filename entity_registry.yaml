@@ -223,3 +223,6 @@ sensor.smoke_smoke_2:
 sensor.smoke_heat_2:
   platform: zwave
   unique_id: 12-72057594246004801
+sensor.smoke_luminance:
+  platform: zwave
+  unique_id: 12-72057594244251698

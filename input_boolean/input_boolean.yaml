@@ -12,11 +12,11 @@
     
     ha_start:
         initial: off
-        
-    alarm_arming:
-        name: Alarm arming
-        initial: off
 
-    alarm_trigger:
-        name: Alarm trigger
+    alarm_silence:
+        name: Alarm silence
+        initial: off
+        
+    alarm_home_triggered:
+        name: Alarm home triggered
         initial: off

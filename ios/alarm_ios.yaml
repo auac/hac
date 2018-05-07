@@ -1,0 +1,31 @@
+- name: Arming
+  identifier: 'arm_alarm'
+  actions:
+    - identifier: 'ARM_ALARM'
+      title: 'Arm Away'
+      activationMode: 'background'
+      authenticationRequired: no
+      destructive: yes
+      behavior: 'default'
+    - identifier: 'IGNORE'
+      title: 'Ignore'
+      activationMode: 'background'
+      authenticationRequired: no
+      destructive: no
+      behavior: 'default'
+
+- name: Disarming
+  identifier: 'disarm_alarm'
+  actions:
+    - identifier: 'DISARM_ALARM'
+      title: 'Disarm Alarm'
+      activationMode: 'background'
+      authenticationRequired: no
+      destructive: yes
+      behavior: 'default'
+    - identifier: 'IGNORE'
+      title: 'Ignore'
+      activationMode: 'background'
+      authenticationRequired: no
+      destructive: no
+      behavior: 'default'

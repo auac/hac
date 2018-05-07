@@ -5,98 +5,155 @@
 ###################################################
 ###################################################
 ####
-#### Play music when alarm has been triggered   
+#### Check if we should arm the alarm
 - action:
-  - data:
-      message: Alarm triggered!
-    service: notify.allnotify
-  - data:
-      gw_mac: !secret xiaomi_gw_mac
-      ringtone_id: 2
-      ringtone_vol: 20
-    service: xiaomi_aqara.play_ringtone
-  - delay: 00:00:20
-  - data:
-      message: Alarm triggered!
-    service: notify.allnotify
-  - data:
-      gw_mac: !secret xiaomi_gw_mac
-    service: xiaomi_aqara.stop_ringtone
-  - data:
-      gw_mac: !secret xiaomi_gw_mac
-      ringtone_id: 2
-      ringtone_vol: 99
-    service: xiaomi_aqara.play_ringtone    
-  - data:
-      message: Alarm triggered!
-    service: notify.allnotify
-  alias: Alarm triggered
-  condition:
-  - condition: state
-    entity_id: input_boolean.alarm_arming
-    state: 'on'
-  id: '1517951590016'
-  trigger:
-  - entity_id: input_boolean.alarm_trigger
-    platform: state
-    to: 'on'
-###################################################
-####
-#### Arm the alarm   
-- action:
-  - delay: 00:03:00
-  - service: notify.allnotify
+  - service: python_script.notification
     data:
-      message: Alarm is armed
-  alias: Alarm armed notification
-  condition: []
-  id: '1517952085649'
+      message: Checking if we should arm the home alarm
+      target: '#warn'
+  - service: notify.ios_aa_iphone
+    data:
+      title: Home alarm
+      message: Arm the home alarm?
+      data: 
+        push:
+          badge: 0
+          category: 'arm_alarm'
+  alias: Check if we should arm the alarm
   trigger:
-  - entity_id: input_boolean.alarm_arming
+  - entity_id: input_boolean.presence_a
     platform: state
-    to: 'on'
+    to: 'off'
+    for:
+      minutes: 1
 ###################################################
 ####
-#### Disarm the Alarm notification 
+#### Arm the Alarm
 ####
-- action:
-  - data:
-      gw_mac: !secret xiaomi_gw_mac
-    service: xiaomi_aqara.stop_ringtone
-  
-  - data:
-      entity_id: input_boolean.alarm_trigger
-    service: input_boolean.turn_off
-  - data:
-      message: Alarm has been disarmed
-    service: notify.allnotify
-  alias: Alarm disarmed notification
-  condition: []
-  id: '1517952085649'
+- alias: Arm alarm when A/P home
   trigger:
-  - entity_id: input_boolean.alarm_arming
-    platform: state
-    to: 'off'  
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: ARM_ALARM 
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    entity_id: alarm_control_panel.home_alarm 
+    data: 
+      code: '1234' 
+  - service: python_script.notification
+    data:
+      message: Alarm will be armed in 2 minutes  
+      target: '#warn'       
 ###################################################
 ####
-#### Trigger Alarm due to activity in the house after 3 minutes
+#### Disarm the Alarm notification if alarm triggered
+####
+- alias: Disarm alarm when A/P home
+  trigger:
+  - platform: state
+    entity_id: input_boolean.presence_a, input_boolean.presence_p   
+    to: 'on' 
+    for:
+      minutes: 3
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: DISARM_ALARM
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    entity_id: alarm_control_panel.home_alarm 
+    data: 
+      code: '1234'
+###################################################
+####
+#### Once alarm disarmed, silence alarm
+####
+- alias: Silence alarm if disarmed manually
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: 'disarmed' 
+  action:
+  - service: input_boolean.turn_on   
+    data:
+      entity_id: input_boolean.alarm_silence
+  - service: xiaomi_aqara.stop_ringtone
+    data:
+      gw_mac: !secret xiaomi_gw_mac  
+  - service: python_script.notification
+    data:
+      message: Alarm has been disarmed  
+      target: '#warn' 
+###################################################
+####
+#### If alarm armed manually, enable siren sound if alarm triggered
+####
+- alias: Enable siren sound if alarm armed manually
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: 'armed_away' 
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: 'armed_home' 
+  action:
+  - service: input_boolean.turn_off   
+    data:
+      entity_id: input_boolean.alarm_silence
+  - service: python_script.notification
+    data_template:
+      message: 'Alarm has been armed: {{trigger.to_state.state}}.'
+      target: '#warn' 
+###################################################
+####
+#### Trigger Alarm due to activity while armed away
 - action:
-  - data:
-      message: Alarm will be triggered in 3 minutes
-    service: notify.allnotify 
-  - delay: 00:03:00
-  - data:
-      entity_id: input_boolean.alarm_trigger
-    service: input_boolean.turn_off
-  - data:
-      entity_id: input_boolean.alarm_trigger
-    service: input_boolean.turn_on
-  alias: Alarm activation
+  - service: alarm_control_panel.home_alarm
+    entity_id: alarm_control_panel.alarm_trigger
+    data: 
+      code: '1234'
+  - service: python_script.notification
+    data:
+      message: Alarm will be triggered in 2 minutes
+      target: '#warn'
+  - service: notify.ios_aa_iphone
+    data:
+      title: Home alarm
+      message: Alarm will be triggered in 2 minutes.
+      data: 
+        push:
+          badge: 0
+          category: 'disarm_alarm'
+  alias: Alarm trigger while armed away
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: alarm_control_panel.home_alarm
+      state: 'armed_away'
+    - condition: state
+      entity_id: alarm_control_panel.home_alarm
+      state: 'armed_home'
+  trigger:
+  - entity_id:
+    - binary_sensor.door_window_sensor_158d000105d011
+    - binary_sensor.door_window_sensor_158d000105e2a2
+    - binary_sensor.multisensor2_sensor
+    - input_boolean.armed_home_triggered
+    platform: state
+    to: 'on' 
+###################################################
+####
+#### Trigger Alarm for armed home 
+- action:
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.armed_home_triggered
+  alias: Alarm trigger while armed home
   condition:
   - condition: state
-    entity_id: input_boolean.alarm_arming
-    state: 'on'
-  id: '1511115434292'
+    entity_id: alarm_control_panel.home_alarm
+    state: 'armed_home'
   trigger:
   - entity_id:
     - binary_sensor.main_door_sensor_sensor
@@ -104,11 +161,80 @@
     - binary_sensor.door_window_sensor_158d000105d011
     - binary_sensor.door_window_sensor_158d000105e2a2
     - binary_sensor.multisensor1_sensor
-    - binary_sensor.camera2_motion
-    - binary_sensor.camera4_motion
     - binary_sensor.multisensor2_sensor
-    - binary_sensor.camera5_motion
-    - binary_sensor.camera1_motion
-    - binary_sensor.camera3_motion
     platform: state
     to: 'on'
+###################################################
+####
+#### Play music when alarm has been triggered   
+- action:
+  - condition: state
+    entity_id: input_boolean.alarm_silence
+    state: 'off'
+  - data:
+      message: ALARM! Alarm triggered (1)!
+      target: '#warn'
+    service: python_script.notification
+  - data:
+      gw_mac: !secret xiaomi_gw_mac
+      ringtone_id: 2
+      ringtone_vol: 20
+    service: xiaomi_aqara.play_ringtone
+  - delay: 00:00:20
+  - data:
+      gw_mac: !secret xiaomi_gw_mac
+    service: xiaomi_aqara.stop_ringtone
+  - condition: state
+    entity_id: input_boolean.alarm_silence
+    state: 'off'
+  - data:
+      message: ALARM! Alarm triggered (2)!
+      target: '#warn'
+    service: python_script.notification
+  - data:
+      gw_mac: !secret xiaomi_gw_mac
+      ringtone_id: 2
+      ringtone_vol: 99
+    service: xiaomi_aqara.play_ringtone
+  alias: Fire alarm siren
+  trigger:
+  - entity_id: alarm_control_panel.home_alarm
+    platform: state
+    to: 'triggered'
+###################################################
+####
+#### Change light based on alarm status
+- alias: Light change to reflect alarm status
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+  action:
+  - service: light.turn_on
+    entity_id: light.gateway_light_f0b429b3ddc0
+    data_template:  
+      color_name: >-
+        {%- if states.alarm_control_panel.home_alarm.state == "disarmed" -%}
+          white
+        {%- elif states.alarm_control_panel.home_alarm.state == "armed_away" -%}
+          green
+        {%- elif states.alarm_control_panel.home_alarm.state == "armed_home" -%}
+          blue
+        {%- elif states.alarm_control_panel.home_alarm.state == "armed_night" -%}
+          purple
+        {%- elif states.alarm_control_panel.home_alarm.state == "pending" -%}
+          orange
+        {%- elif states.alarm_control_panel.home_alarm.state == "triggered" -%}
+          red
+        {%- else -%}
+          pink
+        {%- endif -%}
+- alias: Light turn off after a period of time
+  trigger:
+  - platform: template
+    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.alarm_control_panel.home_alarm.last_changed) |int > 180 %}True{% endif %}'
+  action:
+  - service: light.turn_off
+    entity_id: light.gateway_light_f0b429b3ddc0
+ 
+
+    
