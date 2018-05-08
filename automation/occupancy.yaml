@@ -1,5 +1,33 @@
 ###################################################
 ####
+#### Presence checking A / P
+####
+###################################################
+###################################################
+####
+
+- action:
+  - service_template: >
+      'input_boolean.turn_{% if trigger.to_state.state == "home" %}on{% else %}off{% endif %}'
+    data_template:
+      entity_id: >-
+        {%- if trigger.entity_id == "device_tracker.aa_iphone" or trigger.entity_id == "device_tracker.aa_iphone_ping" or trigger.entity_id == "device_tracker.google_maps_109462251504037679148" -%}
+          input_boolean.presence_a
+        {%- else -%}
+          input_boolean.presence_p
+        {%- endif -%}
+  trigger:
+  - platform: state
+    entity_id: 
+    - device_tracker.aa_iphone
+    - device_tracker.aa_iphone_ping
+    - device_tracker.google_maps_109462251504037679148
+    - device_tracker.pt_iphone
+    - device_tracker.pt_iphone_ping
+    - device_tracker.google_maps_108800326647346833817
+
+###################################################
+####
 #### Presence checking General (other than A / P)
 ####
 ###################################################
@@ -25,14 +53,11 @@
     state: 'off'
   id: '1508252974818'
   trigger:
-  - entity_id: binary_sensor.multisensor1_sensor
-    platform: state
-    to: 'on'
-  - entity_id: binary_sensor.camera2_motion
-    platform: state
-    to: 'on'
-  - entity_id: binary_sensor.camera4_motion
-    platform: state
+  - platform: state
+    entity_id: 
+    - binary_sensor.multisensor1_sensor
+    - binary_sensor.camera2_motion
+    - binary_sensor.camera4_motion
     to: 'on'
 ###################################################
 ####
@@ -84,11 +109,10 @@
     state: 'off'
   id: '1508252974929'
   trigger:
-  - entity_id: binary_sensor.multisensor2_sensor
-    platform: state
-    to: 'on'
-  - entity_id: binary_sensor.camera5_motion
-    platform: state
+  - platform: state
+    entity_id: 
+    - binary_sensor.multisensor2_sensor
+    - binary_sensor.camera5_motion
     to: 'on'
 ###################################################
 ####

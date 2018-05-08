@@ -1,9 +1,9 @@
 - platform: generic
   name: location_aa
-  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.aa_iphone.attributes.latitude }},{{ states.device_tracker.aa_iphone.attributes.longitude }}&zoom=17&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:A%7C{{ states.device_tracker.aa_iphone.attributes.latitude }},{{ states.device_tracker.aa_iphone.attributes.longitude }}
+  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.google_maps_109462251504037679148.attributes.latitude }},{{ states.device_tracker.google_maps_109462251504037679148.attributes.longitude }}&zoom=17&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:A%7C{{ states.device_tracker.google_maps_109462251504037679148.attributes.latitude }},{{ states.device_tracker.google_maps_109462251504037679148.attributes.longitude }}
   limit_refetch_to_url_change: true
   
 - platform: generic  
   name: location_pt
-  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.pt_iphone.attributes.latitude }},{{ states.device_tracker.pt_iphone.attributes.longitude }}&zoom=17&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.device_tracker.pt_iphone.attributes.latitude }},{{ states.device_tracker.pt_iphone.attributes.longitude }}
+  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.google_maps_108800326647346833817.attributes.latitude }},{{ states.device_tracker.google_maps_108800326647346833817.attributes.longitude }}&zoom=17&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.device_tracker.google_maps_108800326647346833817.attributes.latitude }},{{ states.device_tracker.google_maps_108800326647346833817.attributes.longitude }}
   limit_refetch_to_url_change: true

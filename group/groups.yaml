@@ -95,8 +95,8 @@ Presence:
     - binary_sensor.camera4_motion
     - binary_sensor.multisensor2_sensor
     - binary_sensor.camera5_motion
-    - device_tracker.aa_iphone
-    - device_tracker.pt_iphone
+    - group.presence_a
+    - group.presence_p
     - input_boolean.presence_a
     - input_boolean.presence_p
     - input_boolean.presence_general
@@ -275,10 +275,20 @@ Media_players:
     - media_player.living_room_tv
     - media_player.marantz_sr6010
     - media_player.atv3
+    
+Presence_A:
+    - device_tracker.aa_iphone
+    - device_tracker.aa_iphone_ping
+    - device_tracker.google_maps_109462251504037679148
+
+Presence_P:
+    - device_tracker.pt_iphone
+    - device_tracker.pt_iphone_ping
+    - device_tracker.google_maps_108800326647346833817
 
 all_input_boolean:
-    - input_boolean.alarm_arming
-    - input_boolean.alarm_trigger
+    - input_boolean.alarm_home_triggered
+    - input_boolean.alarm_silence
     - input_boolean.ha_start
     - input_boolean.presence_a
     - input_boolean.presence_p

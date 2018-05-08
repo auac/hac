@@ -78,7 +78,7 @@
 
       living_room_motion:
         value_template: >
-          {% if is_state("binary_sensor.camera2_motion","on") or is_state("binary_sensor.multisensor1_sensor","on") %}
+          {% if is_state("binary_sensor.camera2_motion","on") or is_state("binary_sensor.camera4_motion","on") or is_state("binary_sensor.multisensor1_sensor","on") %}
             True
           {% else %}
             False

@@ -109,8 +109,8 @@
 ####
 #### Trigger Alarm due to activity while armed away
 - action:
-  - service: alarm_control_panel.home_alarm
-    entity_id: alarm_control_panel.alarm_trigger
+  - service: alarm_control_panel.alarm_trigger
+    entity_id: alarm_control_panel.home_alarm
     data: 
       code: '1234'
   - service: python_script.notification
@@ -180,7 +180,7 @@
       ringtone_id: 2
       ringtone_vol: 20
     service: xiaomi_aqara.play_ringtone
-  - delay: 00:00:20
+  - delay: 00:00:05
   - data:
       gw_mac: !secret xiaomi_gw_mac
     service: xiaomi_aqara.stop_ringtone

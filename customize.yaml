@@ -344,5 +344,9 @@ group.Entry_points:
   friendly_name: Entry points
 group.Network_summary:
   friendly_name: Network summary 
-
- 
+group.presence_a:
+  friendly_name: !secret presence_a_fn
+  icon: mdi:account
+group.presence_p:
+  friendly_name: !secret presence_p_fn 
+  icon: mdi:account

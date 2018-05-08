@@ -35,3 +35,4 @@ webostv.conf
 ip_bans*
 etc
 images
+*.google*

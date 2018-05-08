@@ -52,16 +52,6 @@ if target != '#info' and target != '#warn' :
         data = { "target" : target , "message" : msg , "data" : { "attachments" : [ { "color" : color , "title" : title , "text" : text } ] } }
     hass.services.call('notify', 'slack', data)
 
-# Call service and send to notification all the time
-if sending == 'on' :
-    target = '#info'
-#    title = title + ' call 2. Target: ' + target
-    if send_image == 1 :
-        data = { "target" : target , "message" : title , "title" : text , "data" : { "file" : { "path" : filename } } }
-    else :
-        data = { "target" : target , "message" : msg , "data" : { "attachments" : [ { "color" : color , "title" : title , "text" : text } ] } }
-    hass.services.call('notify', 'slack', data)
-
 # Call service and send to warning channel (or if aa not home):
 if (
     device_class == 'connectivity' or device_class == 'door' or device_class == 'window' or 
@@ -72,6 +62,16 @@ if (
     
 #    title = title + ' call 3. Target: ' + target
     target = '#warn'
+    if send_image == 1 :
+        data = { "target" : target , "message" : title , "title" : text , "data" : { "file" : { "path" : filename } } }
+    else :
+        data = { "target" : target , "message" : msg , "data" : { "attachments" : [ { "color" : color , "title" : title , "text" : text } ] } }
+    hass.services.call('notify', 'slack', data)
+    
+# Call service and send to notification all the time
+if sending == 'on' :
+    target = '#info'
+#    title = title + ' call 2. Target: ' + target
     if send_image == 1 :
         data = { "target" : target , "message" : title , "title" : text , "data" : { "file" : { "path" : filename } } }
     else :
