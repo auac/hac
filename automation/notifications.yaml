@@ -49,7 +49,6 @@
       - sensor.main_bedroom_window_burglar
       - sensor.main_bathroom_window_burglar
     to: '3'
-
 ###################################################
 ####
 #### Network related

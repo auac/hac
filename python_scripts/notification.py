@@ -77,4 +77,4 @@ if sending == 'on' :
     else :
         data = { "target" : target , "message" : msg , "data" : { "attachments" : [ { "color" : color , "title" : title , "text" : text } ] } }
     hass.services.call('notify', 'slack', data)
-    
+

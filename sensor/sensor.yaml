@@ -65,7 +65,6 @@
     resource: !secret sensor_camera3_rest
     scan_interval: 60
     value_template: '{{ value_json.motion }}'
-
     
   - platform: rest
     name: camera4_http

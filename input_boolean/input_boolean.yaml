@@ -20,3 +20,4 @@
     alarm_home_triggered:
         name: Alarm home triggered
         initial: off
+
