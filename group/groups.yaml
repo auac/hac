@@ -326,7 +326,6 @@ all_input_boolean:
     - input_boolean.presence_p
     - input_boolean.presence_general
     - input_boolean.presence_mainbedroom
-    - input_boolean.backend_view
     
 all_zwave:
     - zwave.aeotec_zw90_usb
