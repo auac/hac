@@ -39,13 +39,15 @@
   id: '1508345825260'
   trigger:
   - platform: state
-    entity_id: sensor.main_door_sensor_burglar, sensor.door_burglar
+    entity_id: sensor.main_drawer1_burglar, sensor.main_bedroom_door_burglar
     from: '254'
   - platform: state
     entity_id: 
       - sensor.multisensor1_burglar
       - sensor.multisensor2_burglar
       - sensor.smoke_burglar
+      - sensor.main_bedroom_window_burglar
+      - sensor.main_bathroom_window_burglar
     to: '3'
 
 ###################################################
@@ -189,8 +191,11 @@
     - binary_sensor.internet_link
     - binary_sensor.ftp_server
     - binary_sensor.homebridge_server
-    - binary_sensor.main_door_sensor_sensor
-    - binary_sensor.door_sensor
+    - binary_sensor.main_bedroom_door_sensor
+    - binary_sensor.main_bedroom_window_sensor
+    - binary_sensor.main_bathroom_window_sensor
+    - binary_sensor.main_door_sensor
+    - binary_sensor.main_drawer1_sensor
     - binary_sensor.door_window_sensor_158d000105d011
     - binary_sensor.door_window_sensor_158d000105e2a2
     - binary_sensor.occupancy_all
@@ -212,6 +217,8 @@
     platform: state
     from: 'off'
     to: 'on'
+    for:
+      seconds: 2
 ###################################################
 ####
 #### Notifications when trigger to OFF
@@ -249,9 +256,12 @@
     - binary_sensor.camera_5
     - binary_sensor.internet_link
     - binary_sensor.ftp_server
-    - binary_sensor.homebridge_server
-    - binary_sensor.main_door_sensor_sensor
-    - binary_sensor.door_sensor
+    - binary_sensor.homebridge_server    
+    - binary_sensor.main_bedroom_door_sensor
+    - binary_sensor.main_bedroom_window_sensor
+    - binary_sensor.main_bathroom_window_sensor
+    - binary_sensor.main_door_sensor
+    - binary_sensor.main_drawer1_sensor
     - binary_sensor.door_window_sensor_158d000105d011
     - binary_sensor.door_window_sensor_158d000105e2a2
     - binary_sensor.occupancy_all
@@ -265,6 +275,8 @@
     platform: state
     from: 'on'
     to: 'off'
+    for:
+      seconds: 2
 ###################################################
 ####
 #### Home assistant uptime input boolean calculation

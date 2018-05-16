@@ -21,15 +21,21 @@ sensor.multisensor1_burglar:
 sensor.multisensor2_burglar:
   icon: mdi:home-alert
   friendly_name: Main Bedroom Burglar alert
-sensor.main_door_sensor_burglar:
+sensor.main_bedroom_window_burglar:
   icon: mdi:home-alert
-  friendly_name: Front Door Burglar alert
+  friendly_name: Main bedroom window Burglar alert
+sensor.main_drawer1_burglar:
+  icon: mdi:home-alert
+  friendly_name: Drawer1 Burglar alert
+sensor.main_bedroom_door_burglar:
+  icon: mdi:home-alert
+  friendly_name: Main bedroom door Burglar alert
+sensor.main_bathroom_window_burglar:
+  icon: mdi:home-alert
+  friendly_name: Main bathroom window Burglar alert
 sensor.smoke_burglar:
   icon: mdi:home-alert
   friendly_name: Smoke Sensor Burglar alert
-sensor.door_burglar:
-  icon: mdi:home-alert
-  friendly_name: Sensative Door Burglar alert
 ########################################  
 ## Mediaplayer
 media_player.living_room_tv:
@@ -179,26 +185,27 @@ binary_sensor.multisensor2_sensor:
 ########################################
 ########################################  
 # Door and window
-binary_sensor.door_window_sensor_158d000105d011:
-  friendly_name: Main Bathroom Window
-  device_class: opening
-  homebridge_opening_type: window
-  icon: mdi:window-closed
 binary_sensor.door_window_sensor_158d000105e2a2:
-  friendly_name: Main Bedroom Door
+  friendly_name: !secret customize_binary_sensor_al_fn
+  device_class: door
+binary_sensor.door_window_sensor_158d000105d011:
+  friendly_name: !secret customize_binary_sensor_at_fn
+  device_class: door
+binary_sensor.main_door_sensor:
+  device_class: door
+  friendly_name: Main door
+binary_sensor.main_bedroom_door_sensor:
+  device_class: door
+  friendly_name: Main bedroom door
+binary_sensor.main_bedroom_window_sensor:
+  device_class: window
+  friendly_name: Main bedroom window
+binary_sensor.main_bathroom_window_sensor:
+  device_class: window
+  friendly_name: Main bathroom window
+binary_sensor.main_drawer1_sensor:
   device_class: opening
-  homebridge_opening_type: door
-  icon: mdi:door
-binary_sensor.main_door_sensor_sensor:
-  device_class: opening
-  friendly_name: Front door
-  homebridge_opening_type: door
-  icon: mdi:door
-binary_sensor.door_sensor:
-  device_class: opening
-  friendly_name: Sensative Door
-  homebridge_opening_type: door
-  icon: mdi:door
+  friendly_name: Main drawer 1
 ########################################  
 # Occupancy
 binary_sensor.occupancy_all:
@@ -342,6 +349,8 @@ group.al_room:
   friendly_name: !secret group_al_room_fn
 group.Entry_points:
   friendly_name: Entry points
+group.drawers:
+  friendly_name: Drawers
 group.Network_summary:
   friendly_name: Network summary 
 group.presence_a:

@@ -11,6 +11,7 @@
     entity_id: input_boolean.backend_view
     to: 'on'
   condition: []
+  initial_state: 'off'
   action:
   - service: group.set_visibility
     entity_id: group.development
@@ -34,6 +35,7 @@
     entity_id: input_boolean.backend_view
     to: 'off'
   condition: []
+  initial_state: 'off'
   action:
   - service: group.set_visibility
     entity_id: group.development

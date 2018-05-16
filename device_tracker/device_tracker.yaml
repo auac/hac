@@ -2,6 +2,7 @@
   hosts:
     aa_iphone_ping: !secret aa_iphone_ping
     pt_iphone_ping: !secret pt_iphone_ping
+  consider_home: 600
 
 - platform: google_maps
   username: !secret device_tracker_google_maps_user

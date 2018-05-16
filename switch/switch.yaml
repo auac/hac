@@ -11,7 +11,7 @@
           entity_id: media_player.living_room_tv
       ac_switch:
         friendly_name: Main bedroom AC
-        value_template: "{% if states.climate.master_bedroom.state == 'off' %}False{% else %}True{% endif %}"
+        value_template: "{% if states.climate.master_bedroom.state == 'off' or states.climate.master_bedroom.state == 'unknown' or states.climate.master_bedroom.state == 'unassigned' %}False{% else %}True{% endif %}"
         turn_on:
           service: climate.turn_on
           entity_id: climate.master_bedroom

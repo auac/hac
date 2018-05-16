@@ -18,6 +18,9 @@
       - group.presence_p
   exclude:
     entities:
+      - input_boolean.alarm_home_triggered
+      - input_boolean.alarm_silence
+      - input_text.text1
       - sensor.auachac_last_build_duration
       - sensor.auachac_last_build_finished_at
       - sensor.auachac_last_build_id
@@ -43,10 +46,24 @@
       - sensor.iphone_battery_state
       - sensor.iphone_battery_state_2
       - sensor.iphone_battery_state_3
-      - sensor.main_door_sensor_access_control
-      - sensor.main_door_sensor_alarm_level
-      - sensor.main_door_sensor_alarm_type
-      - sensor.main_door_sensor_sourcenodeid
+      - sensor.main_bathroom_window_access_control
+      - sensor.main_bathroom_window_alarm_level
+      - sensor.main_bathroom_window_alarm_type
+      - sensor.main_bathroom_window_general
+      - sensor.main_bathroom_window_sourcenodeid
+      - sensor.main_bedroom_door_access_control
+      - sensor.main_bedroom_door_alarm_level
+      - sensor.main_bedroom_door_alarm_type
+      - sensor.main_bedroom_door_sourcenodeid
+      - sensor.main_bedroom_window_access_control
+      - sensor.main_bedroom_window_alarm_level
+      - sensor.main_bedroom_window_alarm_type
+      - sensor.main_bedroom_window_general
+      - sensor.main_bedroom_window_sourcenodeid
+      - sensor.main_drawer1_access_control
+      - sensor.main_drawer1_alarm_level
+      - sensor.main_drawer1_alarm_type
+      - sensor.main_drawer1_sourcenodeid
       - sensor.multisensor1_alarm_level
       - sensor.multisensor1_alarm_type
       - sensor.multisensor1_angle_position
@@ -69,6 +86,13 @@
       - sensor.multisensor2_seismic_magnitude
       - sensor.multisensor2_sourcenodeid
       - sensor.multisensor2_ultraviolet
+      - sensor.pollys_iphone_battery_level
+      - sensor.pollys_iphone_battery_state
+      - sensor.smoke_alarm_level
+      - sensor.smoke_alarm_type
+      - sensor.smoke_general
+      - sensor.smoke_sourcenodeid
+      - sensor.smoke_system
       - sensor.switch1_previous_reading
       - sensor.switch1_previous_reading_2
       - sensor.switch1_previous_reading_3

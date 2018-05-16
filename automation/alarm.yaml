@@ -137,9 +137,11 @@
       state: 'armed_home'
   trigger:
   - entity_id:
-    - binary_sensor.door_window_sensor_158d000105d011
-    - binary_sensor.door_window_sensor_158d000105e2a2
+    - binary_sensor.main_bedroom_door_sensor
+    - binary_sensor.main_bedroom_window_sensor
+    - binary_sensor.main_bathroom_window_sensor
     - binary_sensor.multisensor2_sensor
+    - binary_sensor.camera5_motion
     - input_boolean.armed_home_triggered
     platform: state
     to: 'on' 
@@ -156,12 +158,8 @@
     state: 'armed_home'
   trigger:
   - entity_id:
-    - binary_sensor.main_door_sensor_sensor
-    - binary_sensor.door_sensor
-    - binary_sensor.door_window_sensor_158d000105d011
-    - binary_sensor.door_window_sensor_158d000105e2a2
+    - binary_sensor.main_door_sensor
     - binary_sensor.multisensor1_sensor
-    - binary_sensor.multisensor2_sensor
     platform: state
     to: 'on'
 ###################################################

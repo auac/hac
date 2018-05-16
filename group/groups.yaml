@@ -8,6 +8,7 @@ Default_view:
     - group.alarm
     - group.presence
     - group.entry_points
+    - group.drawers
     - group.weather
     - group.network_summary
     - group.all_lights
@@ -45,8 +46,10 @@ Backend:
     - group.network
     - group.main_bedroom_aeotec_sensor
     - group.living_room_aeotec_sensor
-    - group.main_door_sensative_sensor
-    - group.new_door_sensative_sensor
+    - group.main_drawer1_sensative_sensor
+    - group.main_bedroom_door_sensative_sensor
+    - group.main_bedroom_window_fibaro_sensor
+    - group.main_bathroom_window_fibaro_sensor
     - group.main_bedroom_aeotec_switch
     - group.kitchen_fibaro_smoke_sensor
     - group.all_zwave
@@ -105,9 +108,10 @@ Presence:
     
 Main_bedroom:
     - binary_sensor.occupancy_mainbedroom
-    - binary_sensor.door_window_sensor_158d000105d011
-    - binary_sensor.door_window_sensor_158d000105e2a2
-    - binary_sensor.door_sensor
+    - binary_sensor.main_bedroom_door_sensor
+    - binary_sensor.main_bedroom_window_sensor
+    - binary_sensor.main_bathroom_window_sensor
+    - binary_sensor.main_drawer1_sensor
     - sensor.multisensor2_temperature
     - climate.master_bedroom
     - switch.ac_switch 
@@ -120,10 +124,14 @@ Main_bedroom:
     - binary_sensor.camera5_motion
     - input_boolean.presence_mainbedroom
     - sensor.multisensor2_burglar 
+    - sensor.main_bedroom_door_burglar
+    - sensor.main_bedroom_window_burglar
+    - sensor.main_bathroom_window_burglar
+    - sensor.main_drawer1_burglar
     
 Living_room:
     - binary_sensor.living_room_motion
-    - binary_sensor.main_door_sensor_sensor
+    - binary_sensor.main_door_sensor
     - sensor.multisensor1_temperature
     - sensor.multisensor1_relative_humidity
     - sensor.multisensor1_luminance  
@@ -132,25 +140,31 @@ Living_room:
     - binary_sensor.multisensor1_sensor
     - binary_sensor.camera2_motion
     - binary_sensor.camera4_motion
-    - sensor.main_door_sensor_burglar
     - sensor.multisensor1_burglar   
 
 Kitchen:
     - binary_sensor.smoke_sensor
     - sensor.smoke_temperature
+    - sensor.smoke_burglar
     
 At_room:  
     - binary_sensor.camera1_motion
-    
+    - binary_sensor.door_window_sensor_158d000105d011
+       
 Al_room:
     - binary_sensor.camera3_motion
+    - binary_sensor.door_window_sensor_158d000105e2a2 
     
 Entry_points:
-    - binary_sensor.main_door_sensor_sensor
-    - binary_sensor.door_sensor
+    - binary_sensor.main_door_sensor
+    - binary_sensor.main_bedroom_door_sensor
+    - binary_sensor.main_bedroom_window_sensor
+    - binary_sensor.main_bathroom_window_sensor    
     - binary_sensor.door_window_sensor_158d000105d011
     - binary_sensor.door_window_sensor_158d000105e2a2
-
+    
+Drawers:
+    - binary_sensor.main_drawer1_sensor
 
 Network_summary:
     - sensor.ha_uptime
@@ -229,22 +243,40 @@ Living_room_Aeotec_Sensor:
     - sensor.multisensor1_temperature
     - sensor.multisensor1_ultraviolet
     
-Main_door_Sensative_Sensor:
-    - binary_sensor.main_door_sensor_sensor
-    - sensor.main_door_sensor_access_control
-    - sensor.main_door_sensor_alarm_level
-    - sensor.main_door_sensor_alarm_type
-    - sensor.main_door_sensor_burglar
-    - sensor.main_door_sensor_sourcenodeid
+Main_drawer1_Sensative_Sensor:
+    - binary_sensor.main_drawer1_sensor
+    - sensor.main_drawer1_access_control
+    - sensor.main_drawer1_alarm_level
+    - sensor.main_drawer1_alarm_type
+    - sensor.main_drawer1_burglar
+    - sensor.main_drawer1_sourcenodeid
     
-New_door_Sensative_Sensor:
-    - binary_sensor.door_sensor
-    - sensor.door_access_control
-    - sensor.door_alarm_level
-    - sensor.door_alarm_type
-    - sensor.door_burglar
-    - sensor.door_sourcenodeid
+Main_bedroom_door_Sensative_sensor:
+    - binary_sensor.main_bedroom_door_sensor
+    - sensor.main_bedroom_door_access_control
+    - sensor.main_bedroom_door_alarm_level
+    - sensor.main_bedroom_door_alarm_type
+    - sensor.main_bedroom_door_burglar
+    - sensor.main_bedroom_door_sourcenodeid
+
+Main_bedroom_window_Fibaro_sensor:
+    - binary_sensor.main_bedroom_window_sensor
+    - sensor.main_bedroom_window_access_control
+    - sensor.main_bedroom_window_alarm_level
+    - sensor.main_bedroom_window_alarm_type
+    - sensor.main_bedroom_window_burglar
+    - sensor.main_bedroom_window_general
+    - sensor.main_bedroom_window_sourcenodeid
     
+Main_bathroom_window_Fibaro_sensor:
+    - binary_sensor.main_bedroom_window_sensor
+    - sensor.main_bathroom_window_access_control
+    - sensor.main_bathroom_window_alarm_level
+    - sensor.main_bathroom_window_alarm_type
+    - sensor.main_bathroom_window_burglar
+    - sensor.main_bathroom_window_general
+    - sensor.main_bathroom_window_sourcenodeid
+
 Main_bedroom_Aeotec_Switch:
     - switch.switch1_switch
     - sensor.switch1_voltage
@@ -297,8 +329,10 @@ all_input_boolean:
     
 all_zwave:
     - zwave.aeotec_zw90_usb
-    - zwave.door
-    - zwave.main_door_sensor
+    - zwave.main_bathroom_window
+    - zwave.main_bedroom_door
+    - zwave.main_bedroom_window
+    - zwave.main_door
     - zwave.multisensor1
     - zwave.multisensor2
     - zwave.smoke

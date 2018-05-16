@@ -6,9 +6,9 @@
 ###################################################
 ####
 
-- action:
-  - service_template: >
-      'input_boolean.turn_{% if trigger.to_state.state == "home" %}on{% else %}off{% endif %}'
+- alias: presence check A / P off
+  action:
+  - service: input_boolean.turn_off
     data_template:
       entity_id: >-
         {%- if trigger.entity_id == "device_tracker.aa_iphone" or trigger.entity_id == "device_tracker.aa_iphone_ping" or trigger.entity_id == "device_tracker.google_maps_109462251504037679148" -%}
@@ -16,6 +16,12 @@
         {%- else -%}
           input_boolean.presence_p
         {%- endif -%}
+  - service: python_script.notification
+    data_template:
+      message: > 
+        Trigger entity: {{ trigger.entity_id }} from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}. 
+        AA: {{ states.input_boolean.presence_a.state }}.
+        PT: {{ states.input_boolean.presence_p.state }}.
   trigger:
   - platform: state
     entity_id: 
@@ -25,6 +31,40 @@
     - device_tracker.pt_iphone
     - device_tracker.pt_iphone_ping
     - device_tracker.google_maps_108800326647346833817
+    from: home
+    to: not_home
+    for:
+      minutes: 2
+
+- alias: presence check A / P on
+  action:
+  - service: input_boolean.turn_on
+    data_template:
+      entity_id: >-
+        {%- if trigger.entity_id == "device_tracker.aa_iphone" or trigger.entity_id == "device_tracker.aa_iphone_ping" or trigger.entity_id == "device_tracker.google_maps_109462251504037679148" -%}
+          input_boolean.presence_a
+        {%- else -%}
+          input_boolean.presence_p
+        {%- endif -%}
+  - service: python_script.notification
+    data_template:
+      message: > 
+        Trigger entity: {{ trigger.entity_id }} from {{ trigger.from_state.state }} to {{ trigger.to_state.state }}. 
+        AA: {{ states.input_boolean.presence_a.state }}.
+        PT: {{ states.input_boolean.presence_p.state }}.
+  trigger:
+  - platform: state
+    entity_id: 
+    - device_tracker.aa_iphone
+    - device_tracker.aa_iphone_ping
+    - device_tracker.google_maps_109462251504037679148
+    - device_tracker.pt_iphone
+    - device_tracker.pt_iphone_ping
+    - device_tracker.google_maps_108800326647346833817
+    from: not_home
+    to: home
+    for:
+      minutes: 1
 
 ###################################################
 ####
@@ -46,7 +86,7 @@
   alias: Presence general activation
   condition:
   - condition: state
-    entity_id: binary_sensor.main_door_sensor_sensor
+    entity_id: binary_sensor.main_door_sensor
     state: 'off'
   - condition: state
     entity_id: input_boolean.presence_general
@@ -80,7 +120,7 @@
     state: 'on'
   id: '1508253283544'
   trigger:
-  - entity_id: binary_sensor.main_door_sensor_sensor
+  - entity_id: binary_sensor.main_door_sensor
     platform: state
     to: 'on'
 ###################################################
@@ -102,7 +142,7 @@
   alias: Presence main bedroom activation
   condition:
   - condition: state
-    entity_id: binary_sensor.door_window_sensor_158d000105e2a2
+    entity_id: binary_sensor.main_bedroom_door_sensor
     state: 'off'
   - condition: state
     entity_id: input_boolean.presence_mainbedroom
@@ -147,6 +187,6 @@
     state: 'on'
   id: '1508253284655'
   trigger:
-  - entity_id: binary_sensor.door_window_sensor_158d000105e2a2
+  - entity_id: binary_sensor.main_bedroom_door_sensor
     platform: state
     to: 'on'
