@@ -234,6 +234,9 @@ switch.switch1_switch:
 switch.ac_switch:
   friendly_name: Main Bedroom AC
   icon: mdi:air-conditioner
+switch.at_ac_switch:
+  friendly_name: AT Room AC
+  icon: mdi:air-conditioner
 ########################################  
 ## Sensors
 sensor.multisensor1_relative_humidity:
@@ -242,10 +245,15 @@ sensor.multisensor1_relative_humidity:
 sensor.multisensor2_relative_humidity:
   icon: mdi:water-percent
   friendly_name: Main Bedroom Relative Humidity
+sensor.at_room_relative_humidity:
+  icon: mdi:water-percent
+  friendly_name: At Room Relative Humidity
 sensor.multisensor1_temperature:
   friendly_name: Living Room Temperature
 sensor.multisensor2_temperature:
   friendly_name: Main Bedroom Temperature
+sensor.at_room_temperature:
+  friendly_name: At room Temperature
 sensor.smoke_temperature:
   friendly_name: Kitchen Temperature
 sensor.dark_sky_summary:

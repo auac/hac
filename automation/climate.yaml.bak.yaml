@@ -27,7 +27,7 @@
     value_template: '{% if (states.sensor.multisensor2_temperature.state | float) > 26.9 %}True{% endif %}'
   - condition: template
     value_template: >-
-      {%- if states.automation.aircon_main_bedroom_on.attributes.last_triggered == None -%}
+      {%- if states.automation.aircon_main_bedroom_on.attributes.last_triggered == "None" -%}
         True
         {%- elif as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 900 -%}
           True

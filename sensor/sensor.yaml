@@ -29,6 +29,15 @@
         friendly_name: Home assistant last restart
         value_template: >-
           {{ ((as_timestamp(states.input_boolean.ha_start.last_changed)) | timestamp_custom('%d %b %Y')) }}
+          
+      at_room_temperature:
+        value_template: '{{ states.climate.at_room.attributes.current_temperature }}'
+        unit_of_measurement: '°C'
+      
+      at_room_relative_humidity:
+        value_template: '{{ states.climate.at_room.attributes.current_humidity }}'
+        unit_of_measurement: '%'
+      
         
   - platform: time_date
     display_options:

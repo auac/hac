@@ -1,0 +1,14 @@
+###################################################
+####
+#### Error notification automation
+- alias: Error notification
+  trigger:
+  - platform: event
+    event_type: system_log_event
+    event_data:
+      level: ERROR
+  action:
+  - service: python_script.notification
+    data_template:
+      message: '{{trigger.event.data.message}}'
+      target: '#error'

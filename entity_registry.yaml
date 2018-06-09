@@ -378,3 +378,47 @@ sensor.main_bedroom_window_general:
   name:
   platform: zwave
   unique_id: 20-72057594380222465
+climate.at_room:
+  name:
+  platform: sensibo
+  unique_id: K7Zweu6V
+zwave.aeotec_zw90_usb:
+  name:
+  platform: zwave
+  unique_id: node-1
+zwave.multisensor1:
+  name:
+  platform: zwave
+  unique_id: node-4
+zwave.multisensor2:
+  name:
+  platform: zwave
+  unique_id: node-5
+zwave.main_drawer1:
+  name:
+  platform: zwave
+  unique_id: node-6
+zwave.switch1:
+  name:
+  platform: zwave
+  unique_id: node-9
+zwave.main_bedroom_door:
+  name:
+  platform: zwave
+  unique_id: node-10
+zwave.smoke:
+  name:
+  platform: zwave
+  unique_id: node-13
+zwave.main_door:
+  name:
+  platform: zwave
+  unique_id: node-18
+zwave.main_bathroom_window:
+  name:
+  platform: zwave
+  unique_id: node-19
+zwave.main_bedroom_window:
+  name:
+  platform: zwave
+  unique_id: node-20

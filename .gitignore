@@ -37,3 +37,6 @@ etc
 images
 *.google*
 *.bak
+appdaemon.*
+*log*
+apps.y*

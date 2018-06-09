@@ -23,4 +23,5 @@ logs:
   homeassistant.helpers.script: info
   homeassistant.helpers.entity: critical
   homeassistant.exceptions: info
+  homeassistant.components.media_player.denonavr: debug
   py.warnings: error

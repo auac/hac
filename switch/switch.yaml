@@ -18,6 +18,15 @@
         turn_off:
           service: climate.turn_off
           entity_id: climate.master_bedroom
+      at_ac_switch:
+        friendly_name: At room AC
+        value_template: "{% if states.climate.at_room.state == 'off' or states.climate.at_room.state == 'unknown' or states.climate.at_room.state == 'unassigned' %}False{% else %}True{% endif %}"
+        turn_on:
+          service: climate.turn_on
+          entity_id: climate.at_room
+        turn_off:
+          service: climate.turn_off
+          entity_id: climate.at_room
       marantz_switch:
         friendly_name: 'AVR'
         value_template: "{{ is_state('media_player.marantz_sr6010', 'on') }}"

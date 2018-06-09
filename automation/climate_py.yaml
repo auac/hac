@@ -2,24 +2,89 @@
 ####
 #### climate automation linked to python
 - alias: climate automation
+  initial_state: 'off'
   trigger:
   - platform: template
-    value_template: '{% if states.binary_sensor.occupancy_mainbedroom.state == "on" and states.sensor.multisensor2_temperature.state | float > 26.9 and as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 240 %}True{% endif %}'
+    value_template: >-
+      {% if ( (states.sensor.multisensor2_temperature.state | float < 26.5 and
+           states.sensor.multisensor2_temperature.state | float > 25.4) 
+           or states.sensor.multisensor2_temperature.state | float > 26.9 
+           or states.sensor.multisensor2_temperature.state | float < 25.0 ) %}
+        True
+      {% endif %}
   - platform: template
-    value_template: '{% if states.sensor.multisensor2_temperature.state | float < 26.9 and as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 240 %}True{% endif %}'
+    value_template: >-
+      {% if ( (states.sensor.at_room_temperature.state | float < 26.5 and
+           states.sensor.at_room_temperature.state | float > 25.4)
+           or states.sensor.at_room_temperature.state | float > 26.9 
+           or states.sensor.at_room_temperature.state | float < 25.0 ) %}
+        True
+      {% endif %}
   - platform: template
-    value_template: '{% if states.sensor.multisensor2_temperature.state | float < 25.0 and as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 240 %}True{% endif %}'
+    value_template: >-
+      {% set now = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) | int %}
+      {% set last = as_timestamp(states.climate.master_bedroom.last_changed) | int %}
+      {% if ( now - last | int > 180 and now - last | int < 300 
+              and states.climate.master_bedroom.state == 'off' ) or (
+              now - last | int > 1320 and states.climate.master_bedroom.state != 'off'
+              and states.climate.master_bedroom.state != 'unavailable' ) %}
+        True
+      {% endif %}
   - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 1320 %}True{% endif %}'
+    value_template: >-
+      {% set now = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) | int %}
+      {% set last = as_timestamp(states.climate.at_room.last_changed) | int %}
+      {% if ( now - last | int > 180 and now - last | int < 300 
+              and states.climate.at_room.state == 'off' ) or (
+              now - last | int > 1320 and states.climate.at_room.state != 'off'
+              and states.climate.at_room.state != 'unavailable' ) %}
+        True
+      {% endif %}
   - platform: state
     entity_id: binary_sensor.occupancy_mainbedroom
+    from: 'on'
     to: 'off'
+    for: 
+      minutes: 5
+  - platform: state
+    entity_id: binary_sensor.occupancy_mainbedroom, input_boolean.presence_a, input_boolean.presence_p
+    from: 'off'
+    to: 'on'
     for:
-      minutes: 2
-  - platform: time 
-    minutes: /15
-    seconds: 0
+      minutes: 3
+  - platform: state
+    entity_id: binary_sensor.door_window_sensor_158d000105d011
+    from: 'on'
+    to: 'off'
+    for: 
+      minutes: 3
+  - platform: state
+    entity_id: binary_sensor.door_window_sensor_158d000105d011
+    from: 'off'
+    to: 'on'
+    for:
+      minutes: 5
+#  - platform: time 
+#    minutes: /15
+#    seconds: 0
+  condition:
+  - condition: template
+    value_template: >-
+      {%- if states.automation.climate_automation.attributes.last_triggered == "none" -%}
+        True
+      {%- elif ( as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) 
+            - as_timestamp(states.automation.climate_automation.attributes.last_triggered) |int > 0 ) -%}
+        True
+      {%- endif %} 
+  - condition: template
+    value_template: >- 
+      {% if trigger.to_state.state != 'unavailable' and trigger.from_state.state != 'unavailable' %}
+        True
+      {% endif %}
   action:
   - service: python_script.climate
     data_template:
       trigger_entity: '{{trigger.entity_id}}'
+      trigger_platform: '{{trigger.platform}}'
+      trigger_from_state: '{{trigger.from_state.state}}'
+      trigger_to_state: '{{trigger.to_state.state}}'

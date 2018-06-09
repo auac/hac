@@ -4,25 +4,24 @@
 - alias: test automation for climate change
   initial_state: 'off'
   trigger:
-  - platform: template
-    value_template: '{% if states.binary_sensor.occupancy_mainbedroom.state == "on" and states.sensor.multisensor2_temperature.state | float > 26.9 %}True{% endif %}'
-  - platform: numeric_state
-    entity_id: sensor.multisensor2_temperature
-    below: '26.5'
-  - platform: numeric_state
-    entity_id: sensor.multisensor2_temperature
-    below: '25.0'
-  - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 1320 %}True{% endif %}'
   - platform: state
-    entity_id: binary_sensor.occupancy_mainbedroom
-    to: 'off'
-    for:
-      minutes: 1
-  - platform: time 
-    minutes: /15
-    seconds: 0
+    entity_id: input_boolean.alarm_silence
+    to: 'on'
+
+#  condition:
+#  - condition: template
+#    value_template: >-
+#      {%- if states.automation.climate_automation.attributes.last_triggered == "none" -%}
+#        True
+#      {%- elif ( as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) 
+#            - as_timestamp(states.automation.climate_automation.attributes.last_triggered) |int > 60 ) -%}
+#        True
+#      {%- endif %} 
   action:
   - service: python_script.test
     data_template:
       trigger_entity: '{{trigger.entity_id}}'
+      automation_lt: '{{ as_timestamp(states.automation.test_automation_for_climate_change.attributes.last_triggered) |int }}'
+      automation_now: '{{ as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) |int }}'
+      automation_diff: '{{ as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.automation.test_automation_for_climate_change.attributes.last_triggered) |int }}'
+      

@@ -22,6 +22,7 @@
     - sensor.smoke_sourcenodeid
     - sensor.smoke_system
     - sensor.smoke_temperature
+  initial_state: 'off'
   action:
   - data_template:
       message: >-

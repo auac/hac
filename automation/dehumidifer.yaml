@@ -14,6 +14,7 @@
       message: Dehumidifier switch on
     service: python_script.notification
   alias: Dehumidifier on
+  initial_state: 'off'
   condition:
   - condition: state
     entity_id: switch.switch1_switch
@@ -21,7 +22,7 @@
   - above: '55'
     condition: numeric_state
     entity_id: sensor.multisensor2_relative_humidity
-  - above: '30'
+  - below: '30'
     condition: numeric_state
     entity_id: sensor.multisensor2_temperature
   - condition: state
@@ -34,7 +35,7 @@
   id: '1516971664598'
   trigger:
   - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and sensor.multisensor2_relative_humidity | float > 55.0 %}True{% endif %}'
+    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.sensor.multisensor2_relative_humidity.state | float > 55.0 %}True{% endif %}'
   - minutes: /15
     seconds: 0
     platform: time
@@ -49,6 +50,7 @@
       message: Dehumidifier switch off
     service: python_script.notification
   alias: Dehumidifier off
+  initial_state: 'off'
   condition:
   - condition: state
     entity_id: switch.switch1_switch
@@ -63,10 +65,17 @@
   id: '1516971775609'
   trigger:
   - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and sensor.multisensor2_relative_humidity | float < 50.0 %}True{% endif %}'
+    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.sensor.multisensor2_relative_humidity.state | float < 50.0 %}True{% endif %}'
   - platform: template
     value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.climate.master_bedroom.state != "off" and states.climate.master_bedroom.state != "unknown" and states.climate.master_bedroom.state != "unassigned" %}True{% endif %}'
   - platform: time
     minutes: /15
     seconds: 0
+  - platform: template
+    value_template: >- 
+      {% set temp_upper = states.sensor.dark_sky_temperature.state | float + 1.5 %}
+      {% if states.sensor.multisensor2_temperature.state | float >= temp_upper %}
+        True
+      {% endif %}
+
 

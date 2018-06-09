@@ -10,6 +10,7 @@
   alias: Notify when occupants leave / arrive
   condition: []
   id: '1507005333954'
+  initial_state: 'off'
   trigger:
   - entity_id: input_boolean.presence_a, input_boolean.presence_p
     platform: state
@@ -35,6 +36,7 @@
       message: Burgular alert {{trigger.to_state.attributes.friendly_name}}. 
       target: '#warn'
   alias: Burglar notification on sensors
+  initial_state: 'off'
   condition: []
   id: '1508345825260'
   trigger:
@@ -72,6 +74,7 @@
   alias: Internet down detected
   condition: []
   id: '1512399730194'
+  initial_state: 'off'
   trigger:
   - entity_id: binary_sensor.internet_link
     platform: state
@@ -180,6 +183,7 @@
   alias: Binary sensor notify on
   condition: []
   id: '1517815434292'
+  initial_state: 'off'
   trigger:
   - entity_id:
     - binary_sensor.camera_1
@@ -211,6 +215,7 @@
     - light.gateway_light_f0b429b3ddc0
     - switch.tv_switch
     - switch.ac_switch
+    - switch.at_ac_switch
     - switch.marantz_switch
     - switch.switch1_switch
     platform: state
@@ -246,6 +251,7 @@
   alias: Binary sensor notify off
   condition: []
   id: '1517925434303'
+  initial_state: 'off'
   trigger:
   - entity_id:
     - binary_sensor.camera_1
@@ -269,6 +275,7 @@
     - light.gateway_light_f0b429b3ddc0
     - switch.tv_switch
     - switch.ac_switch
+    - switch.at_ac_switch
     - switch.marantz_switch
     - switch.switch1_switch
     platform: state

@@ -150,6 +150,10 @@ Kitchen:
 At_room:  
     - binary_sensor.camera1_motion
     - binary_sensor.door_window_sensor_158d000105d011
+    - sensor.at_room_temperature
+    - sensor.at_room_relative_humidity
+    - climate.at_room
+    - switch.at_ac_switch
        
 Al_room:
     - binary_sensor.camera3_motion
@@ -217,8 +221,10 @@ Weather:
     - sensor.multisensor1_temperature
     - sensor.multisensor2_temperature
     - sensor.smoke_temperature
+    - sensor.at_room_temperature
     - sensor.multisensor1_relative_humidity
     - sensor.multisensor2_relative_humidity
+    - sensor.at_room_relative_humidity
 
 Main_bedroom_Aeotec_Sensor:
     - binary_sensor.multisensor2_sensor
@@ -340,5 +346,6 @@ all_zwave:
 
 all_climate:
     - climate.master_bedroom
+    - climate.at_room
 
     
