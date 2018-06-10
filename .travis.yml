@@ -2,7 +2,7 @@ language: python
 python:
   - "3.6.4"
 install:
-  - pip3 install homeassistant==0.68.1
+  - pip3 install homeassistant
 script:
   - hass -c $TRAVIS_BUILD_DIR --script check_config
 before_install:

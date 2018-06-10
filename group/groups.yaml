@@ -202,14 +202,15 @@ Weather:
     - sun.sun
     - sensor.dark_sky_summary
     - sensor.dark_sky_temperature 
-    - sensor.dark_sky_daily_high_temperature
-    - sensor.dark_sky_daily_low_temperature
+    - sensor.dark_sky_temperature_high
+    - sensor.dark_sky_temperature_low
     - sensor.dark_sky_apparent_temperature
     - sensor.dark_sky_cloud_cover
     - sensor.dark_sky_humidity
     - sensor.dark_sky_precip
     - sensor.dark_sky_precip_probability
     - sensor.dark_sky_precip_intensity
+    - sensor.dark_sky_precip_intensity_max    
     - sensor.dark_sky_nearest_storm_distance
     - sensor.dark_sky_pressure
     - sensor.dark_sky_visibility
@@ -217,10 +218,8 @@ Weather:
     - sensor.dark_sky_wind_speed  
     - sensor.dark_sky_uv_index    
     - sensor.waqi_hong_kong_hongkong
-    - weather.dark_sky
     - sensor.multisensor1_temperature
     - sensor.multisensor2_temperature
-    - sensor.smoke_temperature
     - sensor.at_room_temperature
     - sensor.multisensor1_relative_humidity
     - sensor.multisensor2_relative_humidity

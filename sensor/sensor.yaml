@@ -97,14 +97,15 @@
     monitored_conditions:
       - summary
       - temperature 
-      - temperature_max
-      - temperature_min
+      - temperature_high
+      - temperature_low
       - apparent_temperature
       - cloud_cover
       - humidity
       - precip_type
       - precip_probability
       - precip_intensity
+      - precip_intensity_max
       - nearest_storm_distance
       - pressure
       - visibility
@@ -112,4 +113,4 @@
       - wind_speed  
       - uv_index    
     update_interval:
-      minutes: 5
+      minutes: 10
