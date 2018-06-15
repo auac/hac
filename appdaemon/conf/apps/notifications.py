@@ -1,6 +1,5 @@
 import appdaemon.plugins.hass.hassapi as hass
 import datetime
-import os.path
 #
 # Climate Automation app
 #
@@ -53,12 +52,8 @@ class Notifications(hass.Hass):
         message = "{} {} home.".format(self.friendly_name(entity).replace("Presence ", "").capitalize(), msg_state)
         self.log("[PRESENCE_CHANGE] Message is... {} ".format(message))
         try:
-            result = self.utils.notify_slack(message, target='#warn')
-            if result == False : 
-                level = "ERROR"
-            else: 
-                level = "INFO"
-            self.log("[PRESENCE_CHANGE] Sending... {} is {}".format(message, result), level=level)
+            self.notify_slack(message, target='#warn')
+            self.log("[PRESENCE_CHANGE] Sending... {}".format(message))
         except:
             self.log("[PRESENCE_CHANGE] Unable to send message. Message is {} and state is {}.".format(message, new), level="ERROR")
 
@@ -72,12 +67,8 @@ class Notifications(hass.Hass):
         self.log("[BURGULAR_CHANGE] Message is... {} ".format(message))
 
         try:
-            result = self.utils.notify_slack(message, target='#warn')
-            if result == False : 
-                level = "ERROR"
-            else: 
-                level = "INFO"
-            self.log("[BURGULAR_CHANGE] Sending... {} is {}".format(message, result), level=level)
+            self.notify_slack(message, target='#warn')
+            self.log("[BURGULAR_CHANGE] Sending... {}".format(message))
         except:
             self.log("[BURGULAR_CHANGE] Unable to send message. Message is {} and state is {}.".format(message, new), level="ERROR")
             
@@ -87,7 +78,7 @@ class Notifications(hass.Hass):
         Send notifications when presence change state
         """
         self.log("[GENERAL_CHANGE] entity: {}, attribute: {}, old: {} new: {}, kwargs: {}.".format(entity, attribute, old, new, kwargs))
-        device_class = self.get_state(entity, attribute="device_class")
+        device_class = self.get_state(entity, attribute="device_class") or None
         self.log("[GENERAL_CHANGE] device_class: {}.".format(device_class))
         
         msg = {
@@ -131,15 +122,16 @@ class Notifications(hass.Hass):
             
         try:
             if message != "NO MESSAGE!":
-                result = self.utils.notify_slack(message, entity_id=entity, device_class=device_class)
-            if result == False : 
-                level = "ERROR"
-            else: 
-                level = "INFO"
-            self.log("[GENERAL_CHANGE] Sending... {} is {}".format(message, result), level=level)
+                self.notify_slack(message, entity_id=entity, device_class=device_class)
+                self.log("[GENERAL_CHANGE] Sending... {}".format(message))
+            else:
+                pass
         except:
             self.log("[GENERAL_CHANGE] No message to send. Device class is {} and state is {}.".format(device_class, new), level="ERROR")
 
+    def notify_slack(self, message, **kwargs):
+        self.log("[NOTIFY_SLACK] entered into local notify function")
+        return self.utils.notify_slack(message, **kwargs)
                 
     def log(self,message,level="INFO"):
         """

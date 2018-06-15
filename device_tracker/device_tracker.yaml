@@ -7,4 +7,10 @@
 - platform: google_maps
   username: !secret device_tracker_google_maps_user
   password: !secret device_tracker_google_maps_pass
+
+#######
+#     - platform: bluetooth_tracker
+#       new_device_defaults: 
+#         track_new_devices: False
+#       consider_home: 300
   

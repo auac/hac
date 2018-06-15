@@ -67,8 +67,8 @@ logbook:
 logger: !include logger.yaml
 recorder: !include recorder.yaml  
 
-#system_log:
-#  fire_event: true
+system_log:
+  fire_event: true
 
 # Track the sun
 sun:
