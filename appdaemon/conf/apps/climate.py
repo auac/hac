@@ -16,6 +16,10 @@ class Aircon(hass.Hass):
      self.occupancy_id = self.args["occupancy_id"]
      self.climate_id = self.args["climate_id"]
      self.binary_reverse = self.args["binary_reverse"]
+     self.UPPER_ON = self.args["upper_on"]
+     self.UPPER_FAN = self.args["upper_fan"]
+     self.LOWER = self.args["lower"]
+     self.OFFSET = self.args["offset"]
      
      self.LOGLEVEL=self.args["LOGLEVEL"]
 
@@ -37,6 +41,7 @@ class Aircon(hass.Hass):
      self.occu_state = self.utils.binary_conversion(self.get_state(self.occupancy_id), reverse=self.binary_reverse)
      self.clim_state = self.get_state(self.climate_id)
      self.fans_state = self.get_state(self.climate_id, attribute="fan_mode")
+     self.tgt_temp = self.get_state(self.climate_id, attribute="temperature")
      self.last_change = self.get_state(self.climate_id, attribute="last_changed")
      self.now = datetime.datetime.now()
      
@@ -91,7 +96,17 @@ class Aircon(hass.Hass):
          self.changeFan = self.run_in(self.change_fan_aircon, run_sec, climate_state="on", 
                                            fan_test="low", fan_speed="low")   
      else:
-         self.log("[TEMP_CHANGE] No Conditions met")    
+         self.log("[TEMP_CHANGE] No Conditions met")   
+
+     if self.tgt_temp != self.LOWER - self.OFFSET:
+         new_tgt = self.LOWER - self.OFFSET
+         self.log("[TEMP_CHANGE] enter If statement TGT_TEMP")
+         self.log("[TEMP_CHANGE] Current aircon temp is set at {} and required is {} - {}={}".format(self.tgt_temp, self.LOWER, self.OFFSET, new_tgt))
+         self.call_service("climate/set_temperature", entity_id=self.climate_id, 
+                            temperature=new_tgt, operation_mode="Cool")
+         self.notify_slack(change="tgt temp change to {}{}".format(new_tgt,self.temp_uom)) 
+
+          
             
   def occupancy_change(self, entity, attribute, old, new, kwargs):
      try: 
@@ -134,14 +149,12 @@ class Aircon(hass.Hass):
   def temperature_test(self, ftemp):
      f = float(ftemp)
      res = 'ignore'
-     if f >= 27.0 :
+     if f >= self.UPPER_ON :
          res = 'above'
-     elif 25.0 <= f < 26.5 :
+     elif self.LOWER <= f < self.UPPER_FAN :
          res = 'within'
-     elif 24.5 <= f < 25.0 :
+     elif f < self.LOWER :
          res = 'below'  
-     elif f < 24.5 :
-         res = 'lowerbound'
      else:
          res = 'None'    
      return res
