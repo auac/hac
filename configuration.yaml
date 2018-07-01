@@ -38,9 +38,10 @@ http:
     - !secret http_trusted_networks6
   ip_ban_enabled: True
   login_attempts_threshold: 3
-  base_url: !secret http_base_url
-  ssl_certificate: !secret http_ssl_certificate
-  ssl_key: !secret http_ssl_key
+  use_x_forwarded_for: True
+#  base_url: !secret http_base_url
+#  ssl_certificate: !secret http_ssl_certificate
+#  ssl_key: !secret http_ssl_key
 
 # Checks for available updates
 # Note: This component will send some information about your system to
@@ -149,6 +150,43 @@ zwave:
 
 ffmpeg:
   ffmpeg_bin: /usr/local/Cellar/ffmpeg/3.4/bin/ffmpeg
+  
+homekit:
+  filter:
+    include_domains:
+      - alarm_control_panel
+      - light
+      - binary_sensor
+      - climate
+      - sensor
+      - switch
+      - input_boolean
+    exclude_entities:
+      - input_boolean.alarm_home_triggered
+      - input_boolean.alarm_silence
+      - input_boolean.ha_start
+      - sensor.dark_sky_daytime_high_temperature
+      - sensor.dark_sky_overnight_low_temperature
+      - sensor.dark_sky_apparent_temperature
+      - binary_sensor.ftp_server
+      - binary_sensor.homebridge_server
+      - binary_sensor.internet_link
+      - binary_sensor.camera_1
+      - binary_sensor.camera_2
+      - binary_sensor.camera_3
+      - binary_sensor.camera_4
+      - binary_sensor.camera_5
+      - sensor.multisensor1_dew_point
+      - sensor.multisensor1_co2_level
+  entity_config:
+    alarm_control_panel.home_alarm:
+      code: 1234
+#    media_player.living_room:
+#     feature_list:
+#      - feature: on_off
+    switch.switch1_switch:
+      type: outlet
+  auto_start: False
 
 
 alarm_control_panel: !include alarm_control_panel.yaml
