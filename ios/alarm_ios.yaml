@@ -1,8 +1,14 @@
 - name: Arming
   identifier: 'arm_alarm'
   actions:
-    - identifier: 'ARM_ALARM'
+    - identifier: 'ARM_ALARM_AWAY'
       title: 'Arm Away'
+      activationMode: 'background'
+      authenticationRequired: no
+      destructive: yes
+      behavior: 'default'
+    - identifier: 'ARM_ALARM_HOME'
+      title: 'Arm Home'
       activationMode: 'background'
       authenticationRequired: no
       destructive: yes
@@ -13,6 +19,7 @@
       authenticationRequired: no
       destructive: no
       behavior: 'default'
+
 
 - name: Disarming
   identifier: 'disarm_alarm'

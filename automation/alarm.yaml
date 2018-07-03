@@ -28,14 +28,14 @@
       minutes: 1
 ###################################################
 ####
-#### Arm the Alarm
+#### Arm the Alarm Away
 ####
 - alias: Arm alarm when A/P home
   trigger:
   - platform: event
     event_type: ios.notification_action_fired
     event_data:
-      actionName: ARM_ALARM 
+      actionName: ARM_ALARM_AWAY 
   action:
   - service: alarm_control_panel.alarm_arm_away
     entity_id: alarm_control_panel.home_alarm 
@@ -44,7 +44,26 @@
   - service: python_script.notification
     data:
       message: Alarm will be armed in 2 minutes  
-      target: '#warn'       
+      target: '#warn'    
+###################################################
+####
+#### Arm the Alarm Home
+####
+- alias: Arm alarm when A/P home
+  trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: ARM_ALARM_HOME
+  action:
+  - service: alarm_control_panel.alarm_arm_home
+    entity_id: alarm_control_panel.home_alarm 
+    data: 
+      code: '1234' 
+  - service: python_script.notification
+    data:
+      message: Alarm will be armed in 2 minutes 
+      target: '#warn'      
 ###################################################
 ####
 #### Disarm the Alarm notification if alarm triggered
@@ -107,7 +126,7 @@
       target: '#warn' 
 ###################################################
 ####
-#### Trigger Alarm due to activity while armed away
+#### Trigger Alarm due to activity while armed home
 - action:
   - service: alarm_control_panel.alarm_trigger
     entity_id: alarm_control_panel.home_alarm
@@ -155,7 +174,7 @@
   condition:
   - condition: state
     entity_id: alarm_control_panel.home_alarm
-    state: 'armed_home'
+    state: 'armed_away'
   trigger:
   - entity_id:
     - binary_sensor.main_door_sensor
