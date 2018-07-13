@@ -1,0 +1,99 @@
+- platform: history_stats
+  name: Living room ac current week
+  entity_id: climate.living_room
+  state: 'cool'
+  type: time
+  start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  name: Living room ac yesterday
+  entity_id: climate.living_room
+  state: 'cool'
+  type: time
+  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  duration:
+    hours: 24
+
+- platform: history_stats
+  name: Living room ac today
+  entity_id: climate.living_room
+  state: 'cool'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+  
+- platform: history_stats
+  name: Dining room ac current week 
+  entity_id: climate.dining_room
+  state: 'cool'
+  type: time
+  start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  name: Dining room ac yesterday
+  entity_id: climate.dining_room
+  state: 'cool'
+  type: time
+  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  duration:
+    hours: 24
+
+- platform: history_stats
+  name: Dining room ac today
+  entity_id: climate.dining_room
+  state: 'cool'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+  
+- platform: history_stats
+  name: AT room ac current week 
+  entity_id: climate.at_room
+  state: 'cool'
+  type: time
+  start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  name: AT room ac yesterday
+  entity_id: climate.at_room
+  state: 'cool'
+  type: time
+  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  duration:
+    hours: 24
+
+- platform: history_stats
+  name: AT room ac today
+  entity_id: climate.at_room
+  state: 'cool'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'
+  
+- platform: history_stats
+  name: Master bedroom ac current week 
+  entity_id: climate.master_bedroom
+  state: 'cool'
+  type: time
+  start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+  end: '{{ now() }}'
+
+- platform: history_stats
+  name: Master bedroom ac yesterday
+  entity_id: climate.master_bedroom
+  state: 'cool'
+  type: time
+  end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  duration:
+    hours: 24
+
+- platform: history_stats
+  name: Master bedroom ac today
+  entity_id: climate.master_bedroom
+  state: 'cool'
+  type: time
+  start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  end: '{{ now() }}'

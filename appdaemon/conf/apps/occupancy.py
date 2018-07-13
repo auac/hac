@@ -35,9 +35,9 @@ class Occupancy(hass.Hass):
         self.door_state = self.get_state(self.DOOR)
         self.ib_state = self.get_state(self.IB)
 
-        cancel_listener_timer()
            
         if self.door_state == "off" and self.ib_state == "off": 
+            self.cancel_listener_timer()
             self.call_service("input_boolean/turn_on", entity_id = self.IB)
             message = "Activity detected by {} and {} is {} so {} is turned on".format(self.friendly_name(entity), self.DOOR, self.door_state, self.IB)
         else: 
@@ -59,7 +59,7 @@ class Occupancy(hass.Hass):
             self.log("[CHECK_MOTION] New is {} so listen for everyone to leave room.".format(new))
 
             self.log("[CHECK_MOTION] Setup wait timeout timer for 4 minutes. After 4 mins of activity then assume there is still presence.".format(new))
-            self.wait_timeout_handle = self.run_in(self.cancel_wait, 0)
+            self.wait_timeout_handle = self.run_in(self.cancel_wait, 3600)
 
         elif new == "off" :
             # listen for presence activation
@@ -80,9 +80,9 @@ class Occupancy(hass.Hass):
         self.door_state = self.get_state(self.DOOR)
         self.ib_state = self.get_state(self.IB)
         
-        cancel_listener_timer()
             
-        if self.door_state == "on" and self.ib_state == "on": 
+        if self.ib_state == "on": 
+            self.cancel_listener_timer()
             self.call_service("input_boolean/turn_off", entity_id = self.IB)
             message = "Activity has stopped according to {} and {} is {} so {} is turned off".format(self.friendly_name(entity), self.DOOR, self.door_state, self.IB)
         else: 
@@ -124,7 +124,7 @@ class Occupancy(hass.Hass):
       
         self.log("[CANCEL_LISTENER_TIMER] Cancel/reset motion listener (which checks for motion) until door is closed again.")
 
-        info_listener_timer()
+        self.info_listener_timer()
         
         try:
             self.cancel_listen_state(self.wait_handle)
@@ -149,7 +149,7 @@ class Occupancy(hass.Hass):
             except:
                 self.log("[CANCEL_LISTENER_TIMER] Could not remove old motion listener.", level="ERROR")
         
-        info_listener_timer()
+        self.info_listener_timer()
  
     def cancel_wait(self, kwargs):
 

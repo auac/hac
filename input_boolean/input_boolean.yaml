@@ -20,4 +20,9 @@
     alarm_home_triggered:
         name: Alarm home triggered
         initial: off
+        
+    aircon_living:
+        name: aircon_living
 
+    aircon_dining:
+        name: aircon_dining

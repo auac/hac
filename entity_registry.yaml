@@ -422,3 +422,11 @@ zwave.main_bedroom_window:
   name:
   platform: zwave
   unique_id: node-20
+climate.dining_room:
+  name:
+  platform: sensibo
+  unique_id: BhQLk5vA
+climate.living_room:
+  name:
+  platform: sensibo
+  unique_id: YYdSQrFf

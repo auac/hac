@@ -344,6 +344,8 @@ all_zwave:
     - zwave.switch1
 
 all_climate:
+    - climate.living_room
+    - climate.dining_room
     - climate.master_bedroom
     - climate.at_room
 
