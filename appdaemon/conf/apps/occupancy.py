@@ -16,14 +16,17 @@ class Occupancy(hass.Hass):
         self.LOGLEVEL=self.args["LOGLEVEL"] 
         self.DOOR=self.args["door"]
         self.IB=self.args["IB"]
+        self.wait_handle = ""
+        self.wait_timeout_handle = ""
         self.WAIT_ENTITY=self.args["wait_entity"]
         self.utils = self.get_app("utilities")
         self.motion_listeners_immediate = {}
         self.motion_listeners_trigger = {}
-
+        
         # listen for door opening  
         self.log("[INITIALIZE] Door is: {}".format(self.DOOR))
-        self.listen_state(self.check_motion, self.DOOR, duration = 2)
+        check_motion_handle = self.listen_state(self.check_motion, self.DOOR, duration = 2)
+#        listener_exist = self.check_listener(check_motion_handle)
 
      
     def presence_activation(self, entity, attribute, old, new, kwargs):
@@ -34,10 +37,10 @@ class Occupancy(hass.Hass):
         
         self.door_state = self.get_state(self.DOOR)
         self.ib_state = self.get_state(self.IB)
-
+        
+        self.cancel_listener_timer()
            
         if self.door_state == "off" and self.ib_state == "off": 
-            self.cancel_listener_timer()
             self.call_service("input_boolean/turn_on", entity_id = self.IB)
             message = "Activity detected by {} and {} is {} so {} is turned on".format(self.friendly_name(entity), self.DOOR, self.door_state, self.IB)
         else: 
@@ -58,8 +61,8 @@ class Occupancy(hass.Hass):
             self.wait_handle = self.listen_state(self.presence_deactivation, self.WAIT_ENTITY, new="off", duration = 10, immediate=True)
             self.log("[CHECK_MOTION] New is {} so listen for everyone to leave room.".format(new))
 
-            self.log("[CHECK_MOTION] Setup wait timeout timer for 4 minutes. After 4 mins of activity then assume there is still presence.".format(new))
-            self.wait_timeout_handle = self.run_in(self.cancel_wait, 3600)
+            self.log("[CHECK_MOTION] Setup wait timeout timer for 1 hour. After 1 hour of activity then assume there is still presence.".format(new))
+            self.wait_timeout_handle = self.run_in(self.cancel_wait, 3600)            
 
         elif new == "off" :
             # listen for presence activation
@@ -67,8 +70,10 @@ class Occupancy(hass.Hass):
             self.log("[CHECK_MOTION] Presence list is: {}".format(self.args["presence_activation"]))
             for p in self.args['presence_activation']:
                 self.log("[CHECK_MOTION] Adding activation sensors {} to listener".format(p))
-                self.motion_listeners_immediate[p] = self.listen_state(self.presence_activation, p, new="on", duration = 120, immediate = True)
-                self.motion_listeners_trigger[p] = self.listen_state(self.presence_activation, p, new="on", duration = 2)
+                p_i = p + "_immediate"
+                self.motion_listeners_immediate[p_i] = self.listen_state(self.presence_activation, p, new="on", duration = 120, immediate = True)
+                p_t = p + "_trigger"
+                self.motion_listeners_trigger[p_t] = self.listen_state(self.presence_activation, p, new="on", duration = 2)
 
         
     def presence_deactivation(self, entity, attribute, old, new, kwargs):
@@ -79,10 +84,10 @@ class Occupancy(hass.Hass):
         
         self.door_state = self.get_state(self.DOOR)
         self.ib_state = self.get_state(self.IB)
-        
+
+        self.cancel_listener_timer()
             
         if self.ib_state == "on": 
-            self.cancel_listener_timer()
             self.call_service("input_boolean/turn_off", entity_id = self.IB)
             message = "Activity has stopped according to {} and {} is {} so {} is turned off".format(self.friendly_name(entity), self.DOOR, self.door_state, self.IB)
         else: 
@@ -97,28 +102,30 @@ class Occupancy(hass.Hass):
 
         try:    
             listener_exist = self.check_listener(self.wait_handle)
-        except:    
+        except (KeyError, ValueError):    
             listener_exist = False
-            self.log("[INFO_LISTENER_TIMER] Exception error listener_exist for {}".format(self.wait_handle))
+            self.log("[INFO_LISTENER_TIMER] Exception error listener_exist for wait_handle {}".format(self.wait_handle))
      
         try:    
             timer_exist = self.check_timer(self.wait_timeout_handle)
-        except:    
+        except (KeyError, ValueError):    
             timer_exist = False
-            self.log("[INFO_LISTENER_TIMER] Exception error timer_exist for {}".format(self.wait_timeout_handle))
+            self.log("[INFO_LISTENER_TIMER] Exception error timer_exist for wait_timeout_handle {}".format(self.wait_timeout_handle))
         
         for p in self.args['presence_activation']:
-            try:    
-                motion_listener_immediate_exist = self.check_listener(self.motion_listeners_immediate[p])
-            except:    
+            try: 
+                p_i = p + "_immediate"
+                motion_listener_immediate_exist = self.check_listener(self.motion_listeners_immediate[p_i])
+            except (KeyError, ValueError):    
                 motion_listener_immediate_exist = False
-                self.log("[INFO_LISTENER_TIMER] Exception error ml_immediate_exist for {}".format(p))
+                self.log("[INFO_LISTENER_TIMER] Exception error ml_immediate_exist for motion_listener_immediate {}".format(self.motion_listeners_immediate[p_i]))
 
             try:    
-                motion_listener_trigger_exist = self.check_listener(self.motion_listeners_trigger[p])
-            except:    
+                p_t = p + "_trigger"
+                motion_listener_trigger_exist = self.check_listener(self.motion_listeners_trigger[p_t])
+            except (KeyError, ValueError):    
                 motion_listener_trigger_exist = False
-                self.log("[INFO_LISTENER_TIMER] Exception error ml_trigger_exist for {}".format(p))
+                self.log("[INFO_LISTENER_TIMER] Exception error ml_trigger_exist for motion_listener_trigger {}".format(self.motion_listeners_immediate[p_t]))
 
     def cancel_listener_timer(self):
       
@@ -129,24 +136,26 @@ class Occupancy(hass.Hass):
         try:
             self.cancel_listen_state(self.wait_handle)
             self.log("[CANCEL_LISTENER_TIMER] Cancel/reset wait listener (which checks for no more motion) until door is opened again.")
-        except:
+        except KeyError:
             self.log("[CANCEL_LISTENER_TIMER] Could not remove old wait listener.", level="ERROR")
 
         try:
             self.cancel_timer(self.wait_timeout_handle)
-            self.log("[CANCEL_LISTENER_TIMER] Remove any old wait timeout timer.".format(new))
-        except:
+            self.log("[CANCEL_LISTENER_TIMER] Remove any old wait timeout timer.")
+        except KeyError:
             self.log("[CANCEL_LISTENER_TIMER] Could not remove old wait timeout timer.", level="ERROR")
         
         for p in self.args['presence_activation']:
             try:
-                self.cancel_listen_state(self.motion_listeners_immediate[p])
-            except:
+                p_i = p + "_immediate"
+                self.cancel_listen_state(self.motion_listeners_immediate[p_i])
+            except KeyError:
                 self.log("[CANCEL_LISTENER_TIMER] Could not remove old motion listener.", level="ERROR")
                 
             try:
-                self.cancel_listen_state(self.motion_listeners_trigger[p]) 
-            except:
+                p_t = p + "_trigger"
+                self.cancel_listen_state(self.motion_listeners_trigger[p_t]) 
+            except KeyError:
                 self.log("[CANCEL_LISTENER_TIMER] Could not remove old motion listener.", level="ERROR")
         
         self.info_listener_timer()
@@ -155,14 +164,14 @@ class Occupancy(hass.Hass):
 
         try:    
             listener_exist = self.check_listener(self.wait_handle)
-        except:    
+        except (KeyError, ValueError):    
             listener_exist = False
             self.log("[CANCEL_WAIT] Exception error listener_exist")
         
         try:
             self.cancel_listen_state(self.wait_handle)
             self.log("[CANCEL_WAIT] Try cancel wait as there is still motion after door opened.")
-        except:
+        except (KeyError, ValueError):
             self.log("[CANCEL_WAIT] Wait could not be cancelled.", level="ERROR")
             
     def notify_slack(self, message, **kwargs):
@@ -171,25 +180,19 @@ class Occupancy(hass.Hass):
         
     def check_timer(self, handle):
         time, interval, kwargs = self.info_timer(handle)
-        now = self.datetime()
-        delta = time - now
-        if delta.total_seconds() >= 0 :
-            result = True
-        else:
-            result = False
-        self.log("[CHECK_TIMER] {} exists. time is {}, interval is {} kwargs is {}. Delta is {} so return {}.".format(handle, time, interval, kwargs, delta, result))
-        return result
+        self.log("[CHECK_TIMER] {} exists. time is {}, interval is {} kwargs is {}.".format(handle, time, interval, kwargs))
+        return True
         
     def check_listener(self, handle):
-        try:
-            entity, attribute, kwargs = self.info_listen_state(handle)
-            self.log("[CHECK_LISTENER] {} exists. entity is {}, attribute is {} kwargs is {}.".format(handle, entity, attribute, kwargs))
-            result = True
-        except:
-            self.log("[CHECK_LISTENER] {} does not exists.".format(handle))
-            result = False
-        return result
-                
+#        try:
+        vals = self.info_listen_state(handle)
+        self.log("[CHECK_LISTENER] {} exists. entity is {}.".format(handle, vals[1]))
+        return True
+#        except:
+#            self.log("[CHECK_LISTENER] {} does not exists.".format(handle))
+#            result = False
+
+
     def log(self,message,level="INFO"):
         """
         modifies log function

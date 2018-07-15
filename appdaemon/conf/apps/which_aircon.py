@@ -60,8 +60,7 @@ class WhichAircon(hass.Hass):
             if self.ib_living_state == "off" :
                 self.call_service("input_boolean/turn_on", entity_id = self.IB_LIVING)
             self.log("[COMPARE_HOURS] Dining hours greater than Living hours so turn off / on dining / living input_boolean")
-        else :
-            if self.ib_living_state - self.dining_hours >=2 :
+        elif self.ib_living_state - self.dining_hours >=2 :
                 self.call_service("input_boolean/turn_off", entity_id = self.IB_LIVING)
                 kwargs = {}
                 self.ac_dining.turn_off_aircon(kwargs)
