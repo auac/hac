@@ -20,6 +20,7 @@ class Aircon(hass.Hass):
      self.UPPER_FAN = self.args["upper_fan"]
      self.LOWER = self.args["lower"]
      self.OFFSET = self.args["offset"]
+     self.MODE = self.args["MODE"]
      
      self.LOGLEVEL=self.args["LOGLEVEL"]
 
@@ -27,22 +28,17 @@ class Aircon(hass.Hass):
      self.register_constraint("fan_test")
      self.register_constraint("climate_state")
      self.register_constraint("check_timer")
+     self.register_constraint("climate_mode")
+
      
-     self.listen_state(self.temp_change, self.temperature_id, duration = 30)
-     self.listen_state(self.occupancy_change, self.occupancy_id, new="on", duration = 30, immediate=True)
+     self.listen_state(self.temp_change, self.temperature_id, duration = 30, climate_mode="full")
+     self.listen_state(self.occupancy_change, self.occupancy_id, new="on", duration = 30, immediate=True, climate_mode="full")
      self.listen_state(self.occupancy_change, self.occupancy_id, new="off", duration = 30, immediate=True)
 
 
   def temp_change(self, entity, attribute, old, new, kwargs):
-     self.temp_state = self.get_state(self.temperature_id)
-     self.temp_uom = self.get_state(self.temperature_id, attribute="unit_of_measurement")
-     self.humi_state = self.get_state(self.humidity_id)
-     self.humi_uom = self.get_state(self.humidity_id, attribute="unit_of_measurement")
-     self.occu_state = self.utils.binary_conversion(self.get_state(self.occupancy_id), reverse=self.binary_reverse)
-     self.clim_state = self.get_state(self.climate_id)
-     self.fans_state = self.get_state(self.climate_id, attribute="fan_mode")
-     self.tgt_temp = self.get_state(self.climate_id, attribute="temperature")
-     self.last_change = self.get_state(self.climate_id, attribute="last_changed")
+  
+     self.update_variables(kwargs)  
      self.now = datetime.datetime.now()
      
      self.log("[INFO] Entity ID is {}".format(self.friendly_name(entity)))  
@@ -142,7 +138,9 @@ class Aircon(hass.Hass):
      self.call_service("climate/turn_off", entity_id = self.climate_id)
      self.notify_slack(change = "turn off")     
 
-  def notify_slack(self, change):     
+  def notify_slack(self, change):  
+     kwargs = {}
+     self.update_variables(kwargs)  
      message = "Aircon {} - {}. Temp: {}{}. Humidity: {}{}.".format(change, self.friendly_name(self.climate_id), self.temp_state, self.temp_uom, self.humi_state, self.humi_uom)
      return self.utils.notify_slack(message)
     
@@ -204,6 +202,26 @@ class Aircon(hass.Hass):
          self.log("[CANCEL TIMERS] self.change_fan cancelled.")
      except: 
          self.log("[CANCEL TIMERS] can not cancel self.change_fan.")
+         
+  def update_variables(self, kwargs):
+     self.temp_state = self.get_state(self.temperature_id)
+     self.temp_uom = self.get_state(self.temperature_id, attribute="unit_of_measurement")
+     self.humi_state = self.get_state(self.humidity_id)
+     self.humi_uom = self.get_state(self.humidity_id, attribute="unit_of_measurement")
+     self.occu_state = self.utils.binary_conversion(self.get_state(self.occupancy_id), reverse=self.binary_reverse)
+     self.clim_state = self.get_state(self.climate_id)
+     self.fans_state = self.get_state(self.climate_id, attribute="fan_mode")
+     self.tgt_temp = self.get_state(self.climate_id, attribute="temperature")
+     self.last_change = self.get_state(self.climate_id, attribute="last_changed")
+
+  def climate_mode(self, mode):
+     if self.MODE == mode:
+         self.log("[CLIMATE_MODE] Required mode: {} and Args mode: {}, so returning TRUE".format(mode, self.MODE), level="INFO")
+         return True
+     else:
+         self.log("[CLIMATE_MODE] Required mode: {} and Args mode: {}, so returning FALSE".format(mode, self.MODE), level="INFO")
+
+         return False
 
   def log(self,message,level="INFO"):
     levels = {

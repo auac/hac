@@ -7,6 +7,7 @@
 ####
 
 - alias: presence check A / P off
+  initial_state: 'off'
   action:
   - service: input_boolean.turn_off
     data_template:
@@ -37,6 +38,7 @@
       minutes: 2
 
 - alias: presence check A / P on
+  initial_state: 'off'
   action:
   - service: input_boolean.turn_on
     data_template:
@@ -92,6 +94,7 @@
     entity_id: input_boolean.presence_general
     state: 'off'
   id: '1508252974818'
+  initial_state: 'off'
   trigger:
   - platform: state
     entity_id: 
@@ -119,6 +122,7 @@
     entity_id: input_boolean.presence_general
     state: 'on'
   id: '1508253283544'
+  initial_state: 'off'
   trigger:
   - entity_id: binary_sensor.main_door_sensor
     platform: state
@@ -148,6 +152,7 @@
     entity_id: input_boolean.presence_mainbedroom
     state: 'off'
   id: '1508252974929'
+  initial_state: 'off'
   trigger:
   - platform: state
     entity_id: 
@@ -186,6 +191,7 @@
     entity_id: input_boolean.presence_mainbedroom
     state: 'on'
   id: '1508253284655'
+  initial_state: 'off'
   trigger:
   - entity_id: binary_sensor.main_bedroom_door_sensor
     platform: state

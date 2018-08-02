@@ -29,8 +29,9 @@ config:
 
 http:
   api_password: !secret http_api_password
+  trusted_proxies:
+    - !secret http_trusted_proxies
   trusted_networks:
-    - !secret http_trusted_networks1
     - !secret http_trusted_networks2
     - !secret http_trusted_networks3
     - !secret http_trusted_networks4
@@ -87,17 +88,8 @@ xiaomi_aqara:
     gateways:
     - mac:
       key: !secret xiaomi_aquara_key1
-
-telegram_bot:
-  - platform: broadcast
-    api_key: !secret telegram_bot_api_key
-    allowed_chat_ids:
-      - !secret telegram_bot_chat_ids1
       
 notify:
-  - name: telegram
-    platform: telegram
-    chat_id: !secret telegram_bot_chat_ids1
 
   - name: iosnotify
     platform: group
@@ -108,11 +100,6 @@ notify:
     platform: slack
     api_key: !secret slack_api_key
     default_channel: '#notification'
-
-  - name: allnotify
-    platform: group
-    services:
-        - service: telegram
     
 
 apple_tv:
@@ -188,6 +175,11 @@ homekit:
       type: outlet
   auto_start: False
 
+mqtt:
+  broker: m13.cloudmqtt.com
+  port: 26422
+  username: home
+  password: h0m3.2383
 
 alarm_control_panel: !include alarm_control_panel.yaml
 automation: !include_dir_merge_list automation

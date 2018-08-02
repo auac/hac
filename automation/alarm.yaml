@@ -30,7 +30,7 @@
 ####
 #### Arm the Alarm Away
 ####
-- alias: Arm alarm when A/P home
+- alias: Arm alarm when A/P Away
   trigger:
   - platform: event
     event_type: ios.notification_action_fired

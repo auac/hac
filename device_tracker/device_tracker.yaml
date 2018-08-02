@@ -7,6 +7,9 @@
 - platform: google_maps
   username: !secret device_tracker_google_maps_user
   password: !secret device_tracker_google_maps_pass
+  
+- platform: owntracks
+  max_gps_accuracy: 200
 
 #######
 #     - platform: bluetooth_tracker

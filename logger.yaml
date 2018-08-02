@@ -6,7 +6,7 @@
 
 # Log Severities: notset, debug, info, warn, warning, error, fatal, critical
 
-default: info
+default: warn
 logs:
   homeassistant.core: error
   homeassistant.components.automation: warn
@@ -20,8 +20,7 @@ logs:
   homeassistant.components.recorder: error
   homeassistant.components.sensor.darksky: warn
   homeassistant.components.zwave: warn
-  homeassistant.helpers.script: info
+  homeassistant.helpers.script: warn
   homeassistant.helpers.entity: critical
   homeassistant.exceptions: info
-  homeassistant.components.media_player.denonavr: debug
   py.warnings: error

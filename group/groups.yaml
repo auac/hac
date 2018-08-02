@@ -317,11 +317,12 @@ Presence_A:
     - device_tracker.aa_iphone
     - device_tracker.aa_iphone_ping
     - device_tracker.google_maps_109462251504037679148
+    - !secret device_tracker_aa
 
 Presence_P:
-    - device_tracker.pt_iphone
     - device_tracker.pt_iphone_ping
     - device_tracker.google_maps_108800326647346833817
+    - !secret device_tracker_pt
 
 all_input_boolean:
     - input_boolean.alarm_home_triggered

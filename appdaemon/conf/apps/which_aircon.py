@@ -19,11 +19,17 @@ class WhichAircon(hass.Hass):
         self.IB_DINING=self.args["IB_DINING"]
         self.IB_LIVING=self.args["IB_LIVING"]
         
-        runtime = datetime.time(22, 5, 0)
+        runtime1 = datetime.time(22, 5, 0)
+        runtime2 = datetime.time(22, 5, 5)
 
         self.utils = self.get_app("utilities")
         self.ac_living = self.get_app("ac_living")
         self.ac_dining = self.get_app("ac_dining")
+
+        self.run_daily(self.ac_living.update_variables, runtime1)
+        self.run_daily(self.ac_dining.update_variables, runtime1)
+        self.run_daily(self.ac_living.turn_off_aircon, runtime2)
+        self.run_daily(self.ac_dining.turn_off_aircon, runtime2)
 
         self.motion_listeners_immediate = {}
         self.motion_listeners_trigger = {}
@@ -35,8 +41,7 @@ class WhichAircon(hass.Hass):
         self.listen_state(self.compare_hours, self.DINING)
         self.listen_state(self.compare_hours, self.LIVING)
 
-        self.run_daily(self.ac_living.turn_off_aircon, runtime)
-        self.run_daily(self.ac_dining.turn_off_aircon, runtime)
+
 
         
     def compare_hours(self, entity, attribute, old, new, kwargs):
@@ -52,7 +57,7 @@ class WhichAircon(hass.Hass):
         self.ib_living_state = self.get_state(self.IB_LIVING)
         
         self.log("{} had {}hrs and {} had {}hrs.".format(self.friendly_name(self.DINING),self.dining_hours,self.friendly_name(self.LIVING),self.living_hours))
-        if self.dining_hours - self.living_hours >= 2:
+        if self.dining_hours - self.living_hours >= 2.0:
             if self.ib_dining_state == "on" :
                 self.call_service("input_boolean/turn_off", entity_id = self.IB_DINING)
                 kwargs = {}
@@ -60,10 +65,11 @@ class WhichAircon(hass.Hass):
             if self.ib_living_state == "off" :
                 self.call_service("input_boolean/turn_on", entity_id = self.IB_LIVING)
             self.log("[COMPARE_HOURS] Dining hours greater than Living hours so turn off / on dining / living input_boolean")
-        elif self.ib_living_state - self.dining_hours >=2 :
+        elif self.living_hours - self.dining_hours >= 2.0 :
+            if self.ib_living_state == "on" :
                 self.call_service("input_boolean/turn_off", entity_id = self.IB_LIVING)
                 kwargs = {}
-                self.ac_dining.turn_off_aircon(kwargs)
+                self.ac_living.turn_off_aircon(kwargs)
             if self.ib_dining_state == "off" :
                 self.call_service("input_boolean/turn_on", entity_id = self.IB_DINING)
             self.log("[COMPARE_HOURS] Living hours greater than Dining hours so turn off / on living / dining input_boolean")
