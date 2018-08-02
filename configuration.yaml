@@ -176,10 +176,10 @@ homekit:
   auto_start: False
 
 mqtt:
-  broker: m13.cloudmqtt.com
-  port: 26422
-  username: home
-  password: h0m3.2383
+  broker: !secret mqtt_broker
+  port: !secret mqtt_port
+  username: !secret mqtt_username
+  password: !secret mqtt_password
 
 alarm_control_panel: !include alarm_control_panel.yaml
 automation: !include_dir_merge_list automation

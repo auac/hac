@@ -18,7 +18,6 @@ class Occupancy(hass.Hass):
         self.IB=self.args["IB"]
         self.motion_sec=self.args["motion_sec"]
         self.start_deactivate = ""
-        self.wait_timeout_handle = ""
         self.utils = self.get_app("utilities")
         self.motion_timers_immediate = {}
         self.motion_listeners_trigger = {}
@@ -89,6 +88,9 @@ class Occupancy(hass.Hass):
                     self.mvt_entity = p                  
                     self.motion_timers_immediate[p_i] = self.run_in(self.presence_activation, self.motion_sec, entity = p, 
                                            attribute = attribute, old_state = old_p, new_state = new_p, mvt_state="on")
+                    self.log("[CHECK_MOTION] Adding activation run_in for {}".format(p))
+                    motion_timer_exist = self.check_timer(self.motion_timers_immediate[p_i])
+
                 
         
     def presence_deactivation(self, entity, attribute, old, new, kwargs):
@@ -96,8 +98,6 @@ class Occupancy(hass.Hass):
         Turn presence input_boolean to off if presence has not been detected for x mins
         """
         self.log("[PRESENCE_DEACTIVATION] entity: {}, attribute: {}, old: {} new: {}.".format(entity, attribute, old, new))
-
-        self.cancel_listeners()
         
         self.door_state = self.get_state(self.DOOR)
         self.ib_state = self.get_state(self.IB)
@@ -138,14 +138,14 @@ class Occupancy(hass.Hass):
         for p_i in self.motion_timers_immediate:
             try:
                 self.cancel_timer(self.motion_timers_immediate[p_i])
-                self.log("[CANCEL_LISTENERS] Removed old motion timer immediate: {}.".format(p_i), level="ERROR")
+                self.log("[CANCEL_LISTENERS] Removed old motion timer immediate: {}.".format(p_i))
             except KeyError:
-                self.log("[CANCEL_LISTENERS] Could not remove old motion listener.", level="ERROR")
+                self.log("[CANCEL_LISTENERS] Could not remove old motion timer immediate.", level="ERROR")
 
         for p_t in self.motion_listeners_trigger:                
             try:
                 self.cancel_listen_state(self.motion_listeners_trigger[p_t]) 
-                self.log("[CANCEL_LISTENERS] Removed old motion listener immediate: {}.".format(p_i), level="ERROR")
+                self.log("[CANCEL_LISTENERS] Removed old motion listener trigger: {}.".format(p_t))
             except KeyError:
                 self.log("[CANCEL_LISTENERS] Could not remove old motion listener.", level="ERROR")
         
@@ -198,6 +198,7 @@ class Occupancy(hass.Hass):
 #            result = False
 
     def mvt_state(self, state):
+        self.log("[MVT_STATE] {} is {}. required state is {}.".format(self.mvt_entity, self.get_state(self.mvt_entity), state))
         return self.utils.state_test(self.mvt_entity, state)
 
 

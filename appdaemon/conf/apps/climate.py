@@ -75,7 +75,7 @@ class Aircon(hass.Hass):
          
      if temp_result == "above" and self.climate_state("off") == True and chgOn_exist == False:  
          self.log("[TEMP_CHANGE] enter If statement ON")
-         run_sec = self.last_changed_sec_req(required_sec=240)
+         run_sec = self.last_changed_sec_req(required_sec=300)
          self.changeOn = self.run_in(self.turn_on_aircon, run_sec, occupancy_test="on", 
                                       climate_state="off")
          self.changeFan = self.run_in(self.change_fan_aircon, run_sec +5, fan_test="medium", 
