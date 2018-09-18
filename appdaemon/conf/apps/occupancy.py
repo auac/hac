@@ -74,6 +74,9 @@ class Occupancy(hass.Hass):
             # listen for presence activation
             self.log("[CHECK_MOTION] New is {} so listen for any activity from motion sensors.".format(new))
             self.log("[CHECK_MOTION] Presence list is: {}".format(self.args["presence_activation"]))
+            
+            self.cancel_listeners()
+
             for index, p in enumerate(self.args['presence_activation']):
                 self.log("[CHECK_MOTION] Adding activation sensors {} to listener".format(p))
                 

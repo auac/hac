@@ -26,13 +26,8 @@ class WhichAircon(hass.Hass):
         self.ac_living = self.get_app("ac_living")
         self.ac_dining = self.get_app("ac_dining")
 
-        self.run_daily(self.ac_living.update_variables, runtime1)
-        self.run_daily(self.ac_dining.update_variables, runtime1)
         self.run_daily(self.ac_living.turn_off_aircon, runtime2)
         self.run_daily(self.ac_dining.turn_off_aircon, runtime2)
-
-        self.motion_listeners_immediate = {}
-        self.motion_listeners_trigger = {}
 
         # listen for door opening  
         self.log("[INITIALIZE] Dining is: {}".format(self.DINING))
