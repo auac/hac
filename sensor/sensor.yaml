@@ -57,29 +57,29 @@
     command: !secret sensor_badlogin
     name: badlogin    
 
-  - platform: rest
-    name: camera1_http
-    resource: !secret sensor_camera1_rest
-    scan_interval: 60 
-    value_template: '{{ value_json.motion }}'
-
-  - platform: rest
-    name: camera2_http
-    resource: !secret sensor_camera2_rest
-    scan_interval: 60
-    value_template: '{{ value_json.motion }}'
-    
-  - platform: rest
-    name: camera3_http
-    resource: !secret sensor_camera3_rest
-    scan_interval: 60
-    value_template: '{{ value_json.motion }}'
-    
-  - platform: rest
-    name: camera4_http
-    resource: !secret sensor_camera4_rest
-    scan_interval: 60
-    value_template: '{{ value_json.motion }}'
+#  - platform: rest
+#    name: camera1_http
+#    resource: !secret sensor_camera1_rest
+#    scan_interval: 60 
+#    value_template: '{{ value_json.motion }}'
+#
+#  - platform: rest
+#    name: camera2_http
+#    resource: !secret sensor_camera2_rest
+#    scan_interval: 60
+#    value_template: '{{ value_json.motion }}'
+#    
+#  - platform: rest
+#    name: camera3_http
+#    resource: !secret sensor_camera3_rest
+#    scan_interval: 60
+#    value_template: '{{ value_json.motion }}'
+#    
+#  - platform: rest
+#    name: camera4_http
+#    resource: !secret sensor_camera4_rest
+#    scan_interval: 60
+#    value_template: '{{ value_json.motion }}'
 
 #
 #  - platform: command_line

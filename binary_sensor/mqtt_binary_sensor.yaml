@@ -1,0 +1,25 @@
+- platform: mqtt
+  name: "camera1_motion"
+  state_topic: "home-assistant/camera/camera1/motion"
+  device_class: motion
+
+- platform: mqtt
+  name: "camera2_motion"
+  state_topic: "home-assistant/camera/camera2/motion"
+  device_class: motion
+  
+- platform: mqtt
+  name: "camera3_motion"
+  state_topic: "home-assistant/camera/camera3/motion"
+  device_class: motion
+
+- platform: mqtt
+  name: "camera4_motion"
+  state_topic: "home-assistant/camera/camera4/motion"
+  device_class: motion
+
+#- platform: mqtt
+#  name: "camera5_motion"
+#  state_topic: "home-assistant/camera/camera5/motion"
+#  device_class: motion
+    

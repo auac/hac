@@ -41,3 +41,8 @@ appdaemon.*
 *log*
 apps.y*
 *homekit*
+.storage
+auth*
+core*
+onboarding
+.google*

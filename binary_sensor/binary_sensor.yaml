@@ -16,66 +16,6 @@
           {% else %}
             False
           {% endif %}
-      camera1_motion:
-        value_template: >
-          {% if states.sensor.camera1_http.state %}
-            {% if states.sensor.camera1_http.state == "True" %}
-              TRUE
-            {% else %}
-              FALSE
-            {% endif %}
-          {% else %}
-            FALSE  
-          {% endif %}  
-
-      camera2_motion:
-        value_template: >
-          {% if states.sensor.camera2_http.state %}
-            {% if states.sensor.camera2_http.state == "True" %}
-              TRUE
-            {% else %}
-              FALSE
-            {% endif %}
-          {% else %}
-            FALSE  
-          {% endif %}  
-
-      camera3_motion:
-        value_template: >
-          {% if states.sensor.camera3_http.state %}
-            {% if states.sensor.camera3_http.state == "True" %}
-              TRUE
-            {% else %}
-              FALSE
-            {% endif %}
-          {% else %}
-            FALSE  
-          {% endif %} 
-
-      camera4_motion:
-        value_template: >
-          {% if states.sensor.camera4_http.state %}
-            {% if states.sensor.camera4_http.state == "True" %}
-              TRUE
-            {% else %}
-              FALSE
-            {% endif %}
-          {% else %}
-            FALSE  
-          {% endif %} 
-
-      camera5_motion:
-        value_template: >
-          {% if states.sensor.camera5_http.state %}
-            {% if states.sensor.camera5_http.state == "True" %}
-              TRUE
-            {% else %}
-              FALSE
-            {% endif %}
-          {% else %}
-            FALSE  
-          {% endif %} 
-
       living_room_motion:
         value_template: >
           {% if is_state("binary_sensor.camera2_motion","on") or is_state("binary_sensor.camera4_motion","on") or is_state("binary_sensor.multisensor1_sensor","on") %}
@@ -83,6 +23,67 @@
           {% else %}
             False
           {% endif %}
+          
+#      camera1_motion:
+#        value_template: >
+#          {% if states.sensor.camera1_http.state %}
+#            {% if states.sensor.camera1_http.state == "True" %}
+#              TRUE
+#            {% else %}
+#              FALSE
+#            {% endif %}
+#          {% else %}
+#            FALSE  
+#          {% endif %}  
+#
+#      camera2_motion:
+#        value_template: >
+#          {% if states.sensor.camera2_http.state %}
+#            {% if states.sensor.camera2_http.state == "True" %}
+#              TRUE
+#            {% else %}
+#              FALSE
+#            {% endif %}
+#          {% else %}
+#            FALSE  
+#          {% endif %}  
+#
+#      camera3_motion:
+#        value_template: >
+#          {% if states.sensor.camera3_http.state %}
+#            {% if states.sensor.camera3_http.state == "True" %}
+#              TRUE
+#            {% else %}
+#              FALSE
+#            {% endif %}
+#          {% else %}
+#            FALSE  
+#          {% endif %} 
+#
+#      camera4_motion:
+#        value_template: >
+#          {% if states.sensor.camera4_http.state %}
+#            {% if states.sensor.camera4_http.state == "True" %}
+#              TRUE
+#            {% else %}
+#              FALSE
+#            {% endif %}
+#          {% else %}
+#            FALSE  
+#          {% endif %} 
+#
+#      camera5_motion:
+#        value_template: >
+#          {% if states.sensor.camera5_http.state %}
+#            {% if states.sensor.camera5_http.state == "True" %}
+#              TRUE
+#            {% else %}
+#              FALSE
+#            {% endif %}
+#          {% else %}
+#            FALSE  
+#          {% endif %} 
+
 
 
   - platform: ping
