@@ -1,0 +1,14 @@
+  which_aircon:
+    options:
+     - living_room
+     - dining_room
+    initial: dining_room
+  media_source:
+    options:
+      - Live TV
+      - MyTVSuper
+      - Apple TV
+      - YouTube
+      - Plex
+      - Blue-ray
+    initial: Live TV

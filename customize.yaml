@@ -33,9 +33,6 @@ sensor.main_bedroom_door_burglar:
 sensor.main_bathroom_window_burglar:
   icon: mdi:home-alert
   friendly_name: Main bathroom window Burglar alert
-sensor.smoke_burglar:
-  icon: mdi:home-alert
-  friendly_name: Smoke Sensor Burglar alert
 ########################################  
 ## Mediaplayer
 media_player.living_room_tv:
@@ -215,11 +212,12 @@ binary_sensor.occupancy_mainbedroom:
   device_class: occupancy
   friendly_name: Main Bedroom
   icon: mdi:hotel
-########################################  
-# Smoke
-binary_sensor.smoke_sensor:
-  device_class: smoke
-  friendly_name: Smoke sensor
+binary_sensor.aa_presence:
+  device_class: presence
+  friendly_name: Presence AA
+binary_sensor.pt_presence:
+  device_class: presence
+  friendly_name: Presence PT
 ########################################  
 ## Switches
 switch.tv_switch:
@@ -254,8 +252,6 @@ sensor.multisensor2_temperature:
   friendly_name: Main Bedroom Temperature
 sensor.at_room_temperature:
   friendly_name: At room Temperature
-sensor.smoke_temperature:
-  friendly_name: Kitchen Temperature
 sensor.dark_sky_summary:
   homebridge_hidden: true
 sensor.dark_sky_temperature: 

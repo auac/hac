@@ -22,7 +22,7 @@ homeassistant:
 # Enables the frontend
 
 frontend:
-  javascript_version: auto
+  javascript_version: latest
   
 # Enables configuration
 config:
@@ -40,7 +40,7 @@ http:
   ip_ban_enabled: True
   login_attempts_threshold: 3
   use_x_forwarded_for: True
-#  base_url: !secret http_base_url
+  base_url: !secret http_base_url
 #  ssl_certificate: !secret http_ssl_certificate
 #  ssl_key: !secret http_ssl_key
 
@@ -105,7 +105,7 @@ notify:
 apple_tv:
   - host: !secret apple_tv_host
     login_id: !secret apple_tv_login_id
-    name: atv3
+    name: atv
     start_off: true
 
 zeroconf:
@@ -124,10 +124,55 @@ media_player:
     mac: !secret media_player_mac_host
     name: Living Room TV
     timeout: 5
+    turn_on_action:
+      service: media_player.turn_on
+      entity_id: media_player.atv
 
   - platform: denonavr
     name: Living Room Receiver
     show_all_sources: True
+
+  - platform: universal
+    name: Universal
+    children:
+      - media_player.living_room_tv
+      - media_player.marantz_sr6010
+    commands:
+      turn_on:
+        service: media_player.turn_on
+        data: 
+          entity_id: media_player.living_room_tv
+      turn_off:
+        service: media_player.turn_off
+        data: 
+          entity_id: media_player.living_room_tv
+      volume_up:
+        service: media_player.volume_up
+        data: 
+          entity_id: media_player.marantz_sr6010
+      volume_down:
+        service: media_player.volume_down
+        data: 
+          entity_id: media_player.marantz_sr6010
+      volume_set:
+        service: media_player.volume_set
+        data: 
+          entity_id: media_player.marantz_sr6010
+      volume_mute:
+        service: media_player.volume_mute
+        data: 
+          entity_id: media_player.marantz_sr6010
+      select_source:
+        service: input_select.select_option
+        data_template: 
+          entity_id: input_select.media_source
+          option: '{{ source }}'
+    attributes:
+      is_volume_muted: media_player.marantz_sr6010|is_volume_muted
+      volume_level: media_player.marantz_sr6010|volume_level
+      state: media_player.living_room_tv
+      source: input_select.media_source
+      source_list: input_select.media_source|options
 
 python_script:
 
@@ -186,8 +231,9 @@ automation: !include_dir_merge_list automation
 binary_sensor: !include_dir_merge_list binary_sensor
 camera: !include_dir_merge_list camera
 device_tracker: !include_dir_merge_list device_tracker
-group: !include_dir_merge_named group
+#group: !include_dir_merge_named group
 input_boolean: !include_dir_merge_named input_boolean
+input_select: !include_dir_merge_named input_select
 input_text: !include_dir_merge_named input_text
 ios:
   push:

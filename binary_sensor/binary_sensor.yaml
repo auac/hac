@@ -2,9 +2,9 @@
     sensors:
       occupancy_all:
         value_template: >
-          {% if is_state("input_boolean.presence_a","on") or is_state("input_boolean.presence_p","on") or is_state("input_boolean.presence_general","on") or is_state("input_boolean.presence_mainbedroom","on")%}
+          {% if is_state("binary_sensor.aa_presence","on") or is_state("binary_sensor.pt_presence","on") or is_state("input_boolean.presence_general","on") or is_state("input_boolean.presence_mainbedroom","on")%}
             True
-          {%elif is_state("input_boolean.presence_a","off") and is_state("input_boolean.presence_p","off") and is_state("input_boolean.presence_general","off") and is_state("input_boolean.presence_mainbedroom","off")%}
+          {%elif is_state("binary_sensor.aa_presence","off") and is_state("binary_sensor.pt_presence","off") and is_state("input_boolean.presence_general","off") and is_state("input_boolean.presence_mainbedroom","off")%}
             False
           {% else %}
             False

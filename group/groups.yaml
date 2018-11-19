@@ -26,7 +26,6 @@ Rooms:
   entities:
     - group.living_room
     - group.main_bedroom
-    - group.kitchen
     - group.at_room
     - group.al_room
     
@@ -51,7 +50,6 @@ Backend:
     - group.main_bedroom_window_fibaro_sensor
     - group.main_bathroom_window_fibaro_sensor
     - group.main_bedroom_aeotec_switch
-    - group.kitchen_fibaro_smoke_sensor
     - group.all_zwave
     - group.all_remote
     - group.all_devices
@@ -84,8 +82,6 @@ GIT_Update:
 
 Alarm:
     - alarm_control_panel.home_alarm
-    - binary_sensor.smoke_sensor
-
 
 Presence:
     - binary_sensor.occupancy_all
@@ -141,11 +137,6 @@ Living_room:
     - binary_sensor.camera2_motion
     - binary_sensor.camera4_motion
     - sensor.multisensor1_burglar   
-
-Kitchen:
-    - binary_sensor.smoke_sensor
-    - sensor.smoke_temperature
-    - sensor.smoke_burglar
     
 At_room:  
     - binary_sensor.camera1_motion
@@ -293,36 +284,25 @@ Main_bedroom_Aeotec_Switch:
     - sensor.switch1_current
     - sensor.switch1_previous_reading_4
     
-Kitchen_Fibaro_Smoke_Sensor:
-    - binary_sensor.smoke_sensor
-    - sensor.smoke_alarm_level
-    - sensor.smoke_alarm_type
-    - sensor.smoke_burglar
-    - sensor.smoke_general
-    - sensor.smoke_heat
-    - sensor.smoke_heat_2
-    - sensor.smoke_power_management
-    - sensor.smoke_smoke
-    - sensor.smoke_smoke_2
-    - sensor.smoke_sourcenodeid
-    - sensor.smoke_system
-    - sensor.smoke_temperature
-    
-Media_players:
+all_media_players:
     - media_player.living_room_tv
     - media_player.marantz_sr6010
-    - media_player.atv3
+    - media_player.atv
     
 Presence_A:
+    - device_tracker.aa_presence_bayesian
     - device_tracker.aa_iphone
     - device_tracker.aa_iphone_ping
     - device_tracker.google_maps_109462251504037679148
     - !secret device_tracker_aa
+    - device_tracker.presence_a_homekit
 
 Presence_P:
+    - device_tracker.pt_presence_bayesian
     - device_tracker.pt_iphone_ping
     - device_tracker.google_maps_108800326647346833817
     - !secret device_tracker_pt
+    - device_tracker.presence_p_homekit
 
 all_input_boolean:
     - input_boolean.alarm_home_triggered

@@ -19,8 +19,13 @@ class Aircon(hass.Hass):
      self.UPPER_ON = self.args["upper_on"]
      self.UPPER_FAN = self.args["upper_fan"]
      self.LOWER = self.args["lower"]
+     self.LOWERBOUND = self.LOWER - 0.2
      self.OFFSET = self.args["offset"]
      self.MODE = self.args["MODE"]
+     
+     
+     self.log("[INITIALIZE] Upper on is: {} upper_fan is: {} lower is {} and lowerbound is: {}".format(self.UPPER_ON, self.UPPER_FAN, self.LOWER, self.LOWERBOUND))  
+
      
      self.LOGLEVEL=self.args["LOGLEVEL"]
 
@@ -34,7 +39,6 @@ class Aircon(hass.Hass):
      self.listen_state(self.temp_change, self.temperature_id, duration = 30, climate_mode="full")
      self.listen_state(self.occupancy_change, self.occupancy_id, new="on", duration = 30, immediate=True, climate_mode="full")
      self.listen_state(self.occupancy_change, self.occupancy_id, new="off", duration = 30, immediate=True)
-
 
   def temp_change(self, entity, attribute, old, new, kwargs):
   
@@ -54,7 +58,7 @@ class Aircon(hass.Hass):
      temp_result = self.temperature_test(temp)    
      
      self.log("[TEMP_CHANGE] Temperature is {} range.".format(temp_result))
-          
+             
      try:
          chgOn_exist = self.check_timer(self.changeOn)
      except:
@@ -81,11 +85,34 @@ class Aircon(hass.Hass):
          self.changeFan = self.run_in(self.change_fan_aircon, run_sec +5, fan_test="medium", 
                                        occupancy_test="on", climate_state="on", 
                                            fan_speed="medium")
-     elif (temp_result == "below" or temp_result == "lowerbound") and chgOff_exist == False \
+     elif temp_result == "below" and chgOff_exist == False \
            and self.climate_state("on") == True:  
          self.log("[TEMP_CHANGE] enter If statement OFF")
          run_sec = self.last_changed_sec_req(required_sec=1381)
          self.changeOff = self.run_in(self.turn_off_aircon, run_sec, climate_state="on")
+     elif temp_result == "lowerbound" and self.climate_state("on") == True:  
+         self.log("[TEMP_CHANGE] enter If statement OFF rapid off mode")
+         try :
+             self.cancel_timer(self.changeOff)
+             self.log("[TEMP_CHANGE] self.change_off cancelled.", level="WARNING")
+         except: 
+             self.log("[TEMP_CHANGE] can not cancel self.change_off.", level="WARNING")
+         try:    
+             chgOff_exist = self.check_timer(self.changeOff)
+         except:    
+             chgOff_exist = False
+             self.log("[TEMP_CHANGE] Exception error chgOff_exist", level="WARNING")
+ 
+         if chgOff_exist == False:           
+             run_sec = self.last_changed_sec_req(required_sec=600)
+             self.changeOff = self.run_in(self.turn_off_aircon, run_sec, climate_state="on")
+             
+         try:    
+             chgOff_exist = self.check_timer(self.changeOff)
+         except:    
+             chgOff_exist = False
+             self.log("[TEMP_CHANGE] Exception error chgOff_exist", level="WARNING")
+
      elif temp_result == "within" and self.climate_state("on") == True and chgFan_exist == False:
          run_sec = 5
          self.log("[TEMP_CHANGE] enter If statement FAN")
@@ -151,8 +178,10 @@ class Aircon(hass.Hass):
          res = 'above'
      elif self.LOWER <= f < self.UPPER_FAN :
          res = 'within'
-     elif f < self.LOWER :
-         res = 'below'  
+     elif self.LOWERBOUND <= f < self.LOWER :
+         res = 'below'
+     elif f < self.LOWERBOUND :
+         res = 'lowerbound' 
      else:
          res = 'None'    
      return res
