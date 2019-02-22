@@ -147,7 +147,7 @@ class Utils(hass.Hass):
             key_sensor_list  = ['binary_sensor.multisensor1_sensor', 'binary_sensor.main_door_sensor']
             key_sensor  = "binary_sensor.multisensor1_sensor"
             camera_id   = "camera.living_room_camera"
-            aa_presence = self.state_test("input_boolean.presence_a", "on")
+            aa_presence = self.state_test("binary_sensor.aa_presence", "on")
             tgt_color   = None
             
             if entity_id in key_sensor_list:

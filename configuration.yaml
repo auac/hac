@@ -11,7 +11,10 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: !secret homeassistant_time_zone
   #add directory
-  whitelist_external_dirs: !secret whitelist_external_dirs1
+  whitelist_external_dirs: 
+    - !secret whitelist_external_dirs1
+    - !secret whitelist_external_dirs2
+  
   
   # Include the customizations.
   customize: !include customize.yaml      
@@ -38,7 +41,7 @@ http:
     - !secret http_trusted_networks5
     - !secret http_trusted_networks6
   ip_ban_enabled: True
-  login_attempts_threshold: 3
+  login_attempts_threshold: 10
   use_x_forwarded_for: True
   base_url: !secret http_base_url
 #  ssl_certificate: !secret http_ssl_certificate
@@ -223,8 +226,14 @@ homekit:
 mqtt:
   broker: !secret mqtt_broker
   port: !secret mqtt_port
+  client_id: hass
   username: !secret mqtt_username
   password: !secret mqtt_password
+  
+light:
+  - platform: switch
+    name: Lounge spotlight
+    entity_id: switch.switch5_switch
 
 alarm_control_panel: !include alarm_control_panel.yaml
 automation: !include_dir_merge_list automation

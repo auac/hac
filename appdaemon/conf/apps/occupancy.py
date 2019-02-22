@@ -21,13 +21,21 @@ class Occupancy(hass.Hass):
         self.utils = self.get_app("utilities")
         self.motion_timers_immediate = {}
         self.motion_listeners_trigger = {}
+        self.check_motion_handle = None
+        self.timer_exist = None
+        self.start_deactivate = None
+        self.motion_timers_immediate_exist = None
+        self.motion_listener_trigger_exist = None        
+        self.motion_timer_exist = None
+        self.mvt_entity = None
         
         self.register_constraint("mvt_state")
+    
 
         
         # listen for door opening  
         self.log("[INITIALIZE] Door is: {}".format(self.DOOR))
-        check_motion_handle = self.listen_state(self.check_motion, self.DOOR, duration = 2)
+        self.check_motion_handle = self.listen_state(self.check_motion, self.DOOR, duration = 2)
 #        listener_exist = self.check_listener(check_motion_handle)
 
      
@@ -69,7 +77,7 @@ class Occupancy(hass.Hass):
         if new == "on" :
             self.start_deactivate = self.run_in(self.presence_deactivation, self.motion_sec + 30, entity=entity, attribute=attribute, old_state=old, new_state=new)
             self.log("[CHECK_MOTION] New is {} so initiate deactivation.".format(new))
-            timer_exist = self.check_timer(self.start_deactivate)   
+            self.timer_exist = self.check_timer(self.start_deactivate)   
         elif new == "off" :
             # listen for presence activation
             self.log("[CHECK_MOTION] New is {} so listen for any activity from motion sensors.".format(new))
@@ -92,7 +100,7 @@ class Occupancy(hass.Hass):
                     self.motion_timers_immediate[p_i] = self.run_in(self.presence_activation, self.motion_sec, entity = p, 
                                            attribute = attribute, old_state = old_p, new_state = new_p, mvt_state="on")
                     self.log("[CHECK_MOTION] Adding activation run_in for {}".format(p))
-                    motion_timer_exist = self.check_timer(self.motion_timers_immediate[p_i])
+                    self.motion_timer_exist = self.check_timer(self.motion_timers_immediate[p_i])
 
                 
         
@@ -120,16 +128,16 @@ class Occupancy(hass.Hass):
         
         for p_i in self.motion_timers_immediate:
             try: 
-                motion_timers_immediate_exist = self.check_timer(self.motion_timers_immediate[p_i])
+                self.motion_timers_immediate_exist = self.check_timer(self.motion_timers_immediate[p_i])
             except (KeyError, ValueError):    
-                motion_timers_immediate_exist = False
+                self.motion_timers_immediate_exist = False
                 self.log("[INFO_LISTENERS] Exception error mt_immediate_exist for motion_timers_immediate {}".format(p_i))
 
         for p_t in self.motion_listeners_trigger:
             try:    
-                motion_listener_trigger_exist = self.check_listener(self.motion_listeners_trigger[p_t])
+                self.motion_listener_trigger_exist = self.check_listener(self.motion_listeners_trigger[p_t])
             except (KeyError, ValueError):    
-                motion_listener_trigger_exist = False
+                self.motion_listener_trigger_exist = False
                 self.log("[INFO_LISTENERS] Exception error ml_trigger_exist for motion_listener_trigger {}".format(p_t))
 
     def cancel_listeners(self):
@@ -140,15 +148,17 @@ class Occupancy(hass.Hass):
         
         for p_i in self.motion_timers_immediate:
             try:
-                self.cancel_timer(self.motion_timers_immediate[p_i])
-                self.log("[CANCEL_LISTENERS] Removed old motion timer immediate: {}.".format(p_i))
+                if p_i != None:
+                    self.cancel_timer(self.motion_timers_immediate[p_i])
+                    self.log("[CANCEL_LISTENERS] Removed old motion timer immediate: {}.".format(p_i))
             except KeyError:
                 self.log("[CANCEL_LISTENERS] Could not remove old motion timer immediate.", level="ERROR")
 
         for p_t in self.motion_listeners_trigger:                
             try:
-                self.cancel_listen_state(self.motion_listeners_trigger[p_t]) 
-                self.log("[CANCEL_LISTENERS] Removed old motion listener trigger: {}.".format(p_t))
+                if p_t != None:
+                    self.cancel_listen_state(self.motion_listeners_trigger[p_t]) 
+                    self.log("[CANCEL_LISTENERS] Removed old motion listener trigger: {}.".format(p_t))
             except KeyError:
                 self.log("[CANCEL_LISTENERS] Could not remove old motion listener.", level="ERROR")
         
@@ -156,20 +166,23 @@ class Occupancy(hass.Hass):
  
     def cancel_start_deactivate(self):
 
-        try:    
-            timer_exist = self.check_timer(self.start_deactivate)
+        try:   
+            if self.start_deactivate != None:
+                timer_exist = self.check_timer(self.start_deactivate)
         except (KeyError, ValueError):    
             timer_exist = False
             self.log("[CANCEL_START_DEACTIVATE] Exception error timer exists")
         
         try:
-            self.cancel_timer(self.start_deactivate)
-            self.log("[CANCEL_START_DEACTIVATE] Try cancel START_DEACTIVATE.")
+            if self.start_deactivate != None:
+                self.cancel_timer(self.start_deactivate)
+                self.log("[CANCEL_START_DEACTIVATE] Try cancel START_DEACTIVATE.")
         except (KeyError, ValueError):
             self.log("[CANCEL_START_DEACTIVATE] START_DEACTIVATE could not be cancelled.", level="ERROR")
             
         try:    
-            timer_exist = self.check_timer(self.start_deactivate)
+            if self.start_deactivate != None:
+                timer_exist = self.check_timer(self.start_deactivate)
         except (KeyError, ValueError):    
             timer_exist = False
             self.log("[CANCEL_START_DEACTIVATE] Exception error timer exists")
@@ -179,26 +192,39 @@ class Occupancy(hass.Hass):
         return self.utils.notify_slack(message, **kwargs)
         
     def check_timer(self, handle):
-        time, interval, kwargs = self.info_timer(handle)
-        self.log("[CHECK_TIMER] {} exists. time is {}, interval is {} kwargs is {}.".format(handle, time, interval, kwargs))
-        return True
+        try:
+            if handle != None:
+                time, interval, kwargs = self.info_timer(handle)
+                self.log("[CHECK_TIMER] {} exists. time is {}, interval is {} kwargs is {}.".format(handle, time, interval, kwargs))
+                return True
+            else:
+                self.log("[CHECK_TIMER] Return False as handle is None")
+                return False
+        except:
+            self.log("[CHECK_TIMER] Exception error no handle exist")
+            return False
         
     def check_listener(self, handle):
-#        try:
-        message = "LIST VARIABLES:: "
-        vals = self.info_listen_state(handle)
+        try:
+            message = "[CHECK_LISTENER] LIST VARIABLES:: "
         
-        if not isinstance(vals, (list, tuple)):
-            vals = [vals]
+            if handle != None:
+                vals = self.info_listen_state(handle)
+        
+                if not isinstance(vals, (list, tuple)):
+                    vals = [vals]
     
-        for v in vals:
-            message = "{} vals: {}, ".format(message, v)
+                for v in vals:
+                    message = "{} vals: {}, ".format(message, v)
             
-        self.log("[CHECK_LISTENER] {} exists. {}.".format(handle, message))
-        return True
-#        except:
-#            self.log("[CHECK_LISTENER] {} does not exists.".format(handle))
-#            result = False
+                self.log("[CHECK_LISTENER] {} exists. {}.".format(handle, message))
+                return True
+            else:
+                self.log("[CHECK_LISTENER] Return False as handle is None")
+                return False
+        except:
+            self.log("[CHECK_LISTENER] Exception, {} does not exists.".format(handle))
+            result = False
 
     def mvt_state(self, state):
         self.log("[MVT_STATE] {} is {}. required state is {}.".format(self.mvt_entity, self.get_state(self.mvt_entity), state))

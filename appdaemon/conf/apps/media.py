@@ -37,11 +37,11 @@ class Media_control(hass.Hass):
 
      info = {
                     "MyTVSuper" : ["Home Theatre", "CBL/SAT","avr"],
-                    "Youtube" :  ["YouTube","TV Audio", "TV"],
+                    "YouTube" :  ["YouTube","TV Audio", "TV"],
                     "Apple TV" : ["Home Theatre", "Media Player","avr"],
                     "Live TV" : ["Live TV","TV Audio", "TV"],
                     "Plex" :  ["Plex","TV Audio", "TV"],
-                    "Blue-ray" : ["Home Theatre", "Blue-ray","avr"],
+                    "Blue-ray" : ["Blue-ray PLAYER", "TV Audio","TV"],
                     "playing" : ["Live TV","TV Audio", "TV"]
 
             }
