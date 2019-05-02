@@ -12,7 +12,7 @@
       ha_uptime:
         friendly_name: Home assistant uptime
         value_template: >-
-          {%- set nowtime = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) %}
+          {%- set nowtime = as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) %}
           {%- set lastchg = as_timestamp(states.input_boolean.HA_start.last_changed) %}
           {%- set total_sec = (nowtime - lastchg) | int %}
           {%- set sec = ((total_sec%60) |int) %}
@@ -112,5 +112,5 @@
       - wind_bearing
       - wind_speed  
       - uv_index    
-    update_interval:
+    scan_interval:
       minutes: 10

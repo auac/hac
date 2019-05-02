@@ -13,7 +13,7 @@
 #    value_template: >-
 #      {%- if states.automation.climate_automation.attributes.last_triggered == "none" -%}
 #        True
-#      {%- elif ( as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) 
+#      {%- elif ( as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) 
 #            - as_timestamp(states.automation.climate_automation.attributes.last_triggered) |int > 60 ) -%}
 #        True
 #      {%- endif %} 
@@ -22,6 +22,6 @@
     data_template:
       trigger_entity: '{{trigger.entity_id}}'
       automation_lt: '{{ as_timestamp(states.automation.test_automation_for_climate_change.attributes.last_triggered) |int }}'
-      automation_now: '{{ as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) |int }}'
-      automation_diff: '{{ as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.automation.test_automation_for_climate_change.attributes.last_triggered) |int }}'
+      automation_now: '{{ as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) |int }}'
+      automation_diff: '{{ as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.automation.test_automation_for_climate_change.attributes.last_triggered) |int }}'
       

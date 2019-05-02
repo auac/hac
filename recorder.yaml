@@ -31,7 +31,7 @@
       - sensor.camera2_http
       - sensor.camera3_http
       - sensor.date
-      - sensor.date__time
+      - sensor.date_time
       - sensor.door_access_control
       - sensor.door_alarm_level
       - sensor.door_alarm_type

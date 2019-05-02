@@ -13,3 +13,7 @@
 - platform: ffmpeg
   input: !secret camera_al_room
   name: al_room_camera
+  
+- platform: ffmpeg
+  input: !secret camera_main_room
+  name: main_room_camera

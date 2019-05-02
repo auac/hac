@@ -22,7 +22,7 @@
       {% endif %}
   - platform: template
     value_template: >-
-      {% set now = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) | int %}
+      {% set now = as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) | int %}
       {% set last = as_timestamp(states.climate.master_bedroom.last_changed) | int %}
       {% if ( now - last | int > 180 and now - last | int < 300 
               and states.climate.master_bedroom.state == 'off' ) or (
@@ -32,7 +32,7 @@
       {% endif %}
   - platform: template
     value_template: >-
-      {% set now = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) | int %}
+      {% set now = as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) | int %}
       {% set last = as_timestamp(states.climate.at_room.last_changed) | int %}
       {% if ( now - last | int > 180 and now - last | int < 300 
               and states.climate.at_room.state == 'off' ) or (
@@ -72,7 +72,7 @@
     value_template: >-
       {%- if states.automation.climate_automation.attributes.last_triggered == "none" -%}
         True
-      {%- elif ( as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) 
+      {%- elif ( as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) 
             - as_timestamp(states.automation.climate_automation.attributes.last_triggered) |int > 0 ) -%}
         True
       {%- endif %} 

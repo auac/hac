@@ -98,21 +98,27 @@ sensor.multisensor2_seismic_magnitude:
 binary_sensor.camera_1:
   homebridge_hidden: true
   icon: mdi:cctv
+  device_class: connectivity
 binary_sensor.camera_2:
   homebridge_hidden: true
   icon: mdi:cctv
+  device_class: connectivity
 binary_sensor.camera_3:
   homebridge_hidden: true
   icon: mdi:cctv
+  device_class: connectivity
 binary_sensor.camera_4:
   homebridge_hidden: true
   icon: mdi:cctv
+  device_class: connectivity
 binary_sensor.camera_5:
   homebridge_hidden: true
   icon: mdi:cctv
+  device_class: connectivity
 binary_sensor.internet_link:
   homebridge_hidden: true
   icon: mdi:wan
+  device_class: connectivity
 binary_sensor.ftp_server:
   homebridge_hidden: true
 binary_sensor.homebridge_server:  

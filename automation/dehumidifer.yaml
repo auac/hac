@@ -29,16 +29,16 @@
     entity_id: climate.master_bedroom
     state: 'off'
   - condition: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 3600 %}True{% endif %}'
+    value_template: '{% if as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.climate.master_bedroom.last_changed) |int > 3600 %}True{% endif %}'
   - condition: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 %}True{% endif %}'
+    value_template: '{% if as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 %}True{% endif %}'
   id: '1516971664598'
   trigger:
   - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.sensor.multisensor2_relative_humidity.state | float > 55.0 %}True{% endif %}'
+    value_template: '{% if as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.sensor.multisensor2_relative_humidity.state | float > 55.0 %}True{% endif %}'
   - minutes: /15
     seconds: 0
-    platform: time
+    platform: time_pattern
 ###################################################
 ####
 #### Turn off dehumidifier if humidity < 50%      
@@ -65,10 +65,10 @@
   id: '1516971775609'
   trigger:
   - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.sensor.multisensor2_relative_humidity.state | float < 50.0 %}True{% endif %}'
+    value_template: '{% if as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.sensor.multisensor2_relative_humidity.state | float < 50.0 %}True{% endif %}'
   - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.climate.master_bedroom.state != "off" and states.climate.master_bedroom.state != "unknown" and states.climate.master_bedroom.state != "unassigned" %}True{% endif %}'
-  - platform: time
+    value_template: '{% if as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.switch.switch1_switch.last_changed) |int > 240 and states.climate.master_bedroom.state != "off" and states.climate.master_bedroom.state != "unknown" and states.climate.master_bedroom.state != "unassigned" %}True{% endif %}'
+  - platform: time_pattern
     minutes: /15
     seconds: 0
   - platform: template

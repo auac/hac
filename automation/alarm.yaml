@@ -248,7 +248,7 @@
 - alias: Light turn off after a period of time
   trigger:
   - platform: template
-    value_template: '{% if as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.alarm_control_panel.home_alarm.last_changed) |int > 180 %}True{% endif %}'
+    value_template: '{% if as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) - as_timestamp(states.alarm_control_panel.home_alarm.last_changed) |int > 180 %}True{% endif %}'
   action:
   - service: light.turn_off
     entity_id: light.gateway_light_f0b429b3ddc0

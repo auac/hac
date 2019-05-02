@@ -141,7 +141,7 @@ if debug == 'on' : debuginfo = debuginfo + 'Trigger platform: ' + trigger_platfo
 if debug == 'on' : debuginfo = debuginfo + 'Trigger from state: ' + trigger_from_state + '.\n'
 if debug == 'on' : debuginfo = debuginfo + 'Trigger to state: ' + trigger_to_state + '.\n'
 
-if trigger_entity == 'sensor.date__time' or \
+if trigger_entity == 'sensor.date_time' or \
   trigger_entity == 'input_boolean.presence_a' or \
   trigger_entity == 'input_boolean.presence_p' :
     trigger_entity = 'NO_ENTITY'

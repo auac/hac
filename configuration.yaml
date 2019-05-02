@@ -40,8 +40,9 @@ http:
     - !secret http_trusted_networks4
     - !secret http_trusted_networks5
     - !secret http_trusted_networks6
+    - !secret http_trusted_networks7
   ip_ban_enabled: True
-  login_attempts_threshold: 10
+  login_attempts_threshold: 5
   use_x_forwarded_for: True
   base_url: !secret http_base_url
 #  ssl_certificate: !secret http_ssl_certificate
@@ -56,6 +57,8 @@ http:
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
+  
+system_health:
 
 # Discover some devices automatically
 discovery:
@@ -124,7 +127,6 @@ duckdns:
 media_player:
   - platform: webostv
     host: !secret media_player_webostv_host
-    mac: !secret media_player_mac_host
     name: Living Room TV
     timeout: 5
     turn_on_action:

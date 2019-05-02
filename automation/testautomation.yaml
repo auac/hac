@@ -11,7 +11,7 @@
         State last changed: {{trigger.to_state.last_changed}}. 
         State last updated1: {{trigger.from_state.last_updated}}.
         State last changed1: {{trigger.from_state.last_changed}}. 
-        {%- set nowtime = as_timestamp(strptime(states.sensor.date__time.state, "%Y-%m-%d, %H:%M")) %}
+        {%- set nowtime = as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) %}
         {%- set lastchg = as_timestamp(states.sensor.camera2_http.last_changed) %}           
         {%- set lastchgHA = as_timestamp(states.input_boolean.HA_start.last_changed) %}
         {%- set sec = (nowtime - lastchg) | int %}

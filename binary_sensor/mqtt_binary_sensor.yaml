@@ -18,8 +18,8 @@
   state_topic: "home-assistant/camera/camera4/motion"
   device_class: motion
 
-#- platform: mqtt
-#  name: "camera5_motion"
-#  state_topic: "home-assistant/camera/camera5/motion"
-#  device_class: motion
+- platform: mqtt
+  name: "camera5_motion"
+  state_topic: "home-assistant/camera/camera5/motion"
+  device_class: motion
     
